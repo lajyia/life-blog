@@ -24,7 +24,9 @@ class PostController {
         const {title} = req.body;
         const titleCandidate = await Post.findOne({title});
         if (titleCandidate){
-            return res.json({titleCandidate});
+            const viewed = titleCandidate.viewed + 1;
+            const viewedPost = await Post.findOneAndUpdate({title}, {viewed}, {new: true})
+            return res.json({viewedPost});
         }
         return res.status(400).json({message: 'A post with this title is not found'})
     }
