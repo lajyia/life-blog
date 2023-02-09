@@ -1,5 +1,7 @@
 const Post = require('../models/Post');
 const { validationResult } = require('express-validator');
+const User = require('../models/User');
+
 
 class PostController {
     async deletePost(req, res) {
@@ -43,15 +45,24 @@ class PostController {
         return res.status(400).json({ message: 'A post with this title is not found' })
     }
     async createPost(req, res) {
-        const { title, body } = req.body;
+        const { title, body, author } = req.body;
         const errors = validationResult(req).errors;
         if (errors.length > 0){
             return res.status(400).json({errors})
         }
+        const authorCandidate = await User.findOne({nickname: author});
+        if (!authorCandidate){
+            return res.status(400).json({message: 'No author with this nickname'})
+        }
         const titleCandidate = await Post.findOne({ title });
         if (!titleCandidate) {
-            const post = new Post({ title, body });
+            const post = new Post({ title, body, author });
             await post.save();
+            const authorProfile = await User.findOne({nickname: author});
+            const authorPosts = authorProfile.posts;
+            authorPosts.push(post);
+            console.log(authorPosts);
+            await User.findOneAndUpdate({nickname: author}, {posts: authorPosts}, {new: true})
             return res.json({ message: 'The post was created successfully' })
         }
         return res.status(400).json({ message: 'A post with this title already created' })

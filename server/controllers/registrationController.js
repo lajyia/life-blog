@@ -4,6 +4,10 @@ const {validationResult} = require('express-validator');
 
 
 class RegistrationController {
+    async getUsers(req, res){
+        const users = await User.find();
+        return res.json({users});
+    }
     async addUser(req, res){
         const {nickname, linkName, password} = req.body;
         const errors = validationResult(req).errors;

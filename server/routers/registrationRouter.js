@@ -9,6 +9,7 @@ router.post('/',[
     check("nickname", "Nickname can't be smaller 5 lettes and more 10").isLength({min: 5, max: 10}),
     check("linkName", "Link cant'be smaller 5 letters amd more 10").isLength({min: 5, max: 10}),
 ], controller.addUser );
+router.get('/users', controller.getUsers)
 
 
 module.exports = router;

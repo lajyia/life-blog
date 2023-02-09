@@ -4,14 +4,45 @@ const {validationResult} = require('express-validator');
 
 class ProfileController {
     async getProfile(req, res) {
-        res.send('PROFILE');
+        const {nickname} = req.body;
+        const candidate = await User.findOne({nickname});
+        if (candidate){
+            return res.json({candidate});
+        }
+        return res.status(400).json({message: "A user with this nickname was not found"})
     }
+
     async updateProfile(req, res) {
-        res.send('profile updated');
+        const {linkName, newLinkName, bio} = req.body;
+        const linkCandidate = await User.findOne({linkName});
+        if (linkCandidate){
+            await User.findOneAndUpdate({linkName}, {bio, linkName: newLinkName}, {new: true});
+            return res.json({message: "A profile has been updated"})
+        }
+        return res.status(400).json({message: "A user with this linkName was not found"})
     }
+
+    async changeProfile(req, res){
+        const {nickname, newNickname, password} = req.body;
+        const candidate = User.findOne({nickname});
+        if (candidate){
+            const hashPassword = bcrypt.hashSync(password, 7);
+            console.log(hashPassword);
+            await User.findOneAndUpdate({nickname}, {nickname: newNickname, password: hashPassword}, {new: true})
+        }
+        return res.status(400).json({message: 'A user with this nickame was not found'})
+    }
+
     async deleteProfile(req, res) {
-        res.send('profile deleted');
+        const {nickname} = req.body;
+        const candidate = await User.findOne({nickname});
+        if (candidate){
+            await User.deleteOne({nickname});
+            return res.json({message: "A user has been deleted"})
+        }
+        return res.status(400).json({message: "A user with this nickname was not found"})
     }
+
     async loginProfile(req, res){
         const {nickname, password} = req.body;
         const errors = validationResult(req).errors;

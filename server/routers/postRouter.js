@@ -11,7 +11,7 @@ router.post('/read', [
 ], controller.readPost);
 router.post('/create', [
     check("title", "Title can't be smaller 5 and more 40 letters").isLength({min: 5, max: 40}),
-    check("tbody", "Body can't be smaller 5 letters").isLength({min: 5})
+    check("body", "Body can't be smaller 5 letters").isLength({min: 5})
 ], controller.createPost);
 router.post('/update', [
     check("newTitle", "New title can't be smaller 5 and more 40 letters").isLength({min: 5, max: 40}),
