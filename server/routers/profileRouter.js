@@ -6,5 +6,4 @@ router.post('/', controller.getProfile);
 router.post('/delete', controller.deleteProfile);
 router.post('/update', controller.updateProfile);
 
-
 module.exports = router;

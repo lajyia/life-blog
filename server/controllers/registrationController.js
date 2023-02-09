@@ -1,6 +1,24 @@
+const User = require('../models/User');
+const bcrypt = require('bcryptjs');
+
 class RegistrationController {
     async addUser(req, res){
-        res.send('REGISTARTION SUCCESSFULL');
+        const {nickname, linkName, password} = req.body;
+        const candidateName = await User.findOne({nickname});
+        const candidateLink = await User.findOne({linkName});
+        if (!candidateLink && !candidateName){
+            const hashPassword = bcrypt.hashSync(password, 7);
+            const user = new User({nickname, linkName, password: hashPassword})
+            await user.save();
+            return res.status(400).json({message: 'The user has been created'})
+        }
+        if (candidateName){
+            return res.status(400).json({message: 'Nickname is busy'})
+        }
+        if (candidateLink){
+            return res.status(400).json({message: 'Link is busy'})
+        }
+        
     }
 }
 

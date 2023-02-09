@@ -1,11 +1,13 @@
-class ProfileController{
-    async getProfile(req, res){
+const User = require('../models/User');
+
+class ProfileController {
+    async getProfile(req, res) {
         res.send('PROFILE');
     }
-    async updateProfile(req, res){
+    async updateProfile(req, res) {
         res.send('profile updated');
     }
-    async deleteProfile(req, res){
+    async deleteProfile(req, res) {
         res.send('profile deleted');
     }
 }
