@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const {validationResult} = require('express-validator');
 
 class ProfileController {
     async getProfile(req, res) {
@@ -13,6 +14,10 @@ class ProfileController {
     }
     async loginProfile(req, res){
         const {nickname, password} = req.body;
+        const errors = validationResult(req).errors;
+        if (errors.length > 0){
+            return res.status(400).json({errors});
+        }
         const candidate = await User.findOne({nickname});
         if (candidate){
             const passwordUser = candidate.password;
