@@ -22,10 +22,10 @@ app.use(cors());
 app.use(express.json());
 mongoose.set('strictQuery', false);
 
-app.use('/post', postRouter);
-app.use('/feed', feedRouter);
-app.use('/profile', profileRouter);
-app.use('/registration', registrationRouter );
+app.use('/api/post', postRouter);
+app.use('/api/feed', feedRouter);
+app.use('/api/profile', profileRouter);
+app.use('/api/registration', registrationRouter );
 
 
 const start = async() => {
