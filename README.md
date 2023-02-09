@@ -3,8 +3,7 @@
   1. cd client :
     npm install
     npm start
-  2. cd ../
-  3. cd server:
+  2. cd server:
     npm install
     npm start
 
