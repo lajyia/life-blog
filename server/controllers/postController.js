@@ -1,22 +1,36 @@
 const Post = require('../models/Post');
 const { validationResult } = require('express-validator');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
 
 class PostController {
     async deletePost(req, res) {
+
+        const title = req.body.title.toUpperCase();
+
+        const isAuth = req.userId;
+
         try {
-            const { title } = req.body;
+
+            if (!isAuth) {
+                return res.status(400).json({ message: 'Access error' });
+            }
+
+
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
                 return res.status(400).json({ errors })
             }
-            const titleCandidate = await Post.findOne({ title });
-            if (titleCandidate) {
+
+            const post = await Post.findOne({ title });
+
+            if (post) {
                 await Post.deleteOne({ title });
                 return res.json({ message: 'A post is deleted' });
             }
-            return res.status(400).json({ message: 'A post with this title is not found' })
+
+            return res.status(400).json({ message: 'A post undefined' })
         }
         catch (e) {
             console.log(e);
@@ -24,15 +38,32 @@ class PostController {
     }
     async updatePost(req, res) {
         try {
-            const { title, newBody, newTitle } = req.body;
+
+            const isAuth = req.userId;
+
+            if (!isAuth) {
+                return res.status(400).json({ message: 'Access error' })
+            }
+
+            const { newBody } = req.body;
+
+            const title = req.body.title.toUpperCase();
+            const newTitle = req.body.newTitle.toUpperCase();
+
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
                 return res.status(400).json({ errors })
             }
             const titleCandidate = await Post.findOne({ title });
             if (titleCandidate) {
+
+
+                const token = jwt.sign({
+                    id: isAuth
+                }, process.env.JWT_SECRET, { expiresIn: '30d' })
+
                 await Post.findOneAndUpdate({ title }, { title: newTitle, body: newBody }, { new: true });
-                return res.json({ message: 'A post is updated' })
+                return res.json({ message: 'A post is updated', token })
             }
             return res.status(400).json({ message: 'A post with this title is not found' })
         } catch (e) {
@@ -41,7 +72,7 @@ class PostController {
     }
     async readPost(req, res) {
         try {
-            const { title } = req.body;
+            const title = req.body.title.toUpperCase();
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
                 return res.status(400).json({ errors })
@@ -59,26 +90,37 @@ class PostController {
     }
     async createPost(req, res) {
         try {
-            const { title, body, author } = req.body;
+            const { body } = req.body;
+            const title = req.body.title.toUpperCase();
+
+            console.log(title);
+
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
                 return res.status(400).json({ errors })
             }
-            const authorCandidate = await User.findOne({ nickname: author });
-            if (!authorCandidate) {
-                return res.status(400).json({ message: 'No author with this nickname' })
+
+            const author = await User.findById(req.userId);
+
+            if (!author) {
+                return res.status(400).json({ message: 'Access error' })
             }
+
             const titleCandidate = await Post.findOne({ title });
-            if (!titleCandidate) {
-                const post = new Post({ title, body, author });
-                await post.save();
-                const authorProfile = await User.findOne({ nickname: author });
-                const authorPosts = authorProfile.posts;
-                authorPosts.push(post);
-                await User.findOneAndUpdate({ nickname: author }, { posts: authorPosts }, { new: true })
-                return res.json({ message: 'The post was created successfully' })
+
+            if (titleCandidate) {
+                return res.status(400).json({ message: 'A post with this title already created' })
             }
-            return res.status(400).json({ message: 'A post with this title already created' })
+
+            const post = new Post({ title, body, author: author.nickname });
+            await post.save();
+
+            const token = jwt.sign({
+                id: req.userID
+            }, process.env.JWT_SECRET, { expiresIn: '30d' })
+
+            return res.json({ message: 'The post was created successfully', token })
+
         } catch (e) {
             console.log(e);
         }

@@ -16,7 +16,11 @@ class RegistrationController {
     }
     async addUser(req, res) {
         try {
-            const { nickname, linkName, password } = req.body;
+            const { password } = req.body;
+
+            const nickname = req.body.nickname.toUpperCase();
+            const linkName = req.body.linkName.toUpperCase();
+
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
                 return res.status(400).json({ errors })

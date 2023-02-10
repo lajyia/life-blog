@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Post = require('../models/Post');
 const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
@@ -12,6 +13,12 @@ class ProfileController {
             const candidate = await User.findById(req.userId);
 
             if (candidate) {
+
+                const name = candidate.nickname.toUpperCase();
+                const posts = await Post.find({ author: name });
+
+                candidate.posts.push(posts);
+
                 const token = jwt.sign({
                     id: candidate._id
                 }, process.env.JWT_SECRET, { expiresIn: '30d' })
@@ -31,7 +38,9 @@ class ProfileController {
 
     async updateProfile(req, res) {
         try {
-            const { newLinkName, bio } = req.body;
+
+            const newLinkName = req.body.newLinkName.toUpperCase();
+            const bio = req.body.bio.toUpperCase();
 
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
@@ -44,7 +53,6 @@ class ProfileController {
                         return res.status(400).json({ message: "LinkName can't start with a number" })
                     }
                 }
-
             }
             const linkCandidate = await User.findById(req.userId);
 
@@ -66,7 +74,9 @@ class ProfileController {
 
     async changeProfile(req, res) {
         try {
-            const { newNickname, password } = req.body;
+            const { password } = req.body;
+
+            const newNickname = req.body.newNickname.toUpperCase();
 
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
@@ -100,8 +110,6 @@ class ProfileController {
         try {
             const candidate = await User.findById(req.userId);
 
-            console.log(candidate);
-
             if (candidate) {
                 await User.deleteOne({ _id: candidate._id });
 
@@ -118,7 +126,10 @@ class ProfileController {
     async loginProfile(req, res) {
 
         try {
-            const { nickname, password } = req.body;
+            const { password } = req.body;
+
+            const nickname = req.body.nickname.toUpperCase();
+
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
                 return res.status(400).json({ errors });
@@ -130,7 +141,7 @@ class ProfileController {
 
                 const token = jwt.sign({
                     id: candidate._id,
-                }, JWT_SECRET, { expiresIn: '1hr' })
+                }, JWT_SECRET, { expiresIn: '30d' })
 
                 if (isLogin) {
                     return res.json({ token })

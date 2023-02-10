@@ -9,7 +9,7 @@ const User = new Schema({
     likes: { type: Number, required: true, default: 0 },
     posts: [
         {
-            type: String,
+            type: Object,
             ref: "Post"
         }
     ]
