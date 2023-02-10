@@ -3,19 +3,27 @@ const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 
+const numbers = [0, 1, 2, 3, 5, 6, 7, 8, 9];
+const JWT_SECRET = process.env.JWT_SECRET;
+
 class ProfileController {
     async getProfile(req, res) {
         try {
-            const { nickname } = req.body;
-            const errors = validationResult(req).errors;
-            if (errors.length > 0) {
-                return res.status(400).json({ errors });
-            }
-            const candidate = await User.findOne({ nickname });
+            const candidate = await User.findById(req.userId);
+
             if (candidate) {
-                return res.json({ candidate });
+                const token = jwt.sign({
+                    id: candidate._id
+                }, process.env.JWT_SECRET, { expiresIn: '30d' })
+
+                return res.json({
+                    candidate, token
+                })
+
             }
-            return res.status(400).json({ message: "A user with this nickname was not found" })
+
+            return res.status(400).json({ message: "Access error" })
+
         } catch (e) {
             console.log(e);
         }
@@ -23,31 +31,34 @@ class ProfileController {
 
     async updateProfile(req, res) {
         try {
-            const { linkName, newLinkName, bio } = req.body;
+            const { newLinkName, bio } = req.body;
+
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
                 return res.status(400).json({ errors });
             }
-            for (let i=0; i < linkName.length; i++){
-                if (linkName[0]){
-                    if (linkName[0] === numbers[j]){
-                        return res.status(400).json({message: "LinkName can't start with a number"})
+
+            for (let i = 0; i < newLinkName.length; i++) {
+                for (let j = 0; j < numbers.length; j++) {
+                    if (newLinkName[0] === numbers[j]) {
+                        return res.status(400).json({ message: "LinkName can't start with a number" })
                     }
                 }
+
             }
-            for (let i=0; i < newLinkName.length; i++){
-                if (newLinkName[0]){
-                    if (linkName[0] === numbers[j]){
-                        return res.status(400).json({message: "LinkName can't start with a number"})
-                    }
-                }
-            }
-            const linkCandidate = await User.findOne({ linkName });
+            const linkCandidate = await User.findById(req.userId);
+
             if (linkCandidate) {
-                await User.findOneAndUpdate({ linkName }, { bio, linkName: newLinkName }, { new: true });
-                return res.json({ message: "A profile has been updated" })
+                await User.findByIdAndUpdate(req.userId, { bio, linkName: newLinkName }, { new: true })
+
+                const token = jwt.sign({
+                    id: linkCandidate._id
+                }, process.env.JWT_SECRET, { expiresIn: '30d' })
+
+                return res.json({ message: "A profile has been updated", token })
             }
-            return res.status(400).json({ message: "A user with this linkName was not found" })
+            return res.status(400).json({ message: "Access error" })
+
         } catch (e) {
             console.log(e)
         }
@@ -55,42 +66,57 @@ class ProfileController {
 
     async changeProfile(req, res) {
         try {
-            const { nickname, newNickname, password } = req.body;
+            const { newNickname, password } = req.body;
+
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
                 return res.status(400).json({ errors });
             }
-            const candidate = User.findOne({ nickname });
+
+            const candidate = User.findById(req.userId);
+
             if (candidate) {
+
                 const hashPassword = bcrypt.hashSync(password, 7);
-                await User.findOneAndUpdate({ nickname }, { nickname: newNickname, password: hashPassword }, { new: true });
-                return res.json({ message: 'A user has been changed' })
+
+                await User.findByIdAndUpdate(req.userId, { nickname: newNickname, password: hashPassword }, { new: true })
+
+                const token = jwt.sign({
+                    id: candidate._id
+                }, process.env.JWT_SECRET, { expiresIn: '30d' })
+
+                return res.json({ message: 'A user has been changed', token })
             }
-            return res.status(400).json({ message: 'A user with this nickame was not found' })
+
+            return res.status(400).json({ message: 'Access error' })
+
         } catch (e) {
             console.log(e);
         }
     }
 
     async deleteProfile(req, res) {
+
         try {
-            const { nickname } = req.body;
-            const errors = validationResult(req).errors;
-            if (errors.length > 0) {
-                return res.status(400).json({ errors });
-            }
-            const candidate = await User.findOne({ nickname });
+            const candidate = await User.findById(req.userId);
+
+            console.log(candidate);
+
             if (candidate) {
-                await User.deleteOne({ nickname });
+                await User.deleteOne({ _id: candidate._id });
+
                 return res.json({ message: "A user has been deleted" })
             }
-            return res.status(400).json({ message: "A user with this nickname was not found" })
+
+            return res.status(400).json({ message: "Access error" })
+
         } catch (e) {
             console.log(e);
         }
     }
 
     async loginProfile(req, res) {
+
         try {
             const { nickname, password } = req.body;
             const errors = validationResult(req).errors;
@@ -104,14 +130,15 @@ class ProfileController {
 
                 const token = jwt.sign({
                     id: candidate._id,
-                }, process.env.JWT_SECRET,{ expiresIn: '30d' })
+                }, JWT_SECRET, { expiresIn: '1hr' })
 
                 if (isLogin) {
-                    return res.json({ candidate, token })
+                    return res.json({ token })
                 }
                 return res.status(400).json({ message: 'Invalid password' })
             }
             return res.status(400).json({ message: "No user with this name" })
+
         } catch (e) {
             console.log(e)
         }
