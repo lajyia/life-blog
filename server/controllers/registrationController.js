@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
 
 
+const numbers = [1,2,3,4,5,6,7,8,9,0];
+
 class RegistrationController {
     async getUsers(req, res) {
         try {
@@ -20,8 +22,10 @@ class RegistrationController {
                 return res.status(400).json({ errors })
             }
             for (let i=0; i < linkName.length; i++){
-                if (linkName[0]){
-                    return res.status(400).json({message: "LinkName can't start with a number"})
+                for (let j=0; j < numbers.length; j++){
+                    if (linkName[0] === numbers[j]){
+                        return res.status(400).json({message: "LinkName can't start with a number"})
+                    }
                 }
             }
             const candidateName = await User.findOne({ nickname });

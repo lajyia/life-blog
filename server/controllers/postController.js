@@ -75,7 +75,6 @@ class PostController {
                 const authorProfile = await User.findOne({ nickname: author });
                 const authorPosts = authorProfile.posts;
                 authorPosts.push(post);
-                console.log(authorPosts);
                 await User.findOneAndUpdate({ nickname: author }, { posts: authorPosts }, { new: true })
                 return res.json({ message: 'The post was created successfully' })
             }
