@@ -99,12 +99,13 @@ class ProfileController {
 
                     await User.findByIdAndUpdate(req.userId, { nickname: newNickname, password: hashPassword, avatar: req.file.path }, { new: true })
 
-                    if (fs.existsSync(candidate.avatar.replaceAll('\\', "/")) == true) {
+                    if (candidate.avatar) {
+                        if (fs.existsSync(candidate.avatar.replaceAll('\\', "/")) == true) {
 
-                        let filePath = candidate.avatar.replaceAll('\\', "/");
-                        fs.unlink(filePath, () => { });
+                            let filePath = candidate.avatar.replaceAll('\\', "/");
+                            fs.unlink(filePath, () => { });
+                        }
                     }
-
 
                     return res.json({ message: 'A user has been changed', token })
                 }

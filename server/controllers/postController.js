@@ -2,6 +2,7 @@ const Post = require('../models/Post');
 const { validationResult } = require('express-validator');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 
 class PostController {
@@ -26,6 +27,16 @@ class PostController {
             const post = await Post.findOne({ title });
 
             if (post) {
+
+                if (post.image) {
+                    if (fs.existsSync(post.image.replaceAll('\\', "/")) == true) {
+
+                        let filePath = post.image.replaceAll('\\', "/");
+
+                        fs.unlink(filePath, () => { });
+                    }
+                }
+
                 await Post.deleteOne({ title });
                 return res.json({ message: 'A post is deleted' });
             }
@@ -57,13 +68,25 @@ class PostController {
             const titleCandidate = await Post.findOne({ title });
             if (titleCandidate) {
 
+
                 const token = jwt.sign({
                     id: isAuth
                 }, process.env.JWT_SECRET, { expiresIn: '30d' })
 
 
-                if (req.file){
+                if (req.file) {
+
+                    if (titleCandidate.image) {
+
+                        if (fs.existsSync(titleCandidate.image.replaceAll('\\', "/")) == true) {
+                            let filePath = titleCandidate.image.replaceAll('\\', "/");
+                            fs.unlink(filePath, () => { });
+
+                        }
+                    }
+
                     await Post.findOneAndUpdate({ title }, { title: newTitle, body: newBody, image: req.file.path }, { new: true });
+                    return res.json({ message: 'A post is updated', token })
                 }
 
                 await Post.findOneAndUpdate({ title }, { title: newTitle, body: newBody }, { new: true });
@@ -116,7 +139,7 @@ class PostController {
 
             const post = new Post({ title, body, author: author.nickname });
 
-            if (req.file){
+            if (req.file) {
                 post.image = req.file.path
             }
 
