@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken');
 const numbers = [0, 1, 2, 3, 5, 6, 7, 8, 9];
 const JWT_SECRET = process.env.JWT_SECRET;
 
+const fs = require('fs');
+
 class ProfileController {
     async getProfile(req, res) {
         try {
@@ -83,19 +85,27 @@ class ProfileController {
                 return res.status(400).json({ errors });
             }
 
-            const candidate = User.findById(req.userId);
+            const candidate = await User.findById(req.userId);
 
             if (candidate) {
 
                 const hashPassword = bcrypt.hashSync(password, 7);
-
 
                 const token = jwt.sign({
                     id: candidate._id
                 }, process.env.JWT_SECRET, { expiresIn: '30d' })
 
                 if (req.file) {
-                    await User.findByIdAndUpdate(req.userId, { nickname: newNickname, password: hashPassword, image: req.file.path }, { new: true })
+
+                    await User.findByIdAndUpdate(req.userId, { nickname: newNickname, password: hashPassword, avatar: req.file.path }, { new: true })
+
+                    if (fs.existsSync(candidate.avatar.replaceAll('\\', "/")) == true) {
+
+                        let filePath = candidate.avatar.replaceAll('\\', "/");
+                        fs.unlink(filePath, () => { });
+                    }
+
+
                     return res.json({ message: 'A user has been changed', token })
                 }
 
@@ -117,6 +127,13 @@ class ProfileController {
             const candidate = await User.findById(req.userId);
 
             if (candidate) {
+
+                if (fs.existsSync(candidate.avatar.replaceAll('\\', "/")) == true) {
+                    let filePath = candidate.avatar.replaceAll('\\', "/");
+
+                    fs.unlink(filePath, () => { });
+                }
+
                 await User.deleteOne({ _id: candidate._id });
 
                 return res.json({ message: "A user has been deleted" })

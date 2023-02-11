@@ -20,7 +20,8 @@ const DB_PASSWORD = process.env.DB_PASSWORD;
 app.use(cors());
 
 app.use(express.json());
-app.use('/uploads', express.static('uploads'))
+app.use('/users', express.static('uploads/users'));
+app.use('/posts', express.static('uploads/posts'));
 mongoose.set('strictQuery', false);
 
 app.use('/api/post', postRouter);
