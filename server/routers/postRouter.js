@@ -4,6 +4,7 @@ const controller = require('../controllers/postController');
 const {check} = require('express-validator');
 const { checkAuth } = require('../middlewares/checkAuth');
 
+const upload  = require('../middlewares/upload');
 
 router.post('/delete', [
     check("title", "Title can't be smaller 5 and more 40 letters").isLength({min: 5, max: 40}),
@@ -15,6 +16,7 @@ router.post('/read', [
 ], controller.readPost);
 
 router.post('/create', [
+    upload.single('image'),
     check("title", "Title can't be smaller 5 and more 40 letters").isLength({min: 5, max: 40}),
     check("body", "Body can't be smaller 5 letters").isLength({min: 5}),
     checkAuth

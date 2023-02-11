@@ -6,7 +6,8 @@ const Post = new Schema({
     viewed: {type: Number, required: true, default: 0},
     likes: {type: Number, required: true, default: 0},
     comments: {type: Number, required: true, default: 0},
-    author: {type: String, required: true}
+    author: {type: String, required: true},
+    image: {type: String}
 })
 
 module.exports = model('Post', Post);

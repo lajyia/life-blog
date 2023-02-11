@@ -93,8 +93,6 @@ class PostController {
             const { body } = req.body;
             const title = req.body.title.toUpperCase();
 
-            console.log(title);
-
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
                 return res.status(400).json({ errors })
@@ -113,6 +111,11 @@ class PostController {
             }
 
             const post = new Post({ title, body, author: author.nickname });
+
+            if (req.file){
+                post.image = req.file.path
+            }
+
             await post.save();
 
             const token = jwt.sign({

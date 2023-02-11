@@ -38,7 +38,6 @@ class ProfileController {
 
     async updateProfile(req, res) {
         try {
-
             const newLinkName = req.body.newLinkName.toUpperCase();
             const bio = req.body.bio.toUpperCase();
 
@@ -57,6 +56,7 @@ class ProfileController {
             const linkCandidate = await User.findById(req.userId);
 
             if (linkCandidate) {
+
                 await User.findByIdAndUpdate(req.userId, { bio, linkName: newLinkName }, { new: true })
 
                 const token = jwt.sign({
