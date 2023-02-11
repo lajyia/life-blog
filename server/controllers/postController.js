@@ -37,8 +37,8 @@ class PostController {
         }
     }
     async updatePost(req, res) {
-        try {
 
+        try {
             const isAuth = req.userId;
 
             if (!isAuth) {
@@ -57,10 +57,14 @@ class PostController {
             const titleCandidate = await Post.findOne({ title });
             if (titleCandidate) {
 
-
                 const token = jwt.sign({
                     id: isAuth
                 }, process.env.JWT_SECRET, { expiresIn: '30d' })
+
+
+                if (req.file){
+                    await Post.findOneAndUpdate({ title }, { title: newTitle, body: newBody, image: req.file.path }, { new: true });
+                }
 
                 await Post.findOneAndUpdate({ title }, { title: newTitle, body: newBody }, { new: true });
                 return res.json({ message: 'A post is updated', token })

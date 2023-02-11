@@ -89,11 +89,17 @@ class ProfileController {
 
                 const hashPassword = bcrypt.hashSync(password, 7);
 
-                await User.findByIdAndUpdate(req.userId, { nickname: newNickname, password: hashPassword }, { new: true })
 
                 const token = jwt.sign({
                     id: candidate._id
                 }, process.env.JWT_SECRET, { expiresIn: '30d' })
+
+                if (req.file) {
+                    await User.findByIdAndUpdate(req.userId, { nickname: newNickname, password: hashPassword, image: req.file.path }, { new: true })
+                    return res.json({ message: 'A user has been changed', token })
+                }
+
+                await User.findByIdAndUpdate(req.userId, { nickname: newNickname, password: hashPassword }, { new: true })
 
                 return res.json({ message: 'A user has been changed', token })
             }

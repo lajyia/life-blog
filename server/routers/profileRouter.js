@@ -4,6 +4,9 @@ const controller = require('../controllers/profileController');
 const {check} = require('express-validator');
 const {checkAuth} = require('../middlewares/checkAuth');
 
+
+const upload = require('../middlewares/upload');
+
 router.post('/', [
     checkAuth
 ], controller.getProfile);
@@ -24,6 +27,7 @@ router.post('/login', [
 ], controller.loginProfile);
 
 router.post('/change', [
+    upload.single("image"),
     check("newNickname", "Nickname can't be smaller 5 lettes and more 10").isLength({min: 5, max: 10}),
     check("password", "Password can't be smaller 8 lettes").isLength({min: 8}),
     checkAuth

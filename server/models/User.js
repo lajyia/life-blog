@@ -7,6 +7,7 @@ const User = new Schema({
     bio: { type: String, required: true, default: 'this is my bio' },
     subscribers: { type: Number, required: true, default: 0 },
     likes: { type: Number, required: true, default: 0 },
+    avatar: {type: String},
     posts: [
         {
             type: Object,

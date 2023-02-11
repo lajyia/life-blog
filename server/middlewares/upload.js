@@ -3,7 +3,12 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
     destination : function(req, file, cb){
-        cb(null, 'uploads/');
+        if (req.baseUrl == "/api/post"){
+            cb(null, 'uploads/posts');
+        }
+        if (req.baseUrl == "/api/profile"){
+            cb(null, 'uploads/users')
+        }
     },
     filename: function(req, file, cb){
         let ext = path.extname(file.originalname);
@@ -23,7 +28,6 @@ const upload = multer({
             callback(null, true);
         }
         else{
-            console.log(file.mimetype);
             console.log('u can upload only jpg, png, jpeg files');
             callback(null, false)
         }
