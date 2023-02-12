@@ -4,14 +4,16 @@ const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 
-const numbers = [0, 1, 2, 3, 5, 6, 7, 8, 9];
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET
+
+const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 const fs = require('fs');
 
 class ProfileController {
     async getProfile(req, res) {
         try {
+
             const candidate = await User.findById(req.userId);
 
             if (candidate) {
@@ -23,12 +25,11 @@ class ProfileController {
 
                 const token = jwt.sign({
                     id: candidate._id
-                }, process.env.JWT_SECRET, { expiresIn: '30d' })
+                }, JWT_SECRET, { expiresIn: '30d' })
 
                 return res.json({
                     candidate, token
                 })
-
             }
 
             return res.status(400).json({ message: "Access error" })
@@ -50,11 +51,12 @@ class ProfileController {
 
             for (let i = 0; i < newLinkName.length; i++) {
                 for (let j = 0; j < numbers.length; j++) {
-                    if (newLinkName[0] === numbers[j]) {
-                        return res.status(400).json({ message: "LinkName can't start with a number" })
+                    if (numbers[j] == newLinkName[0]) {
+                        return res.status(400).json({ message: "Linkname can's start with a number" })
                     }
                 }
             }
+
             const linkCandidate = await User.findById(req.userId);
 
             if (linkCandidate) {
@@ -135,7 +137,7 @@ class ProfileController {
                     fs.unlink(filePath, () => { });
                 }
 
-                await User.deleteOne({ _id: candidate._id });
+                await User.findByIdAndDelete(candidate._id);
 
                 return res.json({ message: "A user has been deleted" })
             }
@@ -158,7 +160,9 @@ class ProfileController {
             if (errors.length > 0) {
                 return res.status(400).json({ errors });
             }
+
             const candidate = await User.findOne({ nickname });
+
             if (candidate) {
                 const passwordUser = candidate.password;
                 const isLogin = bcrypt.compareSync(password, passwordUser);

@@ -84,7 +84,7 @@ class PostController {
 
                         }
                     }
-
+                    
                     await Post.findOneAndUpdate({ title }, { title: newTitle, body: newBody, image: req.file.path }, { new: true });
                     return res.json({ message: 'A post is updated', token })
                 }
