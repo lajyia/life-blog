@@ -1,5 +1,7 @@
 const path = require('path');
 const multer = require('multer');
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -15,12 +17,20 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
     fileFilter: function (req, file, callback) {
-
+        const decoded = (req.headers.authorization || "").split(' ')[1];
+        let result;
+        try {
+            result = jwt.verify(decoded, JWT_SECRET);
+        }
+        catch(e){
+            console.log(e)
+        }
         const newNickname = req.body.newNickname;
         const password = req.body.password;
+    
 
+        if (result && newNickname.length > 4 && newNickname.length < 10 && password.length > 8) {
 
-        if (newNickname.length > 4 && newNickname.length < 10 && password.length > 8) {
             if (
                 file.mimetype == "image/png" ||
                 file.mimetype == "image/jpg" ||

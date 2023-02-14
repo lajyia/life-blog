@@ -77,6 +77,7 @@ class ProfileController {
     }
 
     async changeProfile(req, res) {
+
         try {
             const { password } = req.body;
 
