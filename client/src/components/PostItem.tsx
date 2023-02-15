@@ -28,8 +28,13 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
                 </div>
                 <div className="post__title">{post.title}</div>
             </div>
-            <div className="post__body">{post.body}
-                <img src={path} alt="" />
+            <div className="post__body">
+                <div className="post__text-body">
+                    {post.body}
+                </div>
+                <div className="post__image-body">
+                    <img src={path} alt=""/>
+                </div>
             </div>
             <div className="post__info">
                 <div className="post__like-info">

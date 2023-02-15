@@ -7,6 +7,7 @@
     background: #fff;
     padding: 30px;
     border-radius: 20px;
+    min-width: 810px;
 }
 .post__body {
     display: flex;
@@ -34,7 +35,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
 }
 
 .post__time-post{
@@ -45,6 +46,9 @@
     text-transform: uppercase;
 }
 .post__title {
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 10px;
 }
 .post__info {
     display: flex;
@@ -62,7 +66,15 @@
 .post__like-info:hover{
     cursor: pointer;
 }
+.post__image-body{
 
+}
+.post__text-body{
+    font-family: Roboto;
+    line-height: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
 .post__image-like {
     margin-right: 5px;
 }
