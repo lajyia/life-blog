@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { IPost } from '../types/types';
 import PostItem from './PostItem';
+import '../styles/PostList.css';
 
 interface PostListProps{
     posts: IPost[]
@@ -9,7 +10,7 @@ interface PostListProps{
 
 const PostList:FC<PostListProps> = ({posts}) => {
     return (
-        <div>
+        <div className='list'>
             {posts.map(post =>
                 <PostItem post={post} key={post._id}/>
             )}

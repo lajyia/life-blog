@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
+const path = require('path');
 
 
 class PostController {
@@ -140,7 +141,10 @@ class PostController {
             const post = new Post({ title, body, author: author.nickname });
 
             if (req.file) {
-                post.image = req.file.path
+
+                const name = req.file.filename
+
+                post.image = name
             }
 
             await post.save();
