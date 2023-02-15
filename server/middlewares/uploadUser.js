@@ -28,7 +28,6 @@ const upload = multer({
         const newNickname = req.body.newNickname;
         const password = req.body.password;
     
-
         if (result && newNickname.length > 4 && newNickname.length < 10 && password.length > 8) {
 
             if (
