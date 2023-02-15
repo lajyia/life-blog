@@ -1,5 +1,8 @@
 .feed{
-
+    
+}
+.feed__body{
+    background: rgb(233, 233, 233);
 }
 .feed__container{
     max-width: 1200px;

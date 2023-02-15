@@ -10,21 +10,24 @@ const Feed: FC = () => {
 
     const [posts, setPosts] = useState<IPost[]>([]);
 
-    const [fetchPost, postLoading, postErrors] = useFetching(async () =>{
+    const [fetchPost, postLoading, postErrors] = useFetching(async () => {
         const response = await PostService.getPost();
         setPosts(response.data);
     });
 
-    useEffect(() =>{
+    useEffect(() => {
         fetchPost();
     }, [])
 
     return (
         <div className='feed'>
             <Header />
-            <div className="feed__container">
-                <PostList posts={posts}/>
+            <div className="feed__body">
+                <div className="feed__container">
+                    <PostList posts={posts} />
+                </div>
             </div>
+
         </div>
     );
 };
