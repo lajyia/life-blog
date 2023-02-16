@@ -5,6 +5,7 @@ import { useFetching } from '../hooks/useFetching';
 import '../styles/Feed.css';
 import { IPost } from '../types/types';
 import { PostService } from '../API/PostService';
+import Modal from '../components/UI/Modal/Modal';
 
 const Feed: FC = () => {
 
@@ -24,6 +25,7 @@ const Feed: FC = () => {
             <Header />
             <div className="feed__body">
                 <div className="feed__container">
+                    <Modal/>
                     <PostList posts={posts} />
                 </div>
             </div>

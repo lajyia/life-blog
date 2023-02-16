@@ -1,0 +1,13 @@
+.input{
+    border-bottom: 1px solid rgb(134, 133, 133);
+    padding: 10px;
+}
+
+.input:focus{
+    border-bottom: 2px solid #000;
+}
+
+::-webkit-input-placeholder {text-transform: uppercase;}
+::-moz-placeholder          {text-transform: uppercase;}/* Firefox 19+ */
+:-moz-placeholder           {text-transform: uppercase;}/* Firefox 18- */
+:-ms-input-placeholder      {text-transform: uppercase;}

@@ -1,0 +1,9 @@
+.button{
+    padding: 10px 20px;
+    text-transform: uppercase;
+    background: rgb(134, 133, 133);
+    color: #fff;
+    font-family: Roboto;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
