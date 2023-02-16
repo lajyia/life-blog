@@ -61,7 +61,10 @@ class RegistrationController {
 
             const user = await User.findOne({linkName});
 
-            return res.json({user});
+            if (user){
+                return res.json({message: true})
+            }
+            return res.json({message: false})
 
         }catch(e){
             console.log(e)
@@ -74,7 +77,11 @@ class RegistrationController {
 
             const user = await User.findOne({nickname: login})
 
-            return res.json({user});
+            if (user){
+                return res.json({message: true})
+            }
+            return res.json({message: false})
+
         }catch(e){
             console.log(e);
         }

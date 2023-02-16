@@ -87,7 +87,7 @@ button {
     font-size: 16px;
     width: 50%;
 }
-.error-form{
+.error-valid-form{
     margin-top: 2px;
     text-align: start;
     padding-left: 5px;
@@ -95,4 +95,9 @@ button {
 }
 .registration__image-slash{
     margin-top: 5px;
+}
+.registration__error-exists-form{
+    padding-left: 5px;
+    text-align: start;
+    color: red;
 }

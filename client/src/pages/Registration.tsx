@@ -14,9 +14,15 @@ interface validForm {
     login: boolean
 }
 
+interface existForm {
+    linkname: boolean,
+    login: boolean
+}
+
 
 const Registration: FC = () => {
 
+    const [existForm, setExistForm] = useState<existForm>({ linkname: false, login: false })
     const [validForm, setValidForm] = useState<validForm>({ password: true, linkname: true, login: true });
 
     const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,22 +43,25 @@ const Registration: FC = () => {
 
         if (length > 4) {
             setValidForm({ ...validForm, login: true });
+
             const response = await PostService.checkLogin(e.target.value);
-            console.log(response.data);
+
+            setExistForm({ ...existForm, login: response.data.message })
         }
         else {
             setValidForm({ ...validForm, login: false })
         }
     }
 
-    const changeLinkname =async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const changeLinkname = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const length = e.target.value.length;
 
         if (length > 4) {
-            setValidForm({...validForm, linkname: true })
+            setValidForm({ ...validForm, linkname: true })
 
             const response = await PostService.checkLinkname(e.target.value);
-            console.log(response.data);
+
+            setExistForm({ ...existForm, linkname: response.data.message })
         }
         else {
             setValidForm({ ...validForm, linkname: false })
@@ -76,7 +85,11 @@ const Registration: FC = () => {
                                     <input onChange={changeLogin} type="text" placeholder="Login" />
                                 </div>
                                 {!validForm.login
-                                    ? <div className="registration__login-error error-form">linkname can't be smaller 5 letters</div>
+                                    ? <div className="registration__login-error error-valid-form">linkname can't be smaller 5 letters</div>
+                                    : <div></div>
+                                }
+                                {existForm.login
+                                    ? <div className="registration__error-exists-form">login busy</div>
                                     : <div></div>
                                 }
                             </div>
@@ -86,7 +99,7 @@ const Registration: FC = () => {
                                     <input onChange={changePassword} placeholder="Password" type="password" />
                                 </div>
                                 {!validForm.password
-                                    ? <div className="registration__password-error error-form">password cant'be smaller 8 letters</div>
+                                    ? <div className="registration__password-error error-valid-form">password cant'be smaller 8 letters</div>
                                     : <div></div>
                                 }
                             </div>
@@ -96,15 +109,19 @@ const Registration: FC = () => {
                                     <input onChange={changeLinkname} placeholder="Linkname" type="linkname" />
                                 </div>
                                 {!validForm.linkname
-                                    ? <div className="registration__linkname-error error-form">linkname cant'be smaller 5 letters</div>
+                                    ? <div className="registration__linkname-error error-valid-form">linkname cant'be smaller 5 letters</div>
                                     : <div></div>
                                 }
+                                {existForm.linkname
+                                    ? <div className="registration__error-exists-form">login busy</div>
+                                    : <div></div>
+                                }
+                            </div>
+                            <Button>send</Button>
+                        </form>
                     </div>
-                    <Button>send</Button>
-                </form>
-            </div>
 
-        </div>
+                </div>
 
             </div >
         </div >
