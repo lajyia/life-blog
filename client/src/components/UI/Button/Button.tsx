@@ -3,6 +3,7 @@ import classes from './Button.module.css';
 
 interface buttonProps{
     children?: string,
+    onClick?: (e: any) => void
 }
 
 const Button:FC<buttonProps> = ({children, ...props}) => {

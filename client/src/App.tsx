@@ -1,6 +1,7 @@
 import React from 'react';
 import Feed from './pages/Feed';
 import Registration from './pages/Registration';
+import Login from './pages/Login';
 import './styles/App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
@@ -20,6 +21,10 @@ function App() {
       path: '/',
       element: <Navigate to="feed"/>
     },
+    {
+      path: '/login',
+      element: <Login/>
+    }
   ])
 
   return (

@@ -6,6 +6,8 @@ import UserForm from '../images/user-form.svg';
 import LockForm from '../images/lock-form.svg';
 import SlashForm from '../images/slash-form.svg';
 import { PostService } from '../API/PostService';
+import { useNavigate } from 'react-router-dom';
+import Notification from '../components/UI/Notification/Notification';
 
 
 interface validForm {
@@ -19,13 +21,25 @@ interface existForm {
     login: boolean
 }
 
+interface valueForm{
+    login: string,
+    password: string,
+    linkname: string
+}
+
 
 const Registration: FC = () => {
+
+    const navigate = useNavigate();
+    
+    const [valueForm, setValueForm] = useState<valueForm>({login: '', password: '', linkname: ''})
 
     const [existForm, setExistForm] = useState<existForm>({ linkname: false, login: false })
     const [validForm, setValidForm] = useState<validForm>({ password: true, linkname: true, login: true });
 
     const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        setValueForm({...valueForm, password: e.target.value})
 
         const length: number = e.target.value.length;
 
@@ -37,9 +51,10 @@ const Registration: FC = () => {
         }
     }
 
-
     const changeLogin = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const length = e.target.value.length;
+
+        setValueForm({...valueForm, login: e.target.value})
 
         if (length > 4) {
             setValidForm({ ...validForm, login: true });
@@ -56,6 +71,8 @@ const Registration: FC = () => {
     const changeLinkname = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const length = e.target.value.length;
 
+        setValueForm({...valueForm, linkname: e.target.value})
+
         if (length > 4) {
             setValidForm({ ...validForm, linkname: true })
 
@@ -68,6 +85,16 @@ const Registration: FC = () => {
         }
     }
 
+    const registrationUser = async (e: React.MouseEvent<HTMLButtonElement>) =>{
+        e.preventDefault();
+        const response = await PostService.registration(valueForm.login, valueForm.linkname, valueForm.password)
+        setValueForm({...valueForm, password: '', login: '', linkname: ''});
+        if (response.data.message){
+            return(
+                navigate('/login')
+            )  
+        }
+    }
 
     return (
         <div className='registration'>
@@ -82,7 +109,7 @@ const Registration: FC = () => {
                             <div className="registration__login">
                                 <div className="registration__input">
                                     <img src={UserForm} alt="" />
-                                    <input onChange={changeLogin} type="text" placeholder="Login" />
+                                    <input value={valueForm.login} onChange={changeLogin} type="text" placeholder="Login" />
                                 </div>
                                 {!validForm.login
                                     ? <div className="registration__login-error error-valid-form">linkname can't be smaller 5 letters</div>
@@ -96,7 +123,7 @@ const Registration: FC = () => {
                             <div className="registration__password">
                                 <div className="registration__input">
                                     <img src={LockForm} alt="" />
-                                    <input onChange={changePassword} placeholder="Password" type="password" />
+                                    <input value={valueForm.password} onChange={changePassword} placeholder="Password" type="password" />
                                 </div>
                                 {!validForm.password
                                     ? <div className="registration__password-error error-valid-form">password cant'be smaller 8 letters</div>
@@ -106,7 +133,7 @@ const Registration: FC = () => {
                             <div className="registration__linkname">
                                 <div className="registration__input">
                                     <img className='registration__image-slash' src={SlashForm} alt="" />
-                                    <input onChange={changeLinkname} placeholder="Linkname" type="linkname" />
+                                    <input value={valueForm.linkname} onChange={changeLinkname} placeholder="Linkname" type="linkname" />
                                 </div>
                                 {!validForm.linkname
                                     ? <div className="registration__linkname-error error-valid-form">linkname cant'be smaller 5 letters</div>
@@ -117,7 +144,7 @@ const Registration: FC = () => {
                                     : <div></div>
                                 }
                             </div>
-                            <Button>send</Button>
+                            <Button onClick={registrationUser}>send</Button>
                         </form>
                     </div>
 

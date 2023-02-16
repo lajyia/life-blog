@@ -16,13 +16,14 @@ class RegistrationController {
     }
     async addUser(req, res) {
         try {
-            const { password } = req.body;
+            const { password } = req.query;
 
-            const nickname = req.body.nickname.toUpperCase();
-            const linkName = req.body.linkName.toUpperCase();
+            const nickname = req.query.nickname.toUpperCase();
+            const linkName = req.query.linkName.toUpperCase();
 
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
+                console.log(errors);
                 return res.status(400).json({ errors })
             }
 
@@ -41,7 +42,7 @@ class RegistrationController {
                 const hashPassword = bcrypt.hashSync(password, 7);
                 const user = new User({ nickname, linkName, password: hashPassword })
                 await user.save();
-                return res.status(400).json({ message: 'The user has been created' })
+                return res.json({ message: true })
             }
             if (candidateName) {
                 return res.status(400).json({ message: 'Nickname is busy' })

@@ -24,4 +24,9 @@ export class PostService{
         })
         return response
     }
+
+    static async registration(login: string, linkname: string, password: string){
+        const response = await axios.post(`http://localhost:4000/api/registration?password=${password}&nickname=${login}&linkName=${linkname}`)
+        return response
+    }
 }
