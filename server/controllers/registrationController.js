@@ -54,6 +54,31 @@ class RegistrationController {
         }
 
     }
+    async checkLinkname(req, res){
+        try{
+
+            const linkName = req.query.linkName.toUpperCase();
+
+            const user = await User.findOne({linkName});
+
+            return res.json({user});
+
+        }catch(e){
+            console.log(e)
+        }
+    }
+    async checkLogin(req, res){
+        try{
+            
+            const login = req.query.login.toUpperCase();
+
+            const user = await User.findOne({nickname: login})
+
+            return res.json({user});
+        }catch(e){
+            console.log(e);
+        }
+    }
 }
 
 

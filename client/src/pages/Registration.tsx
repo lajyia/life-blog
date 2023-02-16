@@ -4,7 +4,8 @@ import Button from '../components/UI/Button/Button';
 import FormImage from '../images/form-image.png';
 import UserForm from '../images/user-form.svg';
 import LockForm from '../images/lock-form.svg';
-import SlashForm from '../images/slash-form.svg'
+import SlashForm from '../images/slash-form.svg';
+import { PostService } from '../API/PostService';
 
 
 interface validForm {
@@ -15,7 +16,6 @@ interface validForm {
 
 
 const Registration: FC = () => {
-
 
     const [validForm, setValidForm] = useState<validForm>({ password: true, linkname: true, login: true });
 
@@ -32,22 +32,27 @@ const Registration: FC = () => {
     }
 
 
-    const changeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const changeLogin = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const length = e.target.value.length;
 
         if (length > 4) {
-            setValidForm({ ...validForm, login: true })
+            setValidForm({ ...validForm, login: true });
+            const response = await PostService.checkLogin(e.target.value);
+            console.log(response.data);
         }
         else {
             setValidForm({ ...validForm, login: false })
         }
     }
 
-    const changeLinkname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const changeLinkname =async (e: React.ChangeEvent<HTMLInputElement>) => {
         const length = e.target.value.length;
 
         if (length > 4) {
-            setValidForm({ ...validForm, linkname: true })
+            setValidForm({...validForm, linkname: true })
+
+            const response = await PostService.checkLinkname(e.target.value);
+            console.log(response.data);
         }
         else {
             setValidForm({ ...validForm, linkname: false })
