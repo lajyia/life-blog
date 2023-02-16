@@ -1,8 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import '../styles/Registration.css';
 import Button from '../components/UI/Button/Button';
 import Input from '../components/UI/Input/Input';
 import FormImage from '../images/form-image.png';
+import UserForm from '../images/user-form.svg';
+import LockForm from '../images/lock-form.svg';
+import SlashForm from '../images/slash-form.svg'
 
 const Registration: FC = () => {
     return (
@@ -16,13 +19,25 @@ const Registration: FC = () => {
                         <form className="registration__form">
                             <div className="registration__title">REGISTRATION</div>
                             <div className="registration__login">
-                                <Input type="text" placeholder="login" />
+                                <div className="registration__input">
+                                    <img src={UserForm} alt="" />
+                                    <Input type="text" placeholder="Login" />
+                                </div>
+                                <div className="registration__login-error error-form">aaa</div>
                             </div>
                             <div className="registration__password">
-                                <Input placeholder="password" type="password" />
+                                <div className="registration__input">
+                                    <img src={LockForm} alt="" />
+                                    <Input placeholder="Password" type="password" />
+                                </div>
+                                <div className="registration__password-error error-form">password cant'be smaller 8 letters</div>
                             </div>
                             <div className="registration__linkname">
-                                <Input placeholder="linkname" type="linkname" />
+                                <div className="registration__input">
+                                    <img className='registration__image-slash' src={SlashForm} alt="" />
+                                    <Input placeholder="Linkname" type="linkname" />
+                                </div>
+                                <div className="registration__linkname-error error-form">aaa</div>
                             </div>
                             <Button>send</Button>
                         </form>

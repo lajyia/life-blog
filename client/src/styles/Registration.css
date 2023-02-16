@@ -6,26 +6,24 @@
     background: rgb(233, 233, 233);
     padding-top: 200px;
 }
-.registration__container {
-    
-}
 
-.registration__form-body{
+.registration__container {}
+
+.registration__form-body {
     display: flex;
     justify-content: space-between;
 }
 
-.registration__form-panel{
+.registration__form-panel {}
 
-}
-
-.registration input{
+.registration input {
     min-width: 250px;
 }
 
-.registration__body{
+.registration__body {
     min-width: 350px;
 }
+
 .registration__title {
     text-align: center;
     margin-bottom: 35px;
@@ -34,6 +32,7 @@
     text-transform: uppercase;
     font-weight: 600;
 }
+
 .registration__form {
     text-align: center;
     background: #fff;
@@ -43,34 +42,54 @@
     justify-content: center;
 }
 
-.registration__linkname{
-
+.registration__linkname {
+    margin-bottom: 40px;
 }
-.registration__linkname input{
-    margin-bottom: 30px;
-    text-transform: uppercase;
+
+.registration__linkname input {
+    
 }
 
 .registration__login {
+    margin-bottom: 20px;
 }
 
-.registration__login input{
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    
-}
+.registration__login input {}
+
 .registration__password {
-    
+    margin-bottom: 20px;
 }
 
-.registration__password input{
-    margin-bottom: 10px;
+.registration__password input {}
+
+.registration__button {}
+
+.registration__login-error {
+
 }
 
-.registration__button {
+.registration__password-error {
+
 }
 
-button{
+.registration__linkname-error {
+
+}
+
+.registration__input{
+    border-bottom: 1px solid rgb(134, 133, 133);
+}
+
+button {
     border-radius: 16px;
     font-size: 16px;
+}
+.error-form{
+    margin-top: 2px;
+    text-align: start;
+    padding-left: 5px;
+    color: red;
+}
+.registration__image-slash{
+    margin-top: 5px;
 }
