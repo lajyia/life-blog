@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { IRootState } from '../store';
 import { trueVisibleNotificationAction } from '../store/visibleNotification';
 import { falseVisibleNotificationAction } from '../store/visibleNotification';
+import Header from '../components/Header';
 
 
 interface validForm {
@@ -121,6 +122,7 @@ const Registration: FC = () => {
 
     return (
         <div className='registration'>
+            <Header/>
             {visibleNotification
                 ? <Notification>
                     <div className="notification__text">

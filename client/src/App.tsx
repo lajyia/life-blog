@@ -16,7 +16,7 @@ function App() {
     },
     {
       path: '/registration',
-      element: <div><Header/><Registration/></div>
+      element: <Registration/>
     },
     {
       path: '/',
