@@ -17,8 +17,8 @@ const Header: FC = () => {
 
     const getAvatar = async () => {
         const response = await UserService.getProfileByJWT(jwt);
-        setPathImage(response.data.candidate.avatar);
-        setNickname(response.data.candidate.nickname);
+        setPathImage(response.avatar);
+        setNickname(response.nickname);
     }
 
     useEffect(() => {

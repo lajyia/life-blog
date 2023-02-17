@@ -32,6 +32,6 @@ export class UserService{
                 authorization: 'Bearer ' + jwt
             }
         });
-        return response
+        return response.data.candidate
     }
 }
