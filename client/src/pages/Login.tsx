@@ -8,7 +8,6 @@ import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import { UserService } from '../API/UserService';
 import { useDispatch } from 'react-redux';
-import { trueLoginAction } from '../store/loginReducer';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -34,8 +33,9 @@ const Login: FC = () => {
         console.log(response.data);
 
         if (response.data.message == true){
-            dispatch(trueLoginAction());
-                navigate('/feed');
+            localStorage.setItem("login", 'true');
+            localStorage.setItem("jwt", response.data.token);
+            navigate('/feed');
         }
 
         setValueForm({login: '', password: ''})

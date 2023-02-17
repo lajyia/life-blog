@@ -12,10 +12,9 @@ const Header: FC = () => {
 
     const [pathImage, setPathImage] = useState<boolean | string>('')
 
-    const login = useSelector((state: IRootState) => state.login.login);
-    const dispatch = useDispatch();
-
     const pathUser = 'http://localhost:4000/users/'
+
+    const login = localStorage.getItem('login');
 
     return (
         <header className="header">
