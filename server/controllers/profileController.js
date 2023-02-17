@@ -90,6 +90,8 @@ class ProfileController {
 
             const candidate = await User.findById(req.userId);
 
+            console.log(req.file)
+
             if (candidate) {
 
                 const hashPassword = bcrypt.hashSync(password, 7);
@@ -98,9 +100,12 @@ class ProfileController {
                     id: candidate._id
                 }, process.env.JWT_SECRET, { expiresIn: '30d' })
 
+
                 if (req.file) {
 
-                    await User.findByIdAndUpdate(req.userId, { nickname: newNickname, password: hashPassword, avatar: req.file.path }, { new: true })
+                    const name = req.file.filename
+
+                    await User.findByIdAndUpdate(req.userId, { nickname: newNickname, password: hashPassword, avatar: name }, { new: true })
 
                     if (candidate.avatar) {
                         if (fs.existsSync(candidate.avatar.replaceAll('\\', "/")) == true) {
@@ -153,9 +158,9 @@ class ProfileController {
     async loginProfile(req, res) {
 
         try {
-            const { password } = req.body;
+            const { password } = req.query;
 
-            const nickname = req.body.nickname.toUpperCase();
+            const nickname = req.query.nickname.toUpperCase();
 
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
@@ -173,15 +178,33 @@ class ProfileController {
                 }, JWT_SECRET, { expiresIn: '30d' })
 
                 if (isLogin) {
-                    return res.json({ token })
+                    return res.json({message: true, token })
                 }
-                return res.status(400).json({ message: 'Invalid password' })
+                return res.json({ message: false })
             }
-            return res.status(400).json({ message: "No user with this name" })
+            return res.json({ message: "No user with this name" })
 
         } catch (e) {
             console.log(e)
         }
+    }
+
+    async getAvatar(req, res) {
+        const nickname = req.query.nickname.toUpperCase();
+
+        const candidate = await User.findOne({ nickname });
+
+        if (candidate) {
+
+            if (candidate.avatar) {
+                const image = candidate.avatar
+                return res.json({ image });
+            }
+
+            return res.json({ image: false })
+        }
+
+        return res.json({ image: false })
     }
 }
 

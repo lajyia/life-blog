@@ -32,7 +32,9 @@ router.post('/change', [
     check("newNickname", "Nickname can't be smaller 5 letters and more 10").isLength({min: 5, max: 10}),
     check("password", "Password can't be smaller 8 letters").isLength({min: 8}),
 ],
-
 controller.changeProfile);
+
+router.get('/avatar', controller.getAvatar)
+
 
 module.exports = router;

@@ -67,3 +67,20 @@
 .login__input-password{
     margin-bottom: 40px;
 }
+
+
+.login__buttons {
+    display: flex;
+    justify-content: space-between;
+}
+.login__registration-body {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.login__registration-body a{
+    color: red;
+    font-size: 16px;
+    font-family: Roboto;
+}

@@ -6,27 +6,8 @@ export class PostService{
         const response = await axios.post<IPost[]>('http://localhost:4000/api/feed');
         return response
     }
-
-    static async checkLogin(login: string){
-        const response = await axios.get('http://localhost:4000/api/registration/check/login', {
-            params : {
-                login
-            }
-        })
-        return response
-    }
-
-    static async checkLinkname(linkName: string){
-        const response = await axios.get('http://localhost:4000/api/registration/check/linkname', {
-            params: {
-                linkName
-            }
-        })
-        return response
-    }
-
-    static async registration(login: string, linkname: string, password: string){
-        const response = await axios.post(`http://localhost:4000/api/registration?password=${password}&nickname=${login}&linkName=${linkname}`)
+    static async getAvatar(nickname: string){
+        const response = await axios.get(`http://localhost:4000/api/profile/avatar?nickname=${nickname}`)
         return response
     }
 }

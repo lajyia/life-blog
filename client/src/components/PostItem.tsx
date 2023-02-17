@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { IPost } from '../types/types';
 import '../styles/PostItem.css';
-import test from '../images/test.jpg';
 import like from '../images/like.svg';
-import comment from '../images/comment.svg'
+import comment from '../images/comment.svg';
+import DefaultAvatar from '../images/default-avatar.svg';
+import { PostService } from '../API/PostService';
 
 interface PostItemProps {
     post: IPost
@@ -11,7 +12,23 @@ interface PostItemProps {
 
 const PostItem: FC<PostItemProps> = ({ post }) => {
 
-    const path = 'http://localhost:4000/posts/' + post.image;
+
+    const [pathImage, setPathImage] = useState<boolean | string>('');
+
+
+    const getImage = async () => {
+        const response = await PostService.getAvatar(post.author);
+        setPathImage(response.data.image)
+    }
+
+
+    useEffect(() => {
+        getImage();
+    }, [])
+
+    const pathPost = 'http://localhost:4000/posts/' + post.image;
+
+    const pathUser = 'http://localhost:4000/users/' + pathImage;
 
 
     return (
@@ -19,10 +36,13 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
             <div className="post__top">
                 <div className="post__author">
                     <div className="post__image-author">
-                        <img className='post__item-image-author' src={test} alt="logo author" />
+                        {pathImage
+                            ? <img className='post__item-image-author' src={pathUser} alt="logo author" />
+                            : <img style={{ border: '2px solid #868585' }} className='post__item-image-author' src={DefaultAvatar} alt="logo author" />
+                        }
                     </div>
                     <div className="post__body-author">
-                        <div className="post__nickname-author">DEFAULT NAME</div>
+                        <div className="post__nickname-author">{post.author}</div>
                         <div className="post__time-post">16 january</div>
                     </div>
                 </div>
@@ -33,7 +53,7 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
                     {post.body}
                 </div>
                 <div className="post__image-body">
-                    <img src={path} alt=""/>
+                    <img src={pathPost} alt="" />
                 </div>
             </div>
             <div className="post__info">

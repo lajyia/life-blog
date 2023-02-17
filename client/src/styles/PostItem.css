@@ -1,5 +1,5 @@
 .post {
-    flex: 0 1 60%;
+    flex: 0 1 55%;
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
@@ -7,7 +7,7 @@
     background: #fff;
     padding: 30px;
     border-radius: 20px;
-    min-width: 810px;
+    min-width: 500px;
 }
 .post__body {
     display: flex;
@@ -67,8 +67,14 @@
     cursor: pointer;
 }
 .post__image-body{
-
+    display: flex;
+    justify-content: center;
 }
+
+.post__image-body img{
+    max-width: 600px;
+}
+
 .post__text-body{
     font-family: Roboto;
     line-height: 20px;

@@ -61,6 +61,13 @@ a{
 .header__image-unlogin{
     width: 40px;
     height: 40px;
-    border: 2px solid #000;
+    border: 2px solid #868585;
     border-radius: 50%;
+    padding: 2px
+}
+
+.header__btn-login{
+    background: rgb(134, 133, 133);
+    color: #fff;
+    padding: 10px 20px;
 }

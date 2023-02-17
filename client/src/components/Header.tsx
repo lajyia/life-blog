@@ -1,18 +1,21 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import logo from '../images/logo.svg';
 import '../styles/Header.css';
-import test from '../images/test.jpg';
 import { Link } from 'react-router-dom'
 import arrow from '../images/arrow-header.svg';
 import { useSelector, useDispatch } from 'react-redux';
 import { IRootState } from '../store';
-import UnloginUser from '../images/unlogin-user.svg';
+import DefaultAvatar from '../images/default-avatar.svg';
 
 const Header: FC = () => {
 
 
+    const [pathImage, setPathImage] = useState<boolean | string>('')
+
     const login = useSelector((state: IRootState) => state.login.login);
     const dispatch = useDispatch();
+
+    const pathUser = 'http://localhost:4000/users/'
 
     return (
         <header className="header">
@@ -39,7 +42,7 @@ const Header: FC = () => {
                 {login
                     ?   <div className="header__user-info">
                             <div className="header__user-image">
-                                <img className='header__item-image' src={test} alt="user logo" />
+                                <img className='header__item-image' src={DefaultAvatar} alt="user logo" />
                             </div>
                             <div className="header__user-arrow">
                                 <img className='header__arrow-image' src={arrow} alt="arrow" />
@@ -47,9 +50,8 @@ const Header: FC = () => {
                         </div>
                     : <div className='header__unlogin'>
                         <Link to="/login">
-                            <img className='header__image-unlogin' src={UnloginUser} alt="" />
+                            <div className="header__btn-login">LOGIN</div>
                         </Link>
-                        
                     </div>
                 }
 

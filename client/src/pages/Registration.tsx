@@ -5,7 +5,7 @@ import FormImage from '../images/form-image.png';
 import UserForm from '../images/user-form.svg';
 import LockForm from '../images/lock-form.svg';
 import SlashForm from '../images/slash-form.svg';
-import { PostService } from '../API/PostService';
+import { UserService } from '../API/UserService';
 import { useNavigate } from 'react-router-dom';
 import Notification from '../components/UI/Notification/Notification';
 import Cross from '../images/cross.svg';
@@ -73,7 +73,7 @@ const Registration: FC = () => {
         if (length > 4) {
             setValidForm({ ...validForm, login: true });
 
-            const response = await PostService.checkLogin(e.target.value);
+            const response = await UserService.checkLogin(e.target.value);
 
             setExistForm({ ...existForm, login: response.data.message })
         }
@@ -90,7 +90,7 @@ const Registration: FC = () => {
         if (length > 4) {
             setValidForm({ ...validForm, linkname: true })
 
-            const response = await PostService.checkLinkname(e.target.value);
+            const response = await UserService.checkLinkname(e.target.value);
 
             setExistForm({ ...existForm, linkname: response.data.message })
         }
@@ -101,7 +101,7 @@ const Registration: FC = () => {
 
     const registrationUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        const response = await PostService.registration(valueForm.login, valueForm.linkname, valueForm.password)
+        const response = await UserService.registration(valueForm.login, valueForm.linkname, valueForm.password)
         setValueForm({ ...valueForm, password: '', login: '', linkname: '' });
         if (response.data.message) {
             showNotification();

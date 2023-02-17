@@ -3,34 +3,20 @@ import Feed from './pages/Feed';
 import Registration from './pages/Registration';
 import Login from './pages/Login';
 import './styles/App.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
-import Header from './components/Header';
+import { Navigate, Routes, Route, BrowserRouter } from 'react-router-dom';
 
 function App() {
 
-  const router = createBrowserRouter([
-    {
-      path: '/feed',
-      element: <Feed/>
-    },
-    {
-      path: '/registration',
-      element: <Registration/>
-    },
-    {
-      path: '/',
-      element: <Navigate to="feed"/>
-    },
-    {
-      path: '/login',
-      element: <Login/>
-    }
-  ])
-
   return (
     <div className="App">
-      <RouterProvider router={router}/>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Navigate to="feed" />} />
+          <Route path="login" element={<Login />} />
+          <Route path="registration" element={<Registration />} />
+          <Route path="feed" element={<Feed />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

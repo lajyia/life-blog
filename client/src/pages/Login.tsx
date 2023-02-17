@@ -1,12 +1,55 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import '../styles/Login.css';
 import FormImage from '../images/form-image2.png';
 import Button from '../components/UI/Button/Button';
 import LockForm from '../images/lock-form.svg';
 import UserForm from '../images/user-form.svg';
 import Header from '../components/Header';
+import { Link } from 'react-router-dom';
+import { UserService } from '../API/UserService';
+import { useDispatch } from 'react-redux';
+import { trueLoginAction } from '../store/loginReducer';
+import { useNavigate } from 'react-router-dom';
+
+
+interface valueFormProps{
+    login: string,
+    password: string
+}
+
 
 const Login: FC = () => {
+
+    const dispatch = useDispatch();
+
+    const [valueForm, setValueForm] = useState<valueFormProps>({login: '', password: ''})
+
+    const navigate = useNavigate();
+
+    const loginUser = async (e: React.MouseEvent<HTMLButtonElement>) =>{
+        e.preventDefault();
+
+        const response = await UserService.login(valueForm.login, valueForm.password);
+
+        console.log(response.data);
+
+        if (response.data.message == true){
+            dispatch(trueLoginAction());
+                navigate('/feed');
+        }
+
+        setValueForm({login: '', password: ''})
+    }
+
+    const changeLogin = (e: React.ChangeEvent<HTMLInputElement>) =>{
+        setValueForm({...valueForm, login: e.target.value})
+    }
+
+    const changePassword = (e: React.ChangeEvent<HTMLInputElement>) =>{
+        setValueForm({...valueForm, password: e.target.value})
+    }
+
+
     return (
         <div className='login'>
             <Header/>
@@ -16,13 +59,19 @@ const Login: FC = () => {
                         <div className="login__title-form">LOGIN</div>
                         <div className="login__input login__input-login">
                             <img src={UserForm} alt="" />
-                            <input type="text" placeholder="Login" />
+                            <input value={valueForm.login} onChange={changeLogin} type="text" placeholder="Login" />
                         </div>
                         <div className="login__input login__input-password">
                             <img src={LockForm} alt="" />
-                            <input type="password" placeholder='Password' />
+                            <input value={valueForm.password} onChange={changePassword} type="password" placeholder='Password' />
                         </div>
-                        <Button>Login</Button>
+                        <div className="login__buttons">
+                            <div className="login__registration-body">
+                                <Link to="/registration">Registration</Link>
+                            </div>
+                            <Button onClick={loginUser}>Login</Button>
+                        </div>
+                        
                     </form>
                     <div className="login__image-form">
                         <img className='login__item-image-form' src={FormImage} alt="" />
