@@ -6,6 +6,8 @@ import '../styles/Feed.css';
 import { IPost } from '../types/types';
 import { PostService } from '../API/PostService';
 import Modal from '../components/UI/Modal/Modal';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 const Feed: FC = () => {
 

@@ -1,10 +1,14 @@
 import React, { FC } from 'react';
 import classes from './Notification.module.css';
 
-const Notification: FC = () => {
+interface notificationProps{
+    children?: React.ReactNode
+}
+
+const Notification: FC<notificationProps> = ({children}) => {
     return (
         <div className={classes.notification}>
-            
+            {children}
         </div>
     );
 };

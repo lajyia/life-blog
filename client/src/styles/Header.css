@@ -55,3 +55,12 @@ a{
 .header__item-menu:last-child{
     margin-right: 0;
 }
+.header__unlogin{
+    
+}
+.header__image-unlogin{
+    width: 40px;
+    height: 40px;
+    border: 2px solid #000;
+    border-radius: 50%;
+}

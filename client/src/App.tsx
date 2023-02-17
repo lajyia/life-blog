@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import './styles/App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
+import Header from './components/Header';
 
 function App() {
 
@@ -15,7 +16,7 @@ function App() {
     },
     {
       path: '/registration',
-      element: <Registration/>
+      element: <div><Header/><Registration/></div>
     },
     {
       path: '/',

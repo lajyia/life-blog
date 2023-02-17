@@ -21,5 +21,5 @@ export const visibleReducer = (state = stateDefault, action) =>{
 
 
 
-export const trueVisibleAction = (payload) => ({type: TRUE_VISIBLE, payload});
-export const falseVisibleAction = (payload) => ({type: FALSE_VISIBLE, payload});
+export const trueVisibleAction = () => ({type: TRUE_VISIBLE});
+export const falseVisibleAction = () => ({type: FALSE_VISIBLE});
