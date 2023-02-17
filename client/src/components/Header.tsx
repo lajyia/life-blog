@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import logo from '../images/logo.svg';
 import '../styles/Header.css';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import arrow from '../images/arrow-header.svg';
 import { UserService } from '../API/UserService';
 import DefaultAvatar from '../images/default-avatar.svg';
@@ -11,8 +11,9 @@ const Header: FC = () => {
     const jwt = localStorage.getItem("jwt");
 
     const [pathImage, setPathImage] = useState<boolean | string>('');
-    const [nickname, setNickname] = useState<string>('selena');
+    const [nickname, setNickname] = useState<string>('');
 
+    const navigate = useNavigate();
 
     const getAvatar = async () => {
         const response = await UserService.getProfileByJWT(jwt);
@@ -30,7 +31,17 @@ const Header: FC = () => {
     const login = localStorage.getItem('login');
 
     const unlogin = () =>{
-        localStorage.setItem('login', '')
+        localStorage.setItem('login', '');
+        navigate('/login')
+    }
+    
+    const changeVisible = () =>{
+        const infoPanel = document.querySelector('.header__info-panel');
+        infoPanel?.classList.toggle('active');
+    }
+
+    const nullPropagation = (e: React.MouseEvent<HTMLDivElement>) =>{
+        e.stopPropagation();
     }
 
     return (
@@ -56,7 +67,7 @@ const Header: FC = () => {
                 </nav>
 
                 {login
-                    ? <div className="header__user-info">
+                    ? <div onClick={changeVisible} className="header__user-info">
                         <div className="header__info">
                             <div className="header__user-image">
                                 <img className='header__item-image' src={pathImage ? pathUser : DefaultAvatar} alt="user logo" />
@@ -65,8 +76,8 @@ const Header: FC = () => {
                                 <img className='header__arrow-image' src={arrow} alt="arrow" />
                             </div>
                         </div>
-                        <div className="header__info-panel">
-                            <div className="header__user-nickname">{nickname}</div>
+                        <div onClick={nullPropagation} className="header__info-panel">
+                            <Link className="header__user-nickname" to="/profile">{nickname}</Link>
                             <div className='header__exit-button' onClick={unlogin}>EXIT</div>
                         </div>
                     </div>
