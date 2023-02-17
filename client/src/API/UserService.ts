@@ -25,4 +25,13 @@ export class UserService{
         const response = await axios.post(`http://localhost:4000/api/registration?password=${password}&nickname=${login}&linkName=${linkname}`)
         return response
     }
+    static async getProfileByJWT(jwt: string| null) {
+
+        const response = await axios.get('http://localhost:4000/api/profile', {
+            headers: {
+                authorization: 'Bearer ' + jwt
+            }
+        });
+        return response
+    }
 }

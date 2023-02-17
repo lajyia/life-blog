@@ -7,7 +7,7 @@ const { checkAuth } = require('../middlewares/checkAuth');
 
 const upload = require('../middlewares/uploadUser');
 
-router.post('/', [
+router.get('/', [
     checkAuth
 ], controller.getProfile);
 

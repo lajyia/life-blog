@@ -1,6 +1,7 @@
 .header {
     border-bottom: 1px solid grey;
 }
+
 .header__container {
     max-width: 1200px;
     margin: 0 auto;
@@ -8,57 +9,69 @@
     align-items: center;
     justify-content: space-between;
 }
+
 .header__logo {
     padding: 10px 0;
 }
+
 .header__user-info {
+    position: relative;
+}
+
+.header__info {
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-.header__user-info:hover{
+
+.header__info:hover {
     background: rgb(233, 233, 233);
     cursor: pointer;
 }
+
 .header__user-image {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
 }
+
 .header__item-image {
     width: 40px;
     height: 40px;
     border-radius: 50%;
 }
+
 .header__user-arrow {
     padding-top: 5px;
 }
-.header__arrow-image {
-}
 
-a{
+.header__arrow-image {}
+
+a {
     color: black
 }
 
-.header__menu {
-}
+.header__menu {}
+
 .header__list-menu {
     display: flex;
     justify-content: space-between;
 }
+
 .header__item-menu {
     margin-right: 50px;
     text-transform: uppercase;
 }
-.header__item-menu:last-child{
+
+.header__item-menu:last-child {
     margin-right: 0;
 }
-.header__unlogin{
-    
-}
-.header__image-unlogin{
+
+.header__unlogin {}
+
+.header__image-unlogin {
     width: 40px;
     height: 40px;
     border: 2px solid #868585;
@@ -66,8 +79,32 @@ a{
     padding: 2px
 }
 
-.header__btn-login{
+.header__btn-login {
     background: rgb(134, 133, 133);
     color: #fff;
     padding: 10px 20px;
+}
+
+.header__info-panel {
+    padding: 10px;
+    position: absolute;
+    top: 57px;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border: 1px solid #000;
+}
+.header__user-nickname {
+    text-transform: lowercase;
+    margin-right: 10px;
+    font-size: 18px;
+}
+.header__exit-button {
+    cursor: pointer;
+    background: rgb(134, 133, 133);
+    color: #fff;
+    padding: 5px;
+
 }

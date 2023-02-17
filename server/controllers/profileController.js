@@ -32,7 +32,7 @@ class ProfileController {
                 })
             }
 
-            return res.status(400).json({ message: "Access error" })
+            return res.json({ message: "Access error" })
 
         } catch (e) {
             console.log(e);
