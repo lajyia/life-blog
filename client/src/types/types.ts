@@ -7,7 +7,8 @@ export interface IPost{
     comments: number,
     author: string,
     image: string,
-    __v: number
+    __v: number,
+    date: string
 }
 
 

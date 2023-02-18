@@ -3,8 +3,10 @@ const { validationResult } = require('express-validator');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
-const path = require('path');
 
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
 class PostController {
     async deletePost(req, res) {
@@ -138,7 +140,15 @@ class PostController {
                 return res.status(400).json({ message: 'A post with this title already created' })
             }
 
-            const post = new Post({ title, body, author: author.nickname });
+            const dateVar = new Date();
+
+            const dateMonth = monthNames[dateVar.getMonth()];
+            const dateDay = dateVar.getDate();
+
+
+            const fullDate = dateDay + ' ' + dateMonth;
+
+            const post = new Post({ title, body, author: author.nickname, date: fullDate });
 
 
             if (req.file) {

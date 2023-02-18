@@ -7,7 +7,8 @@ const Post = new Schema({
     likes: {type: Number, required: true, default: 0},
     comments: {type: Number, required: true, default: 0},
     author: {type: String, required: true},
-    image: {type: String}
+    image: {type: String},
+    date: {type: String, required: true}
 })
 
 module.exports = model('Post', Post);

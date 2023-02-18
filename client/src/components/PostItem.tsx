@@ -43,7 +43,7 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
                     </div>
                     <div className="post__body-author">
                         <div className="post__nickname-author">{post.author}</div>
-                        <div className="post__time-post">16 january</div>
+                        <div className="post__time-post">{post.date}</div>
                     </div>
                 </div>
                 <div className="post__title">{post.title}</div>

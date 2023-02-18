@@ -6,7 +6,6 @@ import '../styles/Feed.css';
 import { IPost } from '../types/types';
 import { PostService } from '../API/PostService';
 import Modal from '../components/UI/Modal/Modal';
-import { useSelector, useDispatch } from 'react-redux';
 
 
 const Feed: FC = () => {
@@ -15,6 +14,7 @@ const Feed: FC = () => {
 
     const [fetchPost, postLoading, postErrors] = useFetching(async () => {
         const response = await PostService.getPost();
+        console.log(response.data)
         setPosts(response.data);
     });
 
@@ -22,18 +22,18 @@ const Feed: FC = () => {
         fetchPost();
     }, [])
 
-    return (
-        <div className='feed'>
-            <Header />
-            <div className="feed__body">
-                <div className="feed__container">
-                    <Modal/>
-                    <PostList posts={posts} />
-                </div>
+return (
+    <div className='feed'>
+        <Header />
+        <div className="feed__body">
+            <div className="feed__container">
+                <Modal />
+                <PostList posts={posts} />
             </div>
-
         </div>
-    );
+
+    </div>
+);
 };
 
 export default Feed;
