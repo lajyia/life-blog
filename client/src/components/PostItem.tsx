@@ -5,6 +5,7 @@ import like from '../images/like.svg';
 import comment from '../images/comment.svg';
 import DefaultAvatar from '../images/default-avatar.svg';
 import { PostService } from '../API/PostService';
+import ActiveLike from '../images/active-like.svg';
 
 interface PostItemProps {
     post: IPost
@@ -13,7 +14,10 @@ interface PostItemProps {
 const PostItem: FC<PostItemProps> = ({ post }) => {
 
 
-    const [pathImage, setPathImage] = useState<boolean | string>('');
+    const [pathImage, setPathImage] = useState<boolean | string>();
+
+    const [addLike, setAddLike] = useState<number>(post.likes);
+    const [isUserLike, setIsUserLike] = useState<boolean>(false);
 
 
     const getImage = async () => {
@@ -30,6 +34,16 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
 
     const pathUser = 'http://localhost:4000/users/' + pathImage;
 
+    const likePost = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isUserLike) {
+            setAddLike(addLike + 1);
+            setIsUserLike(true);
+        }
+        else{
+            setAddLike(addLike - 1);
+            setIsUserLike(false);
+        }
+    }
 
     return (
         <div className='post'>
@@ -57,9 +71,9 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
                 </div>
             </div>
             <div className="post__info">
-                <div className="post__like-info">
-                    <img className="post__image-like" src={like} alt="like" />
-                    <div className="post__like-count">{post.likes}</div>
+                <div onClick={likePost} className="post__like-info">
+                    <img className="post__image-like" src={isUserLike ? ActiveLike : like} alt="like" />
+                    <div className="post__like-count">{addLike}</div>
                 </div>
                 <div className="post__comment-info">
                     <img className="post__image-comment" src={comment} alt="comment" />
