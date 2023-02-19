@@ -1,0 +1,45 @@
+.error{
+
+}
+.error__container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error header{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 5;
+    height: 58px;
+    background: #fff;
+}
+.error__body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.error__image {
+    margin-right: 20px;
+}
+.error__image img{
+    width: 200px;
+}
+.error__text-body {
+    
+}
+.error__title {
+    font-size: 30px;
+    font-weight: 900;
+    font-family: Roboto;
+    margin-bottom: 5px;
+}
+.error__text {
+    text-transform: uppercase;
+    font-size: 20px;
+}
