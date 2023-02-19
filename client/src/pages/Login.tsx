@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { UserService } from '../API/UserService';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { trueLoginAction } from '../store/loginReducer';
 
 
 interface valueFormProps{
@@ -33,6 +34,7 @@ const Login: FC = () => {
         console.log(response.data);
 
         if (response.data.message == true){
+            dispatch(trueLoginAction());
             localStorage.setItem("login", 'true');
             localStorage.setItem("jwt", response.data.token);
             navigate('/feed');

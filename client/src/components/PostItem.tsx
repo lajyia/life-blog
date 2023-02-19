@@ -17,7 +17,7 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
     const [pathImage, setPathImage] = useState<boolean | string>();
 
     const [addLike, setAddLike] = useState<number>(post.likes);
-    const [isUserLike, setIsUserLike] = useState<boolean>(false);
+    const [isUserLike, setIsUserLike] = useState<boolean>(post.isLiked);
 
 
     const getImage = async () => {
@@ -25,7 +25,7 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
         setPathImage(response.data.image)
     }
 
-
+    
     useEffect(() => {
         getImage();
     }, [])

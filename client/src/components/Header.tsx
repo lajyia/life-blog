@@ -5,8 +5,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import arrow from '../images/arrow-header.svg';
 import { UserService } from '../API/UserService';
 import DefaultAvatar from '../images/default-avatar.svg';
+import { falseLoginAction } from '../store/loginReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { IRootState } from '../store';
 
 const Header: FC = () => {
+
+    const dispatch = useDispatch();
 
     const jwt = localStorage.getItem("jwt");
 
@@ -28,11 +33,12 @@ const Header: FC = () => {
     }, [])
 
     const pathUser = 'http://localhost:4000/users/' + pathImage;
-    const login = localStorage.getItem('login');
+    const login = useSelector((state: IRootState) => state.login.login);
 
     const unlogin = () =>{
+        dispatch(falseLoginAction());
         localStorage.setItem('login', '');
-        navigate('/login')
+        navigate('/login');
     }
     
     const changeVisible = () =>{

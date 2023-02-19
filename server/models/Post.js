@@ -8,7 +8,8 @@ const Post = new Schema({
     comments: {type: Number, required: true, default: 0},
     author: {type: String, required: true},
     image: {type: String},
-    date: {type: String, required: true}
+    date: {type: String, required: true},
+    isLiked: {type: Boolean, required: true, default: false},
 })
 
 module.exports = model('Post', Post);

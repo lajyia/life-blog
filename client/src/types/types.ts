@@ -8,7 +8,8 @@ export interface IPost{
     author: string,
     image: string,
     __v: number,
-    date: string
+    date: string,
+    isLiked: boolean
 }
 
 
