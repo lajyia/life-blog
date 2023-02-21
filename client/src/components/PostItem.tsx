@@ -46,6 +46,9 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
             setIsUserLike(false);
             unlikeToPost();
         }
+        setTimeout(() =>{
+            return false
+        }, 1000)
     }
 
     const likeToPost = async () =>{

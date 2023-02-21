@@ -10,6 +10,7 @@ const Post = new Schema({
     image: {type: String},
     date: {type: String, required: true},
     isLiked: {type: Boolean, required: true, default: false},
+    likedUsers: {type: Array, required: true, default: []}
 })
 
 module.exports = model('Post', Post);

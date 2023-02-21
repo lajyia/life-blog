@@ -1,11 +1,12 @@
 import axios from 'axios';
+import { checkInterval } from '../utils/checkInterval';
 
-export class UserService{
-    static async login(nickname: string, password: string){
+export class UserService {
+    static async login(nickname: string, password: string) {
         const response = await axios.post(`http://localhost:4000/api/profile/login?nickname=${nickname}&password=${password}`)
         return response
     }
-    static async checkLinkname(linkName: string){
+    static async checkLinkname(linkName: string) {
         const response = await axios.get('http://localhost:4000/api/registration/check/linkname', {
             params: {
                 linkName
@@ -13,19 +14,19 @@ export class UserService{
         })
         return response
     }
-    static async checkLogin(login: string){
+    static async checkLogin(login: string) {
         const response = await axios.get('http://localhost:4000/api/registration/check/login', {
-            params : {
+            params: {
                 login
             }
         })
         return response
     }
-    static async registration(login: string, linkname: string, password: string){
+    static async registration(login: string, linkname: string, password: string) {
         const response = await axios.post(`http://localhost:4000/api/registration?password=${password}&nickname=${login}&linkName=${linkname}`)
         return response
     }
-    static async getProfileByJWT(jwt: string| null) {
+    static async getProfileByJWT(jwt: string | null) {
 
         const response = await axios.get(`http://localhost:4000/api/profile`, {
             headers: {
@@ -36,30 +37,39 @@ export class UserService{
         return response.data.candidate
     }
 
-    static async likePost(idPost: string){
+    static async likePost(idPost: string) {
 
-        const jwt = localStorage.getItem('jwt');
+        const resultInterval = checkInterval();
 
-        const response = await axios.post(`http://localhost:4000/api/feed/like?idPost=${idPost}`, {},
-        {
-            headers: {
-                authorization: 'Bearer ' + jwt
-            }
-        });
+        if (resultInterval) {
+            const jwt = localStorage.getItem('jwt');
 
-        return response
+            const response = await axios.post(`http://localhost:4000/api/feed/like?idPost=${idPost}`, {},
+                {
+                    headers: {
+                        authorization: 'Bearer ' + jwt
+                    }
+                });
+
+            return response
+        }
     }
 
 
-    static async unlikePost(idPost: string){
-        const jwt = localStorage.getItem("jwt");
-        const response = await axios.post(`http://localhost:4000/api/feed/unlike?idPost=${idPost}`, {},
-        {
-            headers: {
-                authorization: 'Bearer ' + jwt
-            }
-        });
+    static async unlikePost(idPost: string) {
 
-        return response
+        const resultInterval = checkInterval();
+
+        if (resultInterval) {
+            const jwt = localStorage.getItem("jwt");
+            const response = await axios.post(`http://localhost:4000/api/feed/unlike?idPost=${idPost}`, {},
+                {
+                    headers: {
+                        authorization: 'Bearer ' + jwt
+                    }
+                });
+
+            return response
+        }
     }
 }
