@@ -14,7 +14,7 @@ export const checkInterval = () =>{
 
     timeNow/=1000;
 
-    if (timeNow - intervalSecond < 1){
+    if (timeNow - intervalSecond < 0.8){
         localStorage.setItem("interval", String(timeNow))
         return false
     }
