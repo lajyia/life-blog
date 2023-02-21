@@ -27,11 +27,39 @@ export class UserService{
     }
     static async getProfileByJWT(jwt: string| null) {
 
-        const response = await axios.get('http://localhost:4000/api/profile', {
+        const response = await axios.get(`http://localhost:4000/api/profile`, {
             headers: {
                 authorization: 'Bearer ' + jwt
             }
         });
+
         return response.data.candidate
+    }
+
+    static async likePost(idPost: string){
+
+        const jwt = localStorage.getItem('jwt');
+
+        const response = await axios.post(`http://localhost:4000/api/feed/like?idPost=${idPost}`, {},
+        {
+            headers: {
+                authorization: 'Bearer ' + jwt
+            }
+        });
+
+        return response
+    }
+
+
+    static async unlikePost(idPost: string){
+        const jwt = localStorage.getItem("jwt");
+        const response = await axios.post(`http://localhost:4000/api/feed/unlike?idPost=${idPost}`, {},
+        {
+            headers: {
+                authorization: 'Bearer ' + jwt
+            }
+        });
+
+        return response
     }
 }

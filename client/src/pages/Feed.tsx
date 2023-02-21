@@ -7,24 +7,22 @@ import { IPost } from '../types/types';
 import { PostService } from '../API/PostService';
 import Modal from '../components/UI/Modal/Modal';
 import Loader from '../components/UI/Loader/Loader';
-
+import { UserService } from '../API/UserService';
 
 const Feed: FC = () => {
 
     const [posts, setPosts] = useState<IPost[]>([]);
 
-
     const jwt = localStorage.getItem('jwt');
 
     const [fetchPost, postLoading, postErrors] = useFetching(async () => {
         const response = await PostService.getPosts(jwt);
-        console.log(response.data)
-        setPosts(response.data);
-    });
 
-    useEffect(() => {
-        fetchPost();
-    }, [])
+        const responsePosts = response.data.posts;
+        setPosts(responsePosts);
+
+        console.log(response.data.likedPosts)
+    });
 
     if (postLoading){
         <div>
@@ -32,6 +30,14 @@ const Feed: FC = () => {
             <Loader/>
         </div>
     }
+
+    useEffect(() =>{
+
+        if (jwt){
+            fetchPost();
+        }
+        
+    }, [])
 
 return (
     <div className='feed'>

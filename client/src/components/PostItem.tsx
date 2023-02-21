@@ -6,6 +6,7 @@ import comment from '../images/comment.svg';
 import DefaultAvatar from '../images/default-avatar.svg';
 import { PostService } from '../API/PostService';
 import ActiveLike from '../images/active-like.svg';
+import { UserService } from '../API/UserService';
 
 interface PostItemProps {
     post: IPost
@@ -38,12 +39,23 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
         if (!isUserLike) {
             setAddLike(addLike + 1);
             setIsUserLike(true);
+            likeToPost();
         }
         else{
             setAddLike(addLike - 1);
             setIsUserLike(false);
+            unlikeToPost();
         }
     }
+
+    const likeToPost = async () =>{
+        const response = await UserService.likePost(post._id);
+    }
+
+    const unlikeToPost = async () =>{
+        const response = await UserService.unlikePost(post._id);
+    }
+
 
     return (
         <div className='post'>

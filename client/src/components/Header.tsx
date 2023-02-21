@@ -26,6 +26,8 @@ const Header: FC = () => {
         setNickname(response.nickname);
     }
 
+    
+
     useEffect(() => {
         if (jwt) {
             getAvatar();
