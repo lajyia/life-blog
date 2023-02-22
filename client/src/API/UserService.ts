@@ -1,3 +1,4 @@
+import { IUser } from './../types/types';
 import axios from 'axios';
 import { checkInterval } from '../utils/checkInterval';
 
@@ -34,7 +35,8 @@ export class UserService {
             }
         });
 
-        return response.data.candidate
+
+        return response.data
     }
 
     static async likePost(idPost: string) {

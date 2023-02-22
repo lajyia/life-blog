@@ -7,7 +7,6 @@ import { IPost } from '../types/types';
 import { PostService } from '../API/PostService';
 import Modal from '../components/UI/Modal/Modal';
 import Loader from '../components/UI/Loader/Loader';
-import { UserService } from '../API/UserService';
 
 const Feed: FC = () => {
 

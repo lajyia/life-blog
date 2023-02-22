@@ -8,6 +8,8 @@ import DefaultAvatar from '../images/default-avatar.svg';
 import { falseLoginAction } from '../store/loginReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../store';
+import LoaderAvatar from './UI/LoaderAvatar/LoaderAvatar';
+import { useFetching } from '../hooks/useFetching';
 
 const Header: FC = () => {
 
@@ -20,17 +22,16 @@ const Header: FC = () => {
 
     const navigate = useNavigate();
 
-    const getAvatar = async () => {
+    const [fetchAvatar, avatarLoading, avatarError] = useFetching(async () =>{
         const response = await UserService.getProfileByJWT(jwt);
-        setPathImage(response.avatar);
-        setNickname(response.nickname);
-    }
+        setPathImage(response.candidate.avatar);
+        setNickname(response.candidate.nickname);
+    })
 
-    
 
     useEffect(() => {
         if (jwt) {
-            getAvatar();
+            fetchAvatar();
         }
     }, [])
 
@@ -78,7 +79,10 @@ const Header: FC = () => {
                     ? <div onClick={changeVisible} className="header__user-info">
                         <div className="header__info">
                             <div className="header__user-image">
-                                <img className='header__item-image' src={pathImage ? pathUser : DefaultAvatar} alt="user logo" />
+                                {avatarLoading
+                                    ? <LoaderAvatar/>
+                                    : <img className='header__item-image' src={pathImage ? pathUser : DefaultAvatar} alt="user logo" />
+                                }
                             </div>
                             <div className="header__user-arrow">
                                 <img className='header__arrow-image' src={arrow} alt="arrow" />

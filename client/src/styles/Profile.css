@@ -1,0 +1,56 @@
+.profile{
+    
+}
+.profile__page-body{
+    background: rgb(233, 233, 233);
+}
+.profile__page-container{
+    padding-top: 20px;
+    max-width: 1200px;
+    margin: 0px auto;
+}
+.profile__body{
+    
+}
+.profile__cover{
+    background: url('../images/cover-image.jpg');
+    background-size: cover;
+    height: 250px;
+}
+.profile__avatar{
+
+}
+.profile__image-avatar{
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.profile__nickname{
+
+}
+.profile__linkname{
+    background: white;
+    padding: 15px;
+    border-radius: 16px 16px 0 0;
+    font-size: 16px;
+    font-family: Roboto;
+    font-weight: 900;
+}
+.profile__user-info{
+    transform: translateY(-10px);
+    border-radius: 16px;
+    padding-left: 30px;
+    background: white;
+    display: flex;
+    align-items: center;
+}
+.profile__fio{
+    display: flex;
+}
+.profile__bio{
+
+}
+.profile__head-info{
+
+}
