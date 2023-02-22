@@ -22,7 +22,7 @@ const Header: FC = () => {
 
     const navigate = useNavigate();
 
-    const [fetchAvatar, avatarLoading, avatarError] = useFetching(async () =>{
+    const [fetchAvatar, avatarLoading, avatarError] = useFetching(async () => {
         const response = await UserService.getProfileByJWT(jwt);
         setPathImage(response.candidate.avatar);
         setNickname(response.candidate.nickname);
@@ -38,18 +38,18 @@ const Header: FC = () => {
     const pathUser = 'http://localhost:4000/users/' + pathImage;
     const login = useSelector((state: IRootState) => state.login.login);
 
-    const unlogin = () =>{
+    const unlogin = () => {
         dispatch(falseLoginAction());
         localStorage.setItem('login', '');
         navigate('/login');
     }
-    
-    const changeVisible = () =>{
+
+    const changeVisible = () => {
         const infoPanel = document.querySelector('.header__info-panel');
         infoPanel?.classList.toggle('active');
     }
 
-    const nullPropagation = (e: React.MouseEvent<HTMLDivElement>) =>{
+    const nullPropagation = (e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
     }
 
@@ -61,26 +61,30 @@ const Header: FC = () => {
                         <img src={logo} alt="logo" />
                     </Link>
                 </div>
-                <nav className="header__menu">
-                    <ul className="header__list-menu">
-                        <li className="header__item-menu">
-                            <Link to="/profile">Profile</Link>
-                        </li>
-                        <li className="header__item-menu">
-                            <Link to="/interesting">Interesting</Link>
-                        </li>
-                        <li className="header__item-menu">
-                            <Link to="/feed">feed</Link>
-                        </li>
-                    </ul>
-                </nav>
+                {login
+                    ? <nav className="header__menu">
+                        <ul className="header__list-menu">
+                            <li className="header__item-menu">
+                                <Link to="/profile">Profile</Link>
+                            </li>
+                            <li className="header__item-menu">
+                                <Link to="/interesting">Interesting</Link>
+                            </li>
+                            <li className="header__item-menu">
+                                <Link to="/feed">feed</Link>
+                            </li>
+                        </ul>
+                    </nav>
+                    : <div></div>
+                }
+
 
                 {login
                     ? <div onClick={changeVisible} className="header__user-info">
                         <div className="header__info">
                             <div className="header__user-image">
                                 {avatarLoading
-                                    ? <LoaderAvatar/>
+                                    ? <LoaderAvatar />
                                     : <img className='header__item-image' src={pathImage ? pathUser : DefaultAvatar} alt="user logo" />
                                 }
                             </div>

@@ -25,7 +25,9 @@
     justify-content: space-between;
 }
 
-.registration__form-panel {}
+.registration__form-panel {
+    
+}
 
 .registration input {
     min-width: 250px;
@@ -34,6 +36,7 @@
 
 .registration__body {
     min-width: 350px;
+    
 }
 
 .registration__title {

@@ -5,33 +5,52 @@
     background: rgb(233, 233, 233);
 }
 .profile__page-container{
-    padding-top: 20px;
+    padding: 20px 0;
     max-width: 1200px;
     margin: 0px auto;
 }
 .profile__body{
-    
+    margin-bottom: 10px;
 }
 .profile__cover{
     background: url('../images/cover-image.jpg');
     background-size: cover;
     height: 250px;
+    position: relative;
 }
 .profile__avatar{
-
+    position: absolute;
+    width: 160px;
+    top: -90px;
+    left: 30px;
+    right: 0;
+    bottom: 0;
+}
+.profile__blank-avatar{
+    width: 160px;
+    height: 80px;
+    margin-right: 15px;
 }
 .profile__image-avatar{
-    width: 150px;
-    height: 150px;
+    border: 5px solid #fff;
+    width: 160px;
+    height: 160px;
     object-fit: cover;
     border-radius: 50%;
 }
 .profile__nickname{
-
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: lowercase;
+    margin-bottom: 8px;
+}
+.profile__nickname::first-letter{
+    text-transform: uppercase;
 }
 .profile__linkname{
     background: white;
     padding: 15px;
+    padding-left: 32px;
     border-radius: 16px 16px 0 0;
     font-size: 16px;
     font-family: Roboto;
@@ -40,17 +59,57 @@
 .profile__user-info{
     transform: translateY(-10px);
     border-radius: 16px;
-    padding-left: 30px;
+    padding: 0 30px;
     background: white;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 .profile__fio{
     display: flex;
 }
 .profile__bio{
-
+    font-family: Roboto;
 }
 .profile__head-info{
-
+    padding-top: 20px;
+}
+.profile__head-block-user-info{
+    display: flex;
+}
+.profile__button-settings{
+    padding: 10px 30px;
+    background: rgb(220, 220, 220);
+    color: #346297;
+    border-radius: 10px;
+}
+.profile__content-body {
+    display: flex;
+    justify-content: space-between;
+}
+.profile__posts {
+    flex: 0 1 70%;
+    background: #fff;
+    margin-right: 20px;
+    border-radius: 10px;
+}
+.profile__subscribers {
+    flex: 0 1 30%;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+}
+.profile__counter-subscribers {
+    margin-bottom: 10px;
+}
+.profile__text-subscribers {
+    margin-right: 5px;
+    
+}
+.profile__item-counter-subscribers {
+    font-weight: 600;
+    color: #6d7885;
+}
+.profile__body-subscribers{
+    
 }

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import classes from './Loader.module.css';
-import PigFace from '../../../images/pig-face.svg';
+import PigFace from '../../../images/pig-face.png';
 
 
 const Loader: FC = () => {

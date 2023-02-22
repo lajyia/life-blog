@@ -23,32 +23,39 @@ const Feed: FC = () => {
         console.log(response.data.likedPosts)
     });
 
-    if (postLoading){
-        <div>
-            <Header/>
-            <Loader/>
-        </div>
+
+    useEffect(() => {
+
+            if (jwt) {
+                fetchPost();
+            }
+
+        }, [])
+
+
+    if (postLoading) {
+        return (
+            <div>
+                <Header />
+                <Loader />
+            </div>
+        )
+
     }
 
-    useEffect(() =>{
+    
 
-        if (jwt){
-            fetchPost();
-        }
-        
-    }, [])
-
-return (
-    <div className='feed'>
-        <Header />
-        <div className="feed__body">
-            <div className="feed__container">
-                <Modal />
-                <PostList posts={posts} />
+    return (
+        <div className='feed'>
+            <Header />
+            <div className="feed__body">
+                <div className="feed__container">
+                    <Modal />
+                    <PostList posts={posts} />
+                </div>
             </div>
-        </div> 
-    </div>
-);
+        </div>
+    );
 };
 
 export default Feed;

@@ -1,0 +1,18 @@
+.sub-item {
+    padding: 5px;
+}
+.sub-item:hover{
+    background: rgb(233, 233, 233);
+    cursor: pointer;
+}
+.sub-item__avatar {
+    margin-bottom: 5px;
+}
+.sub-item__avatar img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+.sub-item__nickname {
+    text-align: center;
+}

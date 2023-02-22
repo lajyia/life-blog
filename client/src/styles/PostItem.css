@@ -41,14 +41,21 @@
 .post__time-post{
     opacity: 0.7;
 }
-
-.post__nickname-author {
+.post__nickname-author{
+    text-transform: lowercase;
+    font-size: 18px;
+}
+.post__nickname-author::first-letter {
     text-transform: uppercase;
 }
 .post__title {
     font-weight: 600;
     font-size: 20px;
     margin-bottom: 10px;
+    text-transform: lowercase;
+}
+.post__title::first-letter{
+    text-transform: uppercase;
 }
 .post__info {
     display: flex;
