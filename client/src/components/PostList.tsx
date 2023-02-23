@@ -9,10 +9,11 @@ interface PostListProps{
 
 
 const PostList:FC<PostListProps> = ({posts}) => {
+
     return (
         <div className='list'>
             {posts.map(post =>
-                <PostItem post={post} key={post._id}/>
+                <PostItem post={post} key={post.title}/>
             )}
         </div>
     );

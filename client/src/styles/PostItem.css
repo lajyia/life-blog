@@ -80,6 +80,7 @@
 
 .post__image-body img{
     max-width: 600px;
+    width: 600px;
 }
 
 .post__text-body{

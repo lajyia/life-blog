@@ -106,6 +106,45 @@ class FeedController {
             console.log(e)
         }
     }
+
+    async getAuthorPosts(req, res) {
+        const userId = req.userId;
+
+        if (userId) {
+
+            const user = await User.findById(userId);
+            const authorName = user.nickname;
+
+            const likedPosts = user.liked;
+
+            const allPosts = await Post.find();
+
+            const authorPosts = [];
+
+            for (let key in allPosts) {
+                if (allPosts[key].author == authorName) {
+                    authorPosts.push(allPosts[key]);
+                }
+            }
+
+            if (authorPosts.length > 0) {
+
+                for (let key in authorPosts) {
+                    for (let i = 0; i < likedPosts.length; i++) {
+                        if (likedPosts[i] == authorPosts[key]._id) {
+                            authorPosts[key].isLiked = true
+                        }
+                    }
+                }
+
+                return res.json({ posts: authorPosts })
+            }
+
+            return res.json({message: 'Posts not found'})
+
+        }
+        return res.json({ message: false })
+    }
 }
 
 module.exports = new FeedController();

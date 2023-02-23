@@ -3,26 +3,29 @@ import '../styles/Profile.css';
 import { UserService } from '../API/UserService';
 import DefaultAvatar from '../images/default-avatar.svg';
 import Header from '../components/Header';
-import CoverImage from '../images/cover-image.jpg';
-import { IUser } from '../types/types';
+import { IPost, IUser } from '../types/types';
 import { useFetching } from '../hooks/useFetching';
 import Loader from '../components/UI/Loader/Loader';
 import { Link } from 'react-router-dom';
 import SubscribersList from '../components/SubscribersList';
-
+import { PostService } from '../API/PostService';
+import AuthorPostsList from '../components/AuthorPostsList';
+import LoaderItems from '../components/UI/LoaderItems/LoaderItems';
 
 
 const Profile: FC = () => {
 
     const [user, setUser] = useState<IUser>();
-    const [subs, setSubs] = useState([
-        {nickname: 'Oleg'},
-        {nickname: 'Tyty'},
-        {nickname: 'Rozmarin'},
-        {nickname: 'Tester'},
-        {nickname: 'Shishka'},
-        {nickname: 'Vanessa'},
-    ])
+    const subs = [
+        { nickname: 'Oleg' },
+        { nickname: 'Tyty' },
+        { nickname: 'Rozmaridddn' },
+        { nickname: 'Tester' },
+        { nickname: 'Shishdka' },
+        { nickname: 'Vanessa' },
+    ]
+
+    const [posts, setPosts] = useState<IPost[]>([])
 
     const jwt = localStorage.getItem("jwt");
 
@@ -30,7 +33,15 @@ const Profile: FC = () => {
         const response = await UserService.getProfileByJWT(jwt);
         const user = response.candidate
         setUser(user);
-        console.log(user);
+        if (user.posts) {
+            authorPosts();
+        }
+    })
+
+
+    const [authorPosts, authorPostsLoading, authorPostsError] = useFetching(async () => {
+        const response = await PostService.getAuthorPosts();
+        setPosts(response.data.posts);
     })
 
 
@@ -50,6 +61,17 @@ const Profile: FC = () => {
         )
     }
 
+    const rootAvatarImageClasses = ['profile__image-avatar'];
+
+    if (!user?.avatar) {
+        rootAvatarImageClasses.push('default')
+    }
+
+    const rootProfilePostsClasses = ['profile__posts'];
+
+    if (authorPostsLoading){
+        rootProfilePostsClasses.push('loading')
+    }
 
     return (
         <div className='profile'>
@@ -63,7 +85,7 @@ const Profile: FC = () => {
                         <div className="profile__user-info">
                             <div className="profile__head-block-user-info">
                                 <div className="profile__avatar">
-                                    <img className='profile__image-avatar' src={pathUser} alt="" />
+                                    <img className={rootAvatarImageClasses.join(' ')} src={user?.avatar ? pathUser : DefaultAvatar} alt="" />
                                 </div>
                                 <div className="profile__blank-avatar"></div>
                                 <div className="profile__head-info">
@@ -84,14 +106,26 @@ const Profile: FC = () => {
 
                     </div>
                     <div className="profile__content-body">
-                        <div className="profile__posts"></div>
+                        <div className={rootProfilePostsClasses.join(' ')}>
+                            {authorPostsLoading
+                                ? <LoaderItems/>
+                                : <div>
+                                    {
+                                        posts.length > 0
+                                            ? <AuthorPostsList posts={posts} />
+                                            : <div>Posts not found</div>
+                                    }
+                                </div>
+                            }
+
+                        </div>
                         <div className="profile__subscribers">
                             <div className="profile__counter-subscribers">
                                 <span className="profile__text-subscribers">Subscribers</span>
                                 <span className="profile__item-counter-subscribers">{user?.subscribers}</span>
                             </div>
                             <div className="profile__body-subscribers">
-                                <SubscribersList subs={subs}/>
+                                <SubscribersList subs={subs} />
                             </div>
                         </div>
                     </div>

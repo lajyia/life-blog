@@ -34,7 +34,7 @@ router.post('/change', [
 ],
 controller.changeProfile);
 
-router.get('/avatar', controller.getAvatar)
+router.get('/avatar', controller.getAvatar);
 
 
 module.exports = router;

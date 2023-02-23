@@ -90,8 +90,6 @@ class ProfileController {
 
             const candidate = await User.findById(req.userId);
 
-            console.log(req.file)
-
             if (candidate) {
 
                 const hashPassword = bcrypt.hashSync(password, 7);

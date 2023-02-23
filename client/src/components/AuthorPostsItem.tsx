@@ -1,18 +1,20 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import { IPost } from '../types/types';
-import '../styles/PostItem.css';
-import like from '../images/like.svg';
-import comment from '../images/comment.svg';
-import DefaultAvatar from '../images/default-avatar.svg';
-import { PostService } from '../API/PostService';
-import ActiveLike from '../images/active-like.svg';
+import '../styles/AuthorPostsItem.css';
 import { UserService } from '../API/UserService';
+import { PostService } from '../API/PostService';
+import DefaultAvatar from '../images/default-avatar.svg';
+import ActiveLike from '../images/active-like.svg';
+import comment from '../images/comment.svg';
+import like from '../images/like.svg';
 
-interface PostItemProps {
+
+interface AuthorPostsItemProps {
     post: IPost
 }
 
-const PostItem: FC<PostItemProps> = ({ post }) => {
+const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post }) => {
+
 
     const [pathImage, setPathImage] = useState<boolean | string>();
 
@@ -25,11 +27,6 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
         setPathImage(response.data.image)
     }
 
-    
-    useEffect(() => {
-        getImage();
-    }, [])
-
     const pathPost = 'http://localhost:4000/posts/' + post.image;
 
     const pathUser = 'http://localhost:4000/users/' + pathImage;
@@ -40,51 +37,57 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
             setIsUserLike(true);
             likeToPost();
         }
-        else{
+        else {
             setAddLike(addLike - 1);
             setIsUserLike(false);
             unlikeToPost();
         }
-        setTimeout(() =>{
+        setTimeout(() => {
             return false
         }, 1000)
     }
 
-    const likeToPost = async () =>{
+    const likeToPost = async () => {
         await UserService.likePost(post._id);
     }
 
-    const unlikeToPost = async () =>{
+    const unlikeToPost = async () => {
         await UserService.unlikePost(post._id);
     }
 
 
+    useEffect(() => {
+        getImage()
+    }, [])
+
     return (
-        <div className='post'>
-            <div className="post__top">
-                <div className="post__author">
+        <div className="author-post">
+            <div className="author-post__top post__top">
+                <div className="author-post__author-info post__author">
                     <div className="post__image-author">
                         {pathImage
                             ? <img className='post__item-image-author' src={pathUser} alt="logo author" />
                             : <img style={{ border: '2px solid #868585' }} className='post__item-image-author' src={DefaultAvatar} alt="logo author" />
                         }
                     </div>
-                    <div className="post__body-author">
+                    <div className="post__body-author author-post__body-author">
                         <div className="post__nickname-author">{post.author}</div>
                         <div className="post__time-post">{post.date}</div>
                     </div>
                 </div>
             </div>
-            <div className="post__body">
-                <div className="post__title">{post.title}</div>
-                <div className="post__text-body">
-                    {post.body}
+            <div className="author-post__body">
+                <div className="author-post__top-body">
+                    <div className="author-post__title post__title">{post.title}</div>
+                    <div className="author-post__text-body post__text-body">
+                        {post.body}
+                    </div>
                 </div>
-                <div className="post__image-body">
+                <div className="author-post__image-body">
                     <img src={pathPost} alt="" />
                 </div>
             </div>
-            <div className="post__info">
+            <div className="author-post__info post__info">
                 <div onClick={likePost} className="post__like-info">
                     <img className="post__image-like" src={isUserLike ? ActiveLike : like} alt="like" />
                     <div className="post__like-count">{addLike}</div>
@@ -98,4 +101,4 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
     );
 };
 
-export default PostItem;
+export default AuthorPostsItem;

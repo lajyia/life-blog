@@ -1,0 +1,15 @@
+.loader img{
+    animation: loaderPig 3s 0s infinite linear;
+    width: 60px;
+    height: 60px;
+}
+
+@keyframes loaderPig{
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

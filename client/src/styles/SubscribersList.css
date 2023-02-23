@@ -1,6 +1,6 @@
 .subs-list{
     display: grid;
-    grid-template-columns: repeat(4, 70px);
+    grid-template-columns: repeat(5, 70px);
     row-gap: 10px;
-    column-gap: 10px;
+    column-gap: 20px;
 }
