@@ -7,6 +7,8 @@ import DefaultAvatar from '../images/default-avatar.svg';
 import { PostService } from '../API/PostService';
 import ActiveLike from '../images/active-like.svg';
 import { UserService } from '../API/UserService';
+import { useNavigate } from 'react-router-dom';
+
 
 interface PostItemProps {
     post: IPost
@@ -25,7 +27,8 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
         setPathImage(response.data.image)
     }
 
-    
+    const navigate = useNavigate();
+
     useEffect(() => {
         getImage();
     }, [])
@@ -58,19 +61,26 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
         await UserService.unlikePost(post._id);
     }
 
+    const linkPath = `/user/${post.author.toLowerCase()}`;
+
+    const navigateToUserInfo = () =>{
+        navigate(linkPath);
+    }
 
     return (
         <div className='post'>
             <div className="post__top">
                 <div className="post__author">
-                    <div className="post__image-author">
+                    <div onClick={navigateToUserInfo} className="post__image-author">
                         {pathImage
                             ? <img className='post__item-image-author' src={pathUser} alt="logo author" />
                             : <img style={{ border: '2px solid #868585' }} className='post__item-image-author' src={DefaultAvatar} alt="logo author" />
                         }
                     </div>
                     <div className="post__body-author">
-                        <div className="post__nickname-author">{post.author}</div>
+                        <div onClick={navigateToUserInfo} className="post__nickname-author">
+                            {post.author}
+                        </div>
                         <div className="post__time-post">{post.date}</div>
                     </div>
                 </div>

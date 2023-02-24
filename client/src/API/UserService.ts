@@ -57,7 +57,6 @@ export class UserService {
         }
     }
 
-
     static async unlikePost(idPost: string) {
 
         const resultInterval = checkInterval();
@@ -73,5 +72,15 @@ export class UserService {
 
             return response
         }
+    }
+
+    static async getUserInfoById(id: string |undefined){
+        const jwt = localStorage.getItem("jwt");
+        const response = await axios.get(`http://localhost:4000/api/feed/author?id=${id}`, {
+            headers: {
+                authorization: "Bearer " + jwt
+            }
+        })
+        return response
     }
 }

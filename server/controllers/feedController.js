@@ -145,6 +145,24 @@ class FeedController {
         }
         return res.json({ message: false })
     }
+
+    async getUserInfoById(req, res){
+
+        const userId = req.userId;
+
+        if (userId){
+
+            const id = req.query.id.toUpperCase();
+            
+            const user = await User.findOne({linkName: id})
+
+            if (user){
+                return res.json({user});
+            }
+        }
+        
+        return res.json({message: false})
+    }
 }
 
 module.exports = new FeedController();

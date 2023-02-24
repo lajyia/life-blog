@@ -1,0 +1,34 @@
+.user-not-found{
+    background: rgb(233, 233, 233);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-not-found__body {
+    display: flex;
+    justify-content: space-between;
+}
+.user-not-found__image-body {
+    margin-right: 20px;
+}
+.user-not-found__image {
+    height: 105px;
+}
+.user-not-found__text-body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.user-not-found__title {
+    font-size: 30px;
+    font-weight: 900;
+    font-family: Roboto;
+    margin-bottom: 5px;
+}
+.user-not-found__text {
+    text-transform: uppercase;
+    font-size: 20px;
+}

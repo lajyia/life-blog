@@ -4,6 +4,7 @@ import Feed from './pages/Feed';
 import Registration from './pages/Registration';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
+import UserInfo from './pages/UserInfo';
 import Error from './pages/Error';
 import './styles/App.css';
 import { Navigate, Routes, Route, BrowserRouter } from 'react-router-dom';
@@ -34,6 +35,7 @@ function App() {
               <Route path="login" element={<Navigate to="/feed" />} />
               <Route path="registration" element={<Navigate to="/feed" />} />
               <Route path="feed" element={<Feed />} />
+              <Route path="user/:id" element={<UserInfo/>}/>
           </Routes>
           : <Routes>
               <Route path="*" element={<Error />} />
@@ -42,6 +44,7 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="registration" element={<Registration />} />
               <Route path="feed" element={<Navigate to="/login" />} />
+              <Route path="user/:id" element={<Navigate to="login"/>}/>
           </Routes>
         }
 
