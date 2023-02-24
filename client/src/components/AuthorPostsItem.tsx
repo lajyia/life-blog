@@ -64,14 +64,14 @@ const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post }) => {
         <div className="author-post">
             <div className="author-post__top post__top">
                 <div className="author-post__author-info post__author">
-                    <div className="post__image-author">
+                    <div className="post__image-author post-author__image-author">
                         {pathImage
                             ? <img className='post__item-image-author' src={pathUser} alt="logo author" />
                             : <img style={{ border: '2px solid #868585' }} className='post__item-image-author' src={DefaultAvatar} alt="logo author" />
                         }
                     </div>
                     <div className="post__body-author author-post__body-author">
-                        <div className="post__nickname-author">{post.author}</div>
+                        <div className="post__nickname-author post-author__nickname-author">{post.author}</div>
                         <div className="post__time-post">{post.date}</div>
                     </div>
                 </div>

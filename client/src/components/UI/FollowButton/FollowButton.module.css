@@ -1,0 +1,74 @@
+.follow_button{
+
+}
+.follow_button:hover{
+    cursor: pointer;
+}
+
+.button{
+    padding: 0 15px;
+    line-height: 40px;
+    color: #7e7b7b;
+    text-transform: uppercase;
+    background: rgba(228, 228, 228);
+    border: 2px solid rgba(200, 200, 200);
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.follow_unfollow_button{
+    
+}
+
+.follow_body{
+    position: relative;
+}
+
+.follow_body_active{
+    display: flex;
+    align-items: center;
+}
+.follow_sub_block{
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 10px 10px 30px 10px rgba(0, 0, 0, 0.3);
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    position: absolute;
+    display: none;
+    background: #fff;
+    padding: 10px 0;
+}
+
+.follow_sub_block_image{
+    margin-right: 4px;
+}
+
+.follow_sub_block.active{
+    display: flex;
+    align-items: center;
+}
+
+.follow_body_text{
+}
+
+.follow_body_arrow{
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.follow_body_arrow img{
+    width: 20px;
+    height: 10px;
+}
+
+.follow_sub_block_text{
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #7e7b7b;
+}

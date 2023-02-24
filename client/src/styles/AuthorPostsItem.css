@@ -43,3 +43,9 @@
 .author-post__info{
     padding-left: 10px;
 }
+.post-author__image-author:hover{
+    cursor: default;
+}
+.post-author__nickname-author:hover{
+    cursor: default;
+}

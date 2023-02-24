@@ -76,11 +76,24 @@ export class UserService {
 
     static async getUserInfoById(id: string |undefined){
         const jwt = localStorage.getItem("jwt");
-        const response = await axios.get(`http://localhost:4000/api/feed/author?id=${id}`, {
+        const response = await axios.get(`http://localhost:4000/api/feed/user?id=${id}`, {
             headers: {
                 authorization: "Bearer " + jwt
             }
         })
+        return response
+    }
+
+    static async isMe(id : string | undefined){
+
+        const jwt = localStorage.getItem("jwt");
+
+        const response = await axios.get(`http://localhost:4000/api/profile/checkme?id=${id}`, {
+            headers: {
+                authorization: "Bearer " + jwt
+            }
+        })
+
         return response
     }
 }

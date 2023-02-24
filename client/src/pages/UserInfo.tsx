@@ -9,6 +9,7 @@ import UserNotFound from '../components/UserNotFound';
 const UserInfo: FC = () => {
 
     const [user, setUser] = useState<boolean | IUser>();
+    const [isMe, setIsMe] = useState<boolean | string>();
 
     const params = useParams();
     const userId = params.id;
@@ -16,8 +17,15 @@ const UserInfo: FC = () => {
 
     const [fetchUser, userLoading, userError] = useFetching(async () =>{
         const response = await UserService.getUserInfoById(userId);
+        console.log(response.data)
         setUser(response.data.user);
+        checkUser();
     })
+
+    const checkUser = async () =>{
+        const response = await UserService.isMe(userId);
+        setIsMe(response.data.message);
+    }
 
     useEffect(() =>{
         fetchUser();
@@ -32,9 +40,9 @@ const UserInfo: FC = () => {
 
     return (
         <div>
-            {user
-                ? <div>test profile user</div>
-                : <UserNotFound/>
+            {!user
+                ? <UserNotFound/>
+                : <div>test profile user</div>
             }
         </div>
     );

@@ -176,7 +176,7 @@ class ProfileController {
                 }, JWT_SECRET, { expiresIn: '30d' })
 
                 if (isLogin) {
-                    return res.json({message: true, token })
+                    return res.json({ message: true, token })
                 }
                 return res.json({ message: false })
             }
@@ -203,6 +203,34 @@ class ProfileController {
         }
 
         return res.json({ image: false })
+    }
+
+    async isMe(req, res) {
+        try {
+
+            const userId = req.userId;
+
+            if (userId) {
+                const id = req.query.id.toUpperCase();
+
+                const candidate = await User.findOne({ linkName: id });
+
+                if (candidate) {
+                    if (candidate._id == userId) {
+                        return res.json({ message: true })
+                    }
+                    return res.json({ message: false })
+                }
+
+                return res.json({message: 'error'})
+
+            }
+            return res.json({ message: 'error' })
+
+        } catch (e) {
+            console.log(e);
+        }
+
     }
 }
 

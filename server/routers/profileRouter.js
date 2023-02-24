@@ -36,5 +36,7 @@ controller.changeProfile);
 
 router.get('/avatar', controller.getAvatar);
 
+router.get('/checkme', checkAuth, controller.isMe);
+
 
 module.exports = router;

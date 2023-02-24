@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect } from 'react';
 import logo from '../images/logo.svg';
 import '../styles/Header.css';
 import { Link, useNavigate } from 'react-router-dom'
-import arrow from '../images/arrow-header.svg';
+import arrow from '../images/arrow.svg';
 import { UserService } from '../API/UserService';
 import DefaultAvatar from '../images/default-avatar.svg';
 import { falseLoginAction } from '../store/loginReducer';
