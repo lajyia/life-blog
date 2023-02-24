@@ -140,28 +140,57 @@ class FeedController {
                 return res.json({ posts: authorPosts })
             }
 
-            return res.json({message: 'Posts not found'})
+            return res.json({ message: 'Posts not found' })
 
         }
         return res.json({ message: false })
     }
 
-    async getUserInfoById(req, res){
+    async getUserInfoById(req, res) {
 
         const userId = req.userId;
 
-        if (userId){
+        if (userId) {
 
             const id = req.query.id.toUpperCase();
-            
-            const user = await User.findOne({linkName: id})
 
-            if (user){
-                return res.json({user});
+            const user = await User.findOne({ linkName: id })
+
+
+            if (user) {
+
+                const allPosts = await Post.find();
+
+                const authorPosts = [];
+
+                for (let key in allPosts) {
+                    if (allPosts[key].author == user.nickname) {
+                        authorPosts.push(allPosts[key]);
+                    }
+                }
+                
+                if (authorPosts.length > 0) {
+
+                    for (let key in authorPosts) {
+
+                        const likedUsers = authorPosts[key].likedUsers;
+
+                        for (let i=0; i < likedUsers.length; i++){
+                            if (likedUsers[i] == userId){
+                                authorPosts[key].isLiked = true
+                            }
+                        }
+
+                    }
+                    user.posts = authorPosts;
+                    return res.json({ user });
+                }
+
+                return res.json({ user })
             }
         }
-        
-        return res.json({message: false})
+
+        return res.json({ message: false })
     }
 }
 

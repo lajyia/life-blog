@@ -69,7 +69,7 @@ const Profile: FC = () => {
             <Header />
             <div className="profile__page-body">
                 <div className="profile__page-container">
-                    <ProfileBody avatar={user?.avatar} nickname={user?.nickname} bio={user?.bio} me={false} linkName={user?.linkName}/>
+                    <ProfileBody avatar={user?.avatar} nickname={user?.nickname} bio={user?.bio} me={true} linkName={user?.linkName}/>
                     <div className="profile__content-body">
                         <div className={rootProfilePostsClasses.join(' ')}>
                             {authorPostsLoading

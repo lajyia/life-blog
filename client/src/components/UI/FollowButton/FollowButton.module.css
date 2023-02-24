@@ -10,8 +10,7 @@
     line-height: 40px;
     color: #7e7b7b;
     text-transform: uppercase;
-    background: rgba(228, 228, 228);
-    border: 2px solid rgba(200, 200, 200);
+    border: 3px solid rgba(200, 200, 200);
     border-radius: 10px;
     font-weight: 600;
 }

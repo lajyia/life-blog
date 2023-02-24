@@ -1,0 +1,15 @@
+.user-info{
+    background: rgb(233,233,233);
+}
+.user-info__container{
+    padding: 20px 0;
+    margin: 0px auto;
+    max-width: 1200px;
+}
+.user-info__body{
+    
+}
+
+.user-info header{
+    background: #fff; 
+}

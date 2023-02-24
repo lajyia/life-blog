@@ -65,6 +65,10 @@ a {
     text-transform: uppercase;
 }
 
+.header__item-menu:hover{
+    text-decoration: underline;
+}
+
 .header__item-menu:last-child {
     margin-right: 0;
 }
