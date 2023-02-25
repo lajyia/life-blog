@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
+const Subscribers = require('../models/Subscribers');
 
 
 const numbers = ['1','2','3','4','5','6','7','8','9','0'];
@@ -42,6 +43,8 @@ class RegistrationController {
                 const hashPassword = bcrypt.hashSync(password, 7);
                 const user = new User({ nickname, linkName, password: hashPassword })
                 await user.save();
+                const subs = new Subscribers({nickname});
+                await subs.save();
                 return res.json({ message: true })
             }
             if (candidateName) {

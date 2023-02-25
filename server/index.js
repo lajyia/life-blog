@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const mongoose = require('mongoose');
 const cors = require('cors');
+const subscribersRouter = require('./routers/subscribersRouter');
 
 
 const postRouter = require('./routers/postRouter');
@@ -28,6 +29,7 @@ app.use('/api/post', postRouter);
 app.use('/api/feed', feedRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/registration', registrationRouter );
+app.use('/api/subscribers', subscribersRouter);
 
 
 

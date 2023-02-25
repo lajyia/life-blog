@@ -10,12 +10,36 @@ import { PostService } from '../API/PostService';
 import AuthorPostsList from '../components/AuthorPostsList';
 import LoaderItems from '../components/UI/LoaderItems/LoaderItems';
 import ProfileBody from '../components/ProfileBody';
+import { SubscribersService } from '../API/SubscribersService';
 
 
 const Profile: FC = () => {
 
     const [user, setUser] = useState<IUser>();
 
+    const [posts, setPosts] = useState<IPost[]>([])
+
+    const [fetchUser, userLoading, userError] = useFetching(async () => {
+        const response = await UserService.getProfileByJWT();
+        const user = response.candidate
+        setUser(user);
+        fetchSubs();
+        if (user.posts) {
+            authorPosts();
+        }
+    })
+    const [authorPosts, authorPostsLoading, authorPostsError] = useFetching(async () => {
+        const response = await PostService.getAuthorPosts();
+        setPosts(response.data.posts);
+    })
+
+    const [fetchSubs, fetchSubsLoading, subsError] = useFetching(async () =>{
+        const response = await SubscribersService.getSubscribers();
+        console.log(response.data);
+    })
+
+
+    
     const subs = [
         { nickname: 'Oleg' },
         { nickname: 'Tyty' },
@@ -24,24 +48,6 @@ const Profile: FC = () => {
         { nickname: 'Shishdka' },
         { nickname: 'Vanessa' },
     ]
-
-    const [posts, setPosts] = useState<IPost[]>([])
-
-    const jwt = localStorage.getItem("jwt");
-
-    const [fetchUser, userLoading, userError] = useFetching(async () => {
-        const response = await UserService.getProfileByJWT(jwt);
-        const user = response.candidate
-        setUser(user);
-        if (user.posts) {
-            authorPosts();
-        }
-    })
-
-    const [authorPosts, authorPostsLoading, authorPostsError] = useFetching(async () => {
-        const response = await PostService.getAuthorPosts();
-        setPosts(response.data.posts);
-    })
 
 
     useEffect(() => {

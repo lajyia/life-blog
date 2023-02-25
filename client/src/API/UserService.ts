@@ -1,8 +1,8 @@
-import { IUser } from './../types/types';
 import axios from 'axios';
 import { checkInterval } from '../utils/checkInterval';
 
 export class UserService {
+    
     static async login(nickname: string, password: string) {
         const response = await axios.post(`http://localhost:4000/api/profile/login?nickname=${nickname}&password=${password}`)
         return response
@@ -27,7 +27,9 @@ export class UserService {
         const response = await axios.post(`http://localhost:4000/api/registration?password=${password}&nickname=${login}&linkName=${linkname}`)
         return response
     }
-    static async getProfileByJWT(jwt: string | null) {
+    static async getProfileByJWT() {
+
+        const jwt = localStorage.getItem('jwt');
 
         const response = await axios.get(`http://localhost:4000/api/profile`, {
             headers: {

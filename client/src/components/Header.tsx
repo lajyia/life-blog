@@ -15,24 +15,20 @@ const Header: FC = () => {
 
     const dispatch = useDispatch();
 
-    const jwt = localStorage.getItem("jwt");
-
     const [pathImage, setPathImage] = useState<boolean | string>('');
     const [nickname, setNickname] = useState<string>('');
 
     const navigate = useNavigate();
 
     const [fetchAvatar, avatarLoading, avatarError] = useFetching(async () => {
-        const response = await UserService.getProfileByJWT(jwt);
+        const response = await UserService.getProfileByJWT();
         setPathImage(response.candidate.avatar);
         setNickname(response.candidate.nickname);
     })
 
 
     useEffect(() => {
-        if (jwt) {
-            fetchAvatar();
-        }
+        fetchAvatar();
     }, [])
 
     const pathUser = 'http://localhost:4000/users/' + pathImage;
