@@ -109,6 +109,21 @@ export class UserService {
             }
         })
 
+        console.log(response.data);
+
+        return response.data.subs.subs;
+    }
+
+
+    static async getSubscribersUser(id: string | undefined){
+        const jwt = localStorage.getItem("jwt");
+
+        const response = await axios.get(`http://localhost:4000/api/subscribers/user?id=${id}`, {
+            headers: {
+                authorization: 'Bearer ' + jwt
+            }
+        })
+
         return response.data.subs.subs;
     }
 

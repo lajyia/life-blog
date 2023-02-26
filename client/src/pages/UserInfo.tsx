@@ -10,6 +10,7 @@ import '../styles/UserInfo.css';
 import Header from '../components/Header';
 import SubscribersList from '../components/SubscribersList';
 import AuthorPostsList from '../components/AuthorPostsList';
+import { useSubscribers } from '../hooks/useSubscribers';
 
 
 const UserInfo: FC = () => {
@@ -28,8 +29,11 @@ const UserInfo: FC = () => {
         navigate('/profile')
     }
 
+
+    let idUser = '';
+
     const [fetchSubs, subsLoading, subsError] = useFetching(async () => {
-        const response = await UserService.getSubscribers();
+        const response = await UserService.getSubscribersUser(idUser);
 
         for (let i =0; i < response.length; i++){
             const profileSub = await UserService.getProfileById(response[i]);
@@ -37,12 +41,15 @@ const UserInfo: FC = () => {
             setSubs([...subs, profileSub])
         }
     })
-
+    
     const [fetchUser, userLoading, userError] = useFetching(async () => {
         const response = await UserService.getUserInfoById(userId);
         setUser(response.data.user);
         setPosts(response.data.user.posts);
+
+        idUser = response.data.user._id;
         fetchSubs();
+
         checkUser();
     })
 

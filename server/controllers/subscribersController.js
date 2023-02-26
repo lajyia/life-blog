@@ -78,6 +78,22 @@ class SubscribersController {
 
         return res.json({ message: false });
     }
+
+    async getSubscribersUser(req, res){
+
+        const userId = req.userId;
+
+        if (userId){
+
+            const id = req.query.id;
+
+            
+            const subs = await Subscribers.findOne({user: id});
+
+            return res.json({subs})
+        }
+        return res.json({message: false});
+    }
 }
 
 

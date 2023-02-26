@@ -22,6 +22,6 @@ export interface IUser {
     password: string,
     subscribers: number,
     __v: number,
-    _id: number,
+    _id: string,
     posts: IPost[]
 }
