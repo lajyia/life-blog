@@ -156,7 +156,6 @@ class FeedController {
 
             const user = await User.findOne({ linkName: id })
 
-
             if (user) {
 
                 const allPosts = await Post.find();
@@ -191,6 +190,22 @@ class FeedController {
         }
 
         return res.json({ message: false })
+    }
+
+    async getProfileById(req, res){
+        const userId = req.userId;
+
+        if (userId){
+            const id = req.query.id;
+
+            const user = await User.findById(id);
+            if (user){
+                return res.json(user);
+            }
+            
+            return res.json({message: true})   
+        }
+        return res.json({message: true})
     }
 }
 

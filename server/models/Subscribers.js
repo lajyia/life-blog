@@ -1,7 +1,7 @@
 const {model, Schema} = require('mongoose');
 
 const Subscribers = new Schema({
-    nickname: {type: String, unique: true, required: true},
+    user: {type: String, required: true, unique: true},
     subs: {type: Array, required: true, default: []}
 })
 

@@ -39,6 +39,7 @@
 }
 .author-post__text-body{
     max-width: 700px;
+    align-self: start;
 }
 .author-post__info{
     padding-left: 10px;

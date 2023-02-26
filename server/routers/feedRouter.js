@@ -8,6 +8,7 @@ router.post('/like', checkAuth, feedController.likePost);
 router.post('/unlike', checkAuth, feedController.unlikePost);
 router.get('/user', checkAuth, feedController.getUserInfoById);
 router.get('/author', checkAuth, feedController.getAuthorPosts);
+router.get('/id', checkAuth, feedController.getProfileById);
 
 
 module.exports = router;

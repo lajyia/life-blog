@@ -1,16 +1,14 @@
 import React, { FC } from 'react';
 import '../styles/SubscribersItem.css';
-import DefaultAvatar from '../images/test-image.jpg';
-
-interface TestUser {
-    nickname: string
-}
+import DefaultAvatar from '../images/default-avatar.svg'
+import { IUser } from '../types/types';
 
 interface SubscribersItemProps{
-    sub: TestUser
+    sub: IUser
 }
 
 const SubscribersItem:FC<SubscribersItemProps> = ({sub}) => {
+
 
     let validString = sub.nickname.substring(0, 8);
 
@@ -20,11 +18,13 @@ const SubscribersItem:FC<SubscribersItemProps> = ({sub}) => {
         validString = `${validString}...`;
     }
 
+    const pathUser = 'http://localhost:4000/users/' + sub.avatar;
+
 
     return (
         <div className="sub-item">
             <div className="sub-item__avatar">
-                <img src={DefaultAvatar} alt="" />
+                <img src={sub.avatar ? pathUser : DefaultAvatar} alt="" />
             </div>
             <div className="sub-item__nickname">{validString}</div>
         </div>

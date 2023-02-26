@@ -10,14 +10,13 @@ import { PostService } from '../API/PostService';
 import AuthorPostsList from '../components/AuthorPostsList';
 import LoaderItems from '../components/UI/LoaderItems/LoaderItems';
 import ProfileBody from '../components/ProfileBody';
-import { SubscribersService } from '../API/SubscribersService';
 
 
 const Profile: FC = () => {
 
     const [user, setUser] = useState<IUser>();
-
-    const [posts, setPosts] = useState<IPost[]>([])
+    const [posts, setPosts] = useState<IPost[]>([]);
+    const [subs, setSubs] = useState<IUser[]>([]);
 
     const [fetchUser, userLoading, userError] = useFetching(async () => {
         const response = await UserService.getProfileByJWT();
@@ -33,22 +32,15 @@ const Profile: FC = () => {
         setPosts(response.data.posts);
     })
 
-    const [fetchSubs, fetchSubsLoading, subsError] = useFetching(async () =>{
-        const response = await SubscribersService.getSubscribers();
-        console.log(response.data);
+    const [fetchSubs, subsLoading, subsError] = useFetching(async () => {
+        const response = await UserService.getSubscribers();
+
+        for (let i =0; i < response.length; i++){
+            const profileSub = await UserService.getProfileById(response[i]);
+
+            setSubs([...subs, profileSub])
+        }
     })
-
-
-    
-    const subs = [
-        { nickname: 'Oleg' },
-        { nickname: 'Tyty' },
-        { nickname: 'Rozmaridddn' },
-        { nickname: 'Tester' },
-        { nickname: 'Shishdka' },
-        { nickname: 'Vanessa' },
-    ]
-
 
     useEffect(() => {
         fetchUser();
@@ -82,7 +74,7 @@ const Profile: FC = () => {
                                 ? <LoaderItems/>
                                 : <div>
                                     {
-                                        posts.length > 0
+                                        posts
                                             ? <AuthorPostsList posts={posts} />
                                             : <div>Posts not found</div>
                                     }

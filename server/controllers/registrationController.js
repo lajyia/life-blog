@@ -41,10 +41,13 @@ class RegistrationController {
             
             if (!candidateLink && !candidateName) {
                 const hashPassword = bcrypt.hashSync(password, 7);
+                
                 const user = new User({ nickname, linkName, password: hashPassword })
                 await user.save();
-                const subs = new Subscribers({nickname});
+
+                const subs = new Subscribers({user: user._id});
                 await subs.save();
+
                 return res.json({ message: true })
             }
             if (candidateName) {

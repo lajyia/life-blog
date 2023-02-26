@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { checkInterval } from '../utils/checkInterval';
+import { IUser } from '../types/types';
 
 export class UserService {
     
@@ -97,5 +98,53 @@ export class UserService {
         })
 
         return response
+    }
+
+    static async getSubscribers(){
+        const jwt = localStorage.getItem("jwt");
+        
+        const response = await axios.get('http://localhost:4000/api/subscribers', {
+            headers: {
+                authorization: 'Bearer ' + jwt
+            }
+        })
+
+        return response.data.subs.subs;
+    }
+
+    static async follow(){
+        const jwt = localStorage.getItem("jwt");
+
+        const response = await axios.post('http://localhost:4000/api/subscribers/unfollow', {
+            headers: {
+                authorization: "Bearer " + jwt
+            }
+        })
+
+        return response;
+    }
+
+    static async unfollow(){
+        const jwt = localStorage.getItem("jwt");
+
+        const response = await axios.post('http://localhost:4000/api/subscribers/unfollow', {
+            headers: {
+                authorization: "Bearer " + jwt
+            }
+        })
+
+        return response;
+    }
+
+    static async getProfileById(id: string | undefined){
+        const jwt = localStorage.getItem("jwt");
+
+        const response = await axios.get<IUser>(`http://localhost:4000/api/feed/id?id=${id}`, {
+            headers: {
+                authorization: "Bearer " + jwt
+            }
+        })
+
+        return response.data;
     }
 }

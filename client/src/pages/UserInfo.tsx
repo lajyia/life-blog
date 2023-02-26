@@ -9,7 +9,6 @@ import ProfileBody from '../components/ProfileBody';
 import '../styles/UserInfo.css';
 import Header from '../components/Header';
 import SubscribersList from '../components/SubscribersList';
-import LoaderItems from '../components/UI/LoaderItems/LoaderItems';
 import AuthorPostsList from '../components/AuthorPostsList';
 
 
@@ -18,6 +17,7 @@ const UserInfo: FC = () => {
     const [user, setUser] = useState<IUser>();
     const [isMe, setIsMe] = useState<boolean | string>();
     const [posts, setPosts] = useState<IPost[]>([]);
+    const [subs, setSubs] = useState<IUser[]>([]);
 
     const params = useParams();
     const userId = params.id;
@@ -28,20 +28,21 @@ const UserInfo: FC = () => {
         navigate('/profile')
     }
 
-    const subs = [
-        { nickname: 'Oleg' },
-        { nickname: 'Tyty' },
-        { nickname: 'Rozmaridddn' },
-        { nickname: 'Tester' },
-        { nickname: 'Shishdka' },
-        { nickname: 'Vanessa' },
-    ]
+    const [fetchSubs, subsLoading, subsError] = useFetching(async () => {
+        const response = await UserService.getSubscribers();
+
+        for (let i =0; i < response.length; i++){
+            const profileSub = await UserService.getProfileById(response[i]);
+
+            setSubs([...subs, profileSub])
+        }
+    })
 
     const [fetchUser, userLoading, userError] = useFetching(async () => {
         const response = await UserService.getUserInfoById(userId);
         setUser(response.data.user);
-        console.log(response.data)
         setPosts(response.data.user.posts);
+        fetchSubs();
         checkUser();
     })
 
@@ -79,7 +80,7 @@ const UserInfo: FC = () => {
                             <div className={rootProfilePostsClasses.join(' ')}>
                                 <div>
                                     {
-                                        posts.length > 0
+                                        posts
                                             ? <AuthorPostsList posts={posts} />
                                             : <div>Posts not found</div>
                                     }
