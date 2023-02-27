@@ -125,10 +125,10 @@ export class UserService {
         return response.data;
     }
 
-    static async follow(){
+    static async follow(id: string){
         const jwt = localStorage.getItem("jwt");
 
-        const response = await axios.post('http://localhost:4000/api/subscribers/unfollow', {
+        const response = await axios.post(`http://localhost:4000/api/subscribers/unfollow?id=${id}`,{}, {
             headers: {
                 authorization: "Bearer " + jwt
             }
@@ -137,10 +137,10 @@ export class UserService {
         return response;
     }
 
-    static async unfollow(){
+    static async unfollow(id: string){
         const jwt = localStorage.getItem("jwt");
 
-        const response = await axios.post('http://localhost:4000/api/subscribers/unfollow', {
+        const response = await axios.post(`http://localhost:4000/api/subscribers/unfollow?id=${id}`,{}, {
             headers: {
                 authorization: "Bearer " + jwt
             }

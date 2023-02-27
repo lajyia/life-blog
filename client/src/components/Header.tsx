@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import LoaderAvatar from './UI/LoaderAvatar/LoaderAvatar';
 import { useFetching } from '../hooks/useFetching';
+import { addUserAction } from '../store/userReducer';
 
 const Header: FC = () => {
 
@@ -24,6 +25,15 @@ const Header: FC = () => {
         const response = await UserService.getProfileByJWT();
         setPathImage(response.candidate.avatar);
         setNickname(response.candidate.nickname);
+
+        const user = {
+            nickname: response.candidate.nickname,
+            avatar: response.candidate.avatar,
+            id: response.candidate._id
+        }
+
+        dispatch(addUserAction(user));
+
     })
 
 
@@ -43,6 +53,7 @@ const Header: FC = () => {
     const unlogin = () => {
         dispatch(falseLoginAction());
         localStorage.setItem('login', '');
+        localStorage.removeItem("jwt");
         navigate('/login');
     }
 

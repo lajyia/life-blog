@@ -10,6 +10,8 @@ import '../styles/UserInfo.css';
 import Header from '../components/Header';
 import SubscribersList from '../components/SubscribersList';
 import AuthorPostsList from '../components/AuthorPostsList';
+import { useSelector } from 'react-redux';
+import { IRootState } from '../store';
 
 
 const UserInfo: FC = () => {
@@ -29,6 +31,7 @@ const UserInfo: FC = () => {
         navigate('/profile')
     }
 
+    const userInfo = useSelector((state: IRootState) => state.user.user);
 
     let idUser = '';
 
@@ -43,8 +46,6 @@ const UserInfo: FC = () => {
             const profileSub = await UserService.getProfileById(response.subs.subs[i]);
             subsMiddle.push(profileSub);
         }
-
-        console.log(response);
 
         setSubs(subsMiddle)
     })
@@ -94,11 +95,15 @@ const UserInfo: FC = () => {
         }
     }
 
-    const follow = () => {
+    const follow = async () => {
         setIsFollow(true);
+        const response = await UserService.follow(userInfo.id);
+        console.log(response);
     }
-    const unfollow = () => {
+    const unfollow = async () => {
         setIsFollow(false);
+        const response = await UserService.unfollow(userInfo.id);
+        console.log(response);
     }
 
     return (

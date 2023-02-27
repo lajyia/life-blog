@@ -18,9 +18,13 @@ class SubscribersController {
     }
 
     async follow(req, res) {
+
         const userId = req.userId;
 
         if (userId) {
+
+            console.log('w')
+
             const id = req.query.id;
 
             const profileToFollow = await Subscribers.findOne({ user: id });
@@ -39,7 +43,7 @@ class SubscribersController {
                 await User.findByIdAndUpdate(id, { subscribers: subsCount })
             }
 
-            return res.json({ message: true })
+            return res.json({ message: 'true1' })
         }
 
         return res.json({ message: false });
@@ -72,7 +76,7 @@ class SubscribersController {
                 await User.findByIdAndUpdate(id, { subscribers: subsCount });
             }
 
-            return res.json({ message: true })
+            return res.json({ message: 'true2' })
 
         }
 
