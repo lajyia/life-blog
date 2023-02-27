@@ -8,6 +8,6 @@ server:
   5. npm start <br/>
   <br/>
 client:
-  1. cd client
-  2. npm i - install dependencies
-  3. npm start
+  1. cd client <br/>
+  2. npm i - install dependencies <br/>
+  3. npm start <br/>
