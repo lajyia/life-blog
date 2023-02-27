@@ -128,7 +128,7 @@ export class UserService {
     static async follow(id: string){
         const jwt = localStorage.getItem("jwt");
 
-        const response = await axios.post(`http://localhost:4000/api/subscribers/unfollow?id=${id}`,{}, {
+        const response = await axios.post(`http://localhost:4000/api/subscribers/follow?id=${id}`,{}, {
             headers: {
                 authorization: "Bearer " + jwt
             }

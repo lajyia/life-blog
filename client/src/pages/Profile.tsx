@@ -50,8 +50,6 @@ const Profile: FC = () => {
             subsMiddle.push(profileSub);
         }
 
-        subsMiddle.length = subsLength
-
         if (subsLength <= 5) {
             subsLength = 5;
         }

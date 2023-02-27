@@ -26,13 +26,7 @@ const Header: FC = () => {
         setPathImage(response.candidate.avatar);
         setNickname(response.candidate.nickname);
 
-        const user = {
-            nickname: response.candidate.nickname,
-            avatar: response.candidate.avatar,
-            id: response.candidate._id
-        }
-
-        dispatch(addUserAction(user));
+        dispatch(addUserAction(response.candidate));
 
     })
 

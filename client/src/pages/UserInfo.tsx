@@ -12,6 +12,7 @@ import SubscribersList from '../components/SubscribersList';
 import AuthorPostsList from '../components/AuthorPostsList';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
+import LoaderAvatar from '../components/UI/LoaderAvatar/LoaderAvatar';
 
 
 const UserInfo: FC = () => {
@@ -31,24 +32,37 @@ const UserInfo: FC = () => {
         navigate('/profile')
     }
 
-    const userInfo = useSelector((state: IRootState) => state.user.user);
+    let subsLength = 0
 
-    let idUser = '';
+    const userInfo = useSelector((state: IRootState) => state.user.user);
 
     const [fetchSubs, subsLoading, subsError] = useFetching(async () => {
         const response = await UserService.getSubscribersUser(idUser);
 
         setIsFollow(response.follow);
 
-        const subsMiddle =[];
+        const subsMiddle = [];
 
         for (let i = 0; i < response.subs.subs.length; i++) {
             const profileSub = await UserService.getProfileById(response.subs.subs[i]);
             subsMiddle.push(profileSub);
         }
 
+        if (subsLength <= 5) {
+            subsLength = 5;
+        }
+        if (subsLength <= 10) {
+            subsLength = 10
+        }
+        if (subsLength > 10) {
+            subsLength = 10
+        }
+
+        subsMiddle.length = subsLength;
+
         setSubs(subsMiddle)
     })
+    let idUser = '';
 
     const [fetchUser, userLoading, userError] = useFetching(async () => {
         const response = await UserService.getUserInfoById(userId);
@@ -74,7 +88,7 @@ const UserInfo: FC = () => {
 
     useEffect(() => {
         fetchUser();
-    }, [])
+    }, [userId])
 
 
     if (userLoading) {
@@ -89,21 +103,32 @@ const UserInfo: FC = () => {
     if (user?.subscribers == 0) {
         rootProfileSubscribersClasses.push('none');
     }
-    if(user){
-        if (user?.subscribers <= 5){
+    if (user) {
+        if (user?.subscribers <= 5) {
             rootProfileSubscribersClasses.push('five')
         }
     }
 
     const follow = async () => {
         setIsFollow(true);
-        const response = await UserService.follow(userInfo.id);
-        console.log(response);
+
+        if (user) {
+            const response = await UserService.follow(user._id);
+            if (response.status == 200) {
+                setSubs([...subs, userInfo]);
+            }
+        }
+
     }
     const unfollow = async () => {
         setIsFollow(false);
-        const response = await UserService.unfollow(userInfo.id);
-        console.log(response);
+
+        if (user) {
+            const response = await UserService.unfollow(user._id);
+            if (response.status == 200) {
+                setSubs(subs.filter(subs => subs._id !== userInfo._id))
+            }
+        }
     }
 
     return (
@@ -124,15 +149,20 @@ const UserInfo: FC = () => {
                                     }
                                 </div>
                             </div>
-                            <div className={rootProfileSubscribersClasses.join(' ')}>
-                                <div className="profile__counter-subscribers">
-                                    <span className="profile__text-subscribers">Subscribers</span>
-                                    <span className="profile__item-counter-subscribers">{user?.subscribers}</span>
+                            {subsLoading
+                                ? <LoaderAvatar />
+
+                                : <div className={rootProfileSubscribersClasses.join(' ')}>
+                                    <div className="profile__counter-subscribers">
+                                        <span className="profile__text-subscribers">Subscribers</span>
+                                        <span className="profile__item-counter-subscribers">{subs.length}</span>
+                                    </div>
+                                    <div className="profile__body-subscribers">
+                                        <SubscribersList subs={subs} />
+                                    </div>
                                 </div>
-                                <div className="profile__body-subscribers">
-                                    <SubscribersList subs={subs} />
-                                </div>
-                            </div>
+                            }
+
                         </div>
                     </div>
                 </div>
