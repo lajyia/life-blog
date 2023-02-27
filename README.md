@@ -7,7 +7,7 @@ server:
   4. npm i - install dependencies
   5. npm start <br/>
   <br/>
-client:
+client: <br/>
   1. cd client <br/>
   2. npm i - install dependencies <br/>
   3. npm start <br/>
