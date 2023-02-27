@@ -4,11 +4,13 @@ import arrow from '../../../images/arrow.svg';
 import CloseRound from '../../../images/close-round.svg';
 
 interface FollowButtonProps{
-    isFollow: boolean
+    isFollow: boolean,
+    follow?: () => void,
+    unfollow?: () => void
 }
 
 
-const FollowButton: FC<FollowButtonProps> = ({isFollow}) => {
+const FollowButton: FC<FollowButtonProps> = ({isFollow, follow, unfollow}) => {
 
     const [visible, setVisible] = useState<boolean>(false)
 
@@ -39,10 +41,10 @@ const FollowButton: FC<FollowButtonProps> = ({isFollow}) => {
                         <div className={classes.follow_sub_block_image}>
                             <img src={CloseRound} alt="" />
                         </div>
-                        <div className={classes.follow_sub_block_text}>Unfollow</div>
+                        <div onClick={unfollow} className={classes.follow_sub_block_text}>Unfollow</div>
                     </div>
                 </div>
-                : <div className={`${classes.follow_unfollow_button} ${classes.button}`}>Follow</div>
+                : <div onClick={follow} className={`${classes.follow_unfollow_button} ${classes.button}`}>Follow</div>
             }
         </div>
     );

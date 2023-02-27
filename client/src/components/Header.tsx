@@ -31,6 +31,12 @@ const Header: FC = () => {
         fetchAvatar();
     }, [])
 
+    if (!nickname){
+        localStorage.setItem("login", "")
+    }else{
+        localStorage.setItem("login", 'true')
+    }
+
     const pathUser = 'http://localhost:4000/users/' + pathImage;
     const login = useSelector((state: IRootState) => state.login.login);
 
@@ -57,7 +63,7 @@ const Header: FC = () => {
                         <img src={logo} alt="logo" />
                     </Link>
                 </div>
-                {login
+                {login && nickname
                     ? <nav className="header__menu">
                         <ul className="header__list-menu">
                             <li className="header__item-menu">
@@ -75,7 +81,7 @@ const Header: FC = () => {
                 }
 
 
-                {login
+                {login && nickname
                     ? <div onClick={changeVisible} className="header__user-info">
                         <div className="header__info">
                             <div className="header__user-image">

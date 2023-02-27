@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
-import classes from './LoaderAvatar.module.css';
+import './LoaderAvatar.css';
 import ImageLoader from '../../../images/loader-avatar.svg';
 
 const LoaderAvatar:FC = () => {
     return (
-        <div className={classes.loader}>
+        <div className="loader">
             <img src={ImageLoader} alt="" />
         </div>
     );

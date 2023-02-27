@@ -9,7 +9,6 @@ interface SubscribersItemProps{
 
 const SubscribersItem:FC<SubscribersItemProps> = ({sub}) => {
 
-
     let validString = sub.nickname.substring(0, 8);
 
     const lengthString = sub.nickname.length;

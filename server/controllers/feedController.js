@@ -14,22 +14,36 @@ class FeedController {
 
             const user = await User.findById(isAuth);
 
-            const likedPosts = user.liked;
-
             const posts = await Post.find();
 
-            for (let key in posts) {
-                for (let i = 0; i < likedPosts.length; i++) {
-                    if (likedPosts[i] == posts[key]._id) {
-                        posts[key].isLiked = true
+
+            try {
+                const likedPosts = user.liked;
+
+
+                for (let key in posts) {
+                    for (let i = 0; i < likedPosts.length; i++) {
+                        if (likedPosts[i] == posts[key]._id) {
+                            posts[key].isLiked = true
+                        }
                     }
                 }
+
+                if (posts.length > 0) {
+                    return res.json({ posts, likedPosts });
+                } else {
+                    return res.json({ message: 'No posts!' })
+                }
+
+            } catch (e) {
+                console.log(e);
+            }
+            if (posts.length > 0) {
+                return res.json({ posts});
+            } else {
+                return res.json({ message: 'No posts!' })
             }
 
-            if (posts.length > 0) {
-                return res.json({ posts, likedPosts });
-            }
-            return res.json({ message: 'No posts!' })
         }
         catch (e) {
             console.log(e);
@@ -167,15 +181,15 @@ class FeedController {
                         authorPosts.push(allPosts[key]);
                     }
                 }
-                
+
                 if (authorPosts.length > 0) {
 
                     for (let key in authorPosts) {
 
                         const likedUsers = authorPosts[key].likedUsers;
 
-                        for (let i=0; i < likedUsers.length; i++){
-                            if (likedUsers[i] == userId){
+                        for (let i = 0; i < likedUsers.length; i++) {
+                            if (likedUsers[i] == userId) {
                                 authorPosts[key].isLiked = true
                             }
                         }
@@ -192,20 +206,21 @@ class FeedController {
         return res.json({ message: false })
     }
 
-    async getProfileById(req, res){
+    async getProfileById(req, res) {
         const userId = req.userId;
 
-        if (userId){
+        if (userId) {
             const id = req.query.id;
 
             const user = await User.findById(id);
-            if (user){
+
+            if (user) {
                 return res.json(user);
             }
-            
-            return res.json({message: true})   
+
+            return res.json({ message: false })
         }
-        return res.json({message: true})
+        return res.json({ message: false })
     }
 }
 

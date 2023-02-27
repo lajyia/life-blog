@@ -130,6 +130,15 @@
     max-height: 250px;
 }
 
+.profile__subscribers.five{
+    max-height: 140px;
+}
+
+.profile__subscribers.none{
+    padding-top: 20px;
+    height: 50px;
+}
+
 .profile__counter-subscribers {
     margin-bottom: 10px;
 }

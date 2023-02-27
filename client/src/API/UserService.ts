@@ -109,8 +109,6 @@ export class UserService {
             }
         })
 
-        console.log(response.data);
-
         return response.data.subs.subs;
     }
 
@@ -124,7 +122,7 @@ export class UserService {
             }
         })
 
-        return response.data.subs.subs;
+        return response.data;
     }
 
     static async follow(){

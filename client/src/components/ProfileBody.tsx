@@ -3,20 +3,22 @@ import '../styles/ProfileBody.css';
 import { Link } from 'react-router-dom';
 import DefaultAvatar from '../images/default-avatar.svg'
 import FollowButton from './UI/FollowButton/FollowButton';
+import { UserService } from '../API/UserService';
 
 interface ProfileBody {
     avatar: string | undefined,
-    nickname: string| undefined,
-    me?: boolean| undefined,
-    bio: string| undefined,
-    linkName: string| undefined,
+    nickname: string | undefined,
+    me?: boolean | undefined,
+    bio: string | undefined,
+    linkName: string | undefined,
+    isFollow: boolean,
+    follow?: () => void,
+    unfollow?: () => void
 }
 
 
-const ProfileBody: FC<ProfileBody> = ({ avatar, nickname, me, bio, linkName}) => {
+const ProfileBody: FC<ProfileBody> = ({ avatar, nickname, me, bio, linkName, isFollow, follow, unfollow}) => {
 
-    const [follow, setFollow] = useState<boolean>();
-    
     const rootAvatarImageClasses = ['profile__image-avatar'];
 
     if (!avatar) {
@@ -52,7 +54,7 @@ const ProfileBody: FC<ProfileBody> = ({ avatar, nickname, me, bio, linkName}) =>
                         ? <div>
                             {me
                                 ? <Link className="profile__button-settings" to="/">Edit profile</Link>
-                                : <FollowButton isFollow={true}/>
+                                : <FollowButton follow={follow} unfollow={unfollow} isFollow={isFollow} />
                             }
                         </div>
                         : <Link className="profile__button-settings" to="/">Edit profile</Link>

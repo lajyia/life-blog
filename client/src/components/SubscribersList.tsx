@@ -11,6 +11,7 @@ interface SubscribersListProps {
 
 
 const SubscribersList:FC<SubscribersListProps> = ({subs}) => {
+
     return (
         <div className="subs-list">
             {subs.map(sub =>

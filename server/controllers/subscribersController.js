@@ -86,11 +86,12 @@ class SubscribersController {
         if (userId){
 
             const id = req.query.id;
-
             
             const subs = await Subscribers.findOne({user: id});
 
-            return res.json({subs})
+            const isFollow = subs.subs.includes(userId);
+
+            return res.json({subs, follow: isFollow});
         }
         return res.json({message: false});
     }

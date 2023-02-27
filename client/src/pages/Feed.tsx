@@ -5,7 +5,6 @@ import { useFetching } from '../hooks/useFetching';
 import '../styles/Feed.css';
 import { IPost } from '../types/types';
 import { PostService } from '../API/PostService';
-import Modal from '../components/UI/Modal/Modal';
 import Loader from '../components/UI/Loader/Loader';
 
 const Feed: FC = () => {
@@ -19,8 +18,6 @@ const Feed: FC = () => {
 
         const responsePosts = response.data.posts;
         setPosts(responsePosts);
-
-        console.log(response.data.likedPosts)
     });
 
 
@@ -43,15 +40,23 @@ const Feed: FC = () => {
 
     }
 
-    
+    const rootFeedClasses = ['feed'];
+
+    if (posts){
+        rootFeedClasses.push('exists');
+    }
+
 
     return (
-        <div className='feed'>
+        <div className={rootFeedClasses.join(' ')}>
             <Header />
             <div className="feed__body">
                 <div className="feed__container">
-                    <Modal />
-                    <PostList posts={posts} />
+                    {posts
+                        ? <PostList posts={posts} />
+                        : <div>Posts Not Found</div>
+                    }
+                    
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-.feed{
+.feed.exists{
     padding-top: 40px;
 }
 .feed__body{
@@ -8,7 +8,7 @@
     max-width: 1200px;
     margin: 0 auto;
 }
-.feed header{
+.feed.exists header{
     position: absolute;
     top: 0;
     left: 0;
