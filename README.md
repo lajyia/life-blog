@@ -6,7 +6,7 @@ server:
   3. create folders: 'users' & 'posts' into folder 'uploads'
   4. npm i - install dependencies
   5. npm start <br/>
-  6. 
+  
 client:
   1. cd client
   2. npm i - install dependencies
