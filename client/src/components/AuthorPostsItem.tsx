@@ -7,6 +7,7 @@ import DefaultAvatar from '../images/default-avatar.svg';
 import ActiveLike from '../images/active-like.svg';
 import comment from '../images/comment.svg';
 import like from '../images/like.svg';
+import { Link } from 'react-router-dom';
 
 
 interface AuthorPostsItemProps {
@@ -55,6 +56,11 @@ const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post }) => {
         await UserService.unlikePost(post._id);
     }
 
+    const pathToPost = `/post/${post._id}`;
+    const pathToPostComments = `/post/${post._id}/comments`;
+
+
+    const validBody = `${post.body.substring(0, 300)}`;
 
     useEffect(() => {
         getImage()
@@ -78,9 +84,13 @@ const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post }) => {
             </div>
             <div className="author-post__body">
                 <div className="author-post__top-body">
-                    <div className="author-post__title post__title">{post.title}</div>
+                    <Link to={pathToPost} className="author-post__title post__title">{post.title}</Link>
                     <div className="author-post__text-body post__text-body">
-                        {post.body}
+                        <span className='post__text-text-body'>{validBody}</span>
+                        {post.body.length > 400
+                            ? <Link to={pathToPost} id="post-dotted">....</Link>
+                            : <div></div>
+                        }
                     </div>
                 </div>
                 <div className="author-post__image-body">
@@ -92,10 +102,10 @@ const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post }) => {
                     <img className="post__image-like" src={isUserLike ? ActiveLike : like} alt="like" />
                     <div className="post__like-count">{addLike}</div>
                 </div>
-                <div className="post__comment-info">
+                <Link to={pathToPostComments} className="post__comment-info">
                     <img className="post__image-comment" src={comment} alt="comment" />
                     <div className="post__comment-count">{post.comments}</div>
-                </div>
+                </Link>
             </div>
         </div>
     );

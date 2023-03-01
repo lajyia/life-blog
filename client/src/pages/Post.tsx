@@ -33,7 +33,7 @@ const Post: FC = () => {
                 ? <div className="post-page">
                     <Header />
                     <div className="post-page__container">
-                        <PostItem post={post} />
+                        <PostItem full={true} post={post} />
                     </div>
                 </div>
                 : <Loader/>

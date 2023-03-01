@@ -12,10 +12,11 @@ import { Link } from 'react-router-dom';
 
 
 interface PostItemProps {
-    post: IPost
+    post: IPost,
+    full: boolean
 }
 
-const PostItem: FC<PostItemProps> = ({ post }) => {
+const PostItem: FC<PostItemProps> = ({ post, full }) => {
 
     const [pathImage, setPathImage] = useState<boolean | string>();
 
@@ -93,13 +94,19 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
             </div>
             <div className="post__body">
                 <Link to={pathToPost} className="post__title">{post.title}</Link>
-                <div className="post__text-body">
-                    <span className='post__text-text-body'>{validBody}</span>
-                    {post.body.length > 400
-                        ? <Link to={pathToPost} id="post-dotted">....</Link>
-                        : <div></div>
-                    }
-                </div>
+                {full
+                    ? <div className="post__text-body">
+                        {post.body}
+                    </div>
+                    : <div className="post__text-body">
+                        <span className='post__text-text-body'>{validBody}</span>
+                        {post.body.length > 400
+                            ? <Link to={pathToPost} id="post-dotted">....</Link>
+                            : <div></div>
+                        }
+                    </div>
+                }
+
                 <div className="post__image-body">
                     <img src={pathPost} alt="" />
                 </div>

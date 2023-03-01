@@ -53,7 +53,7 @@ const Feed: FC = () => {
             <div className="feed__body">
                 <div className="feed__container">
                     {posts
-                        ? <PostList posts={posts} />
+                        ? <PostList full={false} posts={posts} />
                         : <div>Posts Not Found</div>
                     }
                     

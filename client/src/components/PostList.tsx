@@ -5,15 +5,16 @@ import '../styles/PostList.css';
 
 interface PostListProps{
     posts: IPost[],
+    full: boolean
 }
 
 
-const PostList:FC<PostListProps> = ({posts}) => {
+const PostList:FC<PostListProps> = ({posts, full}) => {
 
     return (
         <div className='list'>
             {posts.map(post =>
-                <PostItem post={post} key={post.title}/>
+                <PostItem full={full} post={post} key={post.title}/>
             )}
         </div>
     );
