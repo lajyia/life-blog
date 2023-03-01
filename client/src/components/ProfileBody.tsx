@@ -57,7 +57,10 @@ const ProfileBody: FC<ProfileBody> = ({ avatar, nickname, me, bio, linkName, isF
                     {typeof me == 'boolean'
                         ? <div>
                             {me
-                                ? <Link className="profile__button-settings" to="/change">Edit profile</Link>
+                                ? <div className='profile__buttons'>
+                                    <Link className="profile__button-settings" to="/post/create">Add post</Link>
+                                    <Link className="profile__button-settings" to="/change">Edit profile</Link>
+                                </div>
                                 : <FollowButton follow={follow} unfollow={unfollow} isFollow={isFollow} />
                             }
                         </div>

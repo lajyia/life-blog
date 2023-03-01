@@ -27,4 +27,18 @@ export class PostService {
         }, );
         return response
     }
+
+
+    static async getPost(id: string | undefined){
+
+        const jwt = localStorage.getItem('jwt');
+
+        const response = await axios.get(`http://localhost:4000/api/feed/post?id=${id}`, {
+            headers: {
+                authorization : "Bearer " + jwt
+            }
+        })
+
+        return response.data;
+    }
 }

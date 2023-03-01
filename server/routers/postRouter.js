@@ -11,9 +11,8 @@ router.post('/delete', [
     checkAuth
 ], controller.deletePost);
 
-router.post('/read', [
-    check("title", "Title can't be smaller 5 and more 40 letters").isLength({min: 5, max: 40}),
-], controller.readPost);
+
+
 
 router.post('/create', [
     upload.single('image'),

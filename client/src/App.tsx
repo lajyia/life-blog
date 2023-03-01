@@ -12,6 +12,7 @@ import { IRootState } from './store';
 import { trueLoginAction } from './store/loginReducer';
 import ChangeProfile from './pages/ChangeProfile';
 import CreatePost from './pages/CreatePost';
+import Post from './pages/Post';
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
               <Route path="user/:id" element={<UserInfo/>}/>
               <Route path="change" element={<ChangeProfile/>}/>
               <Route path="post/create" element={<CreatePost/>}/>
+              <Route path="post/:id" element={<Post/>}/>
           </Routes>
           : <Routes>
               <Route path="*" element={<Error />} />
@@ -50,9 +52,9 @@ function App() {
               <Route path="user/:id" element={<Navigate to="/login"/>}/>
               <Route path="change" element={<Navigate to="/login"/>}/>
               <Route path="post/create" element={<Navigate to="/login"/>}/>
+              <Route path="post/:id" element={<Navigate to="/login"/>}/>
           </Routes>
         }
-
       </BrowserRouter>
     </div>
   );

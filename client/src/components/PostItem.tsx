@@ -8,6 +8,7 @@ import { PostService } from '../API/PostService';
 import ActiveLike from '../images/active-like.svg';
 import { UserService } from '../API/UserService';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 interface PostItemProps {
@@ -43,29 +44,34 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
             setIsUserLike(true);
             likeToPost();
         }
-        else{
+        else {
             setAddLike(addLike - 1);
             setIsUserLike(false);
             unlikeToPost();
         }
-        setTimeout(() =>{
+        setTimeout(() => {
             return false
         }, 1000)
     }
 
-    const likeToPost = async () =>{
+    const likeToPost = async () => {
         await UserService.likePost(post._id);
     }
 
-    const unlikeToPost = async () =>{
+    const unlikeToPost = async () => {
         await UserService.unlikePost(post._id);
     }
 
     const linkPath = `/user/${post.author.toLowerCase()}`;
 
-    const navigateToUserInfo = () =>{
+    const navigateToUserInfo = () => {
         navigate(linkPath);
     }
+
+    const validBody = `${post.body.substring(0, 300)}`;
+
+    const pathToPost = `/post/${post._id}`;
+    const pathToPostComments = `/post/${post._id}/comments`;
 
     return (
         <div className='post'>
@@ -86,9 +92,13 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
                 </div>
             </div>
             <div className="post__body">
-                <div className="post__title">{post.title}</div>
+                <Link to={pathToPost} className="post__title">{post.title}</Link>
                 <div className="post__text-body">
-                    {post.body}
+                    <span className='post__text-text-body'>{validBody}</span>
+                    {post.body.length > 400
+                        ? <Link to={pathToPost} id="post-dotted">....</Link>
+                        : <div></div>
+                    }
                 </div>
                 <div className="post__image-body">
                     <img src={pathPost} alt="" />
@@ -99,10 +109,10 @@ const PostItem: FC<PostItemProps> = ({ post }) => {
                     <img className="post__image-like" src={isUserLike ? ActiveLike : like} alt="like" />
                     <div className="post__like-count">{addLike}</div>
                 </div>
-                <div className="post__comment-info">
+                <Link to={pathToPostComments} className="post__comment-info">
                     <img className="post__image-comment" src={comment} alt="comment" />
                     <div className="post__comment-count">{post.comments}</div>
-                </div>
+                </Link>
             </div>
         </div>
     );

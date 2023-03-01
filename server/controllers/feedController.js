@@ -222,6 +222,27 @@ class FeedController {
         }
         return res.json({ message: false })
     }
+
+    async getPost(req, res){
+
+        const userId = req.userId;
+
+        if (userId){
+            const id = req.query.id;
+
+            const post = await Post.findById(id);
+
+            if (post){
+                const viewed = post.viewed + 1;
+
+                await Post.findByIdAndUpdate(id, {viewed}, {new: true})
+                
+                return res.json(post);
+            }
+            return res.json({message: false})
+        }
+        return res.json({message: false})
+    }
 }
 
 module.exports = new FeedController();

@@ -100,24 +100,6 @@ class PostController {
             console.log(e);
         }
     }
-    async readPost(req, res) {
-        try {
-            const title = req.body.title.toUpperCase();
-            const errors = validationResult(req).errors;
-            if (errors.length > 0) {
-                return res.status(400).json({ errors })
-            }
-            const titleCandidate = await Post.findOne({ title });
-            if (titleCandidate) {
-                const viewed = titleCandidate.viewed + 1;
-                const viewedPost = await Post.findOneAndUpdate({ title }, { viewed }, { new: true })
-                return res.json({ viewedPost });
-            }
-            return res.status(400).json({ message: 'A post with this title is not found' })
-        } catch (e) {
-
-        }
-    }
     async createPost(req, res) {
         try {
             const { body } = req.body;

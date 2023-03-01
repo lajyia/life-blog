@@ -4,7 +4,7 @@ import PostItem from './PostItem';
 import '../styles/PostList.css';
 
 interface PostListProps{
-    posts: IPost[]
+    posts: IPost[],
 }
 
 

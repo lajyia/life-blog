@@ -1,19 +1,15 @@
-.feed{
-    min-height: 100vh;
+.post-page{
     background: rgb(233, 233, 233);
+    min-height: 100vh;
 }
 
-.feed.exists{
-    padding-top: 40px;
+.post-page__container{
+    padding-top: 80px;
+    max-width: 700px;
+    margin: 0px auto;
 }
-.feed__body{
-    
-}
-.feed__container{
-    max-width: 1200px;
-    margin: 0 auto;
-}
-.feed.exists header{
+
+.post-page header{
     position: absolute;
     top: 0;
     left: 0;

@@ -9,6 +9,7 @@ router.post('/unlike', checkAuth, feedController.unlikePost);
 router.get('/user', checkAuth, feedController.getUserInfoById);
 router.get('/author', checkAuth, feedController.getAuthorPosts);
 router.get('/id', checkAuth, feedController.getProfileById);
+router.get('/post', checkAuth, feedController.getPost);
 
 
 module.exports = router;
