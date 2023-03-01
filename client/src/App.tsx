@@ -11,6 +11,7 @@ import { Navigate, Routes, Route, BrowserRouter } from 'react-router-dom';
 import { IRootState } from './store';
 import { trueLoginAction } from './store/loginReducer';
 import ChangeProfile from './pages/ChangeProfile';
+import CreatePost from './pages/CreatePost';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
               <Route path="feed" element={<Feed />} />
               <Route path="user/:id" element={<UserInfo/>}/>
               <Route path="change" element={<ChangeProfile/>}/>
+              <Route path="post/create" element={<CreatePost/>}/>
           </Routes>
           : <Routes>
               <Route path="*" element={<Error />} />
@@ -47,6 +49,7 @@ function App() {
               <Route path="feed" element={<Navigate to="/login" />} />
               <Route path="user/:id" element={<Navigate to="/login"/>}/>
               <Route path="change" element={<Navigate to="/login"/>}/>
+              <Route path="post/create" element={<Navigate to="/login"/>}/>
           </Routes>
         }
 

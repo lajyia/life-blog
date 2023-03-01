@@ -1,0 +1,137 @@
+.create-post{
+    height: 100vh;
+    width: 100vw;
+    background: rgb(233, 233, 233);
+}
+.create-post__body{
+    
+}
+
+.create-post__form{
+    
+}
+
+.create-post header{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 5;
+    height: 58px;
+    background: #fff;
+}
+
+.create-post__container{
+    padding-top: 100px;
+    max-width: 1200px;
+    margin: 0px auto;
+}
+
+.create-post__body-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-post__title-form{
+    text-transform: capitalize;
+    font-size: 25px;
+    font-family: Roboto;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.create-post__create-block {
+    max-width: 580px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 16px;
+    flex: 0 1 50%;
+    max-width: 100%;
+    margin-right: 20px;
+}
+.create-post__preview-block {
+    padding: 20px;
+    background: #fff;
+    border-radius: 16px;
+    flex: 0 1 50%;
+    max-width: 580px;
+}
+
+.create-post-input{
+    border: 2px solid rgb(233, 233, 233);
+    padding: 10px 10px;
+    width: 100%;
+    font-size: 20px;
+}
+
+.create-post__title {
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-size: 12px;
+}
+.create-post__title-title {
+    margin-bottom: 5px;
+}
+.create-post__title-input {
+}
+.create-post__body {
+    margin-bottom: 20px;
+}
+.create-post__title-body {
+    margin-bottom: 5px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+.create-post__body-input {
+    resize: none;
+    height: 20vh;
+    overflow: hidden;
+}
+.create-post__image {
+}
+.create-post__title-image {
+    background: rgb(180, 180 , 180);
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-family: Roboto;
+    padding: 5px;
+}
+.create-post__file-input {
+    display: none;
+}
+
+.create-post__preview-title{
+    font-weight: 580px;
+    font-size: 20px;
+    text-transform: lowercase;
+    max-width: 600px;
+    margin-bottom: 10px;
+}
+
+.create-post__preview-title::first-letter{
+    text-transform: uppercase;
+}
+
+.create-post__preview-body{
+    overflow-wrap: break-word;
+    max-width: 600px;
+    margin-bottom: 20px;
+    text-transform: lowercase;
+    font-family: Roboto;
+    line-height: 20px;
+    font-size: 16px;
+}
+
+.create-post__preview-body::first-letter{
+    text-transform: uppercase;
+}
+
+.create-post__preview-image{
+}
+
+.create-post__preview-image img{
+    max-width: 540px;
+    max-width: 540px;
+}
