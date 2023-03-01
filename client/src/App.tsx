@@ -10,6 +10,7 @@ import './styles/App.css';
 import { Navigate, Routes, Route, BrowserRouter } from 'react-router-dom';
 import { IRootState } from './store';
 import { trueLoginAction } from './store/loginReducer';
+import ChangeProfile from './pages/ChangeProfile';
 
 function App() {
 
@@ -23,7 +24,6 @@ function App() {
 
   const login = useSelector((state: IRootState) => state.login.login);
 
-
   return (
     <div className="App">
       <BrowserRouter>
@@ -36,6 +36,7 @@ function App() {
               <Route path="registration" element={<Navigate to="/feed" />} />
               <Route path="feed" element={<Feed />} />
               <Route path="user/:id" element={<UserInfo/>}/>
+              <Route path="change" element={<ChangeProfile/>}/>
           </Routes>
           : <Routes>
               <Route path="*" element={<Error />} />
@@ -44,7 +45,8 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="registration" element={<Registration />} />
               <Route path="feed" element={<Navigate to="/login" />} />
-              <Route path="user/:id" element={<Navigate to="login"/>}/>
+              <Route path="user/:id" element={<Navigate to="/login"/>}/>
+              <Route path="change" element={<Navigate to="/login"/>}/>
           </Routes>
         }
 

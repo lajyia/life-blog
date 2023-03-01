@@ -13,6 +13,7 @@ import AuthorPostsList from '../components/AuthorPostsList';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import LoaderAvatar from '../components/UI/LoaderAvatar/LoaderAvatar';
+import Magnifier from '../images/magnifier.svg'
 
 
 const UserInfo: FC = () => {
@@ -79,6 +80,8 @@ const UserInfo: FC = () => {
 
     if (userLoading) {
         rootProfilePostsClasses.push('loading')
+    } else {
+
     }
 
     const checkUser = async () => {
@@ -116,6 +119,7 @@ const UserInfo: FC = () => {
             const response = await UserService.follow(user._id);
             if (response.status == 200) {
                 setSubs([...subs, userInfo]);
+                setUser({ ...user, subscribers: user.subscribers + 1 })
             }
         }
 
@@ -127,6 +131,7 @@ const UserInfo: FC = () => {
             const response = await UserService.unfollow(user._id);
             if (response.status == 200) {
                 setSubs(subs.filter(subs => subs._id !== userInfo._id))
+                setUser({ ...user, subscribers: user.subscribers - 1 })
             }
         }
     }
@@ -142,10 +147,12 @@ const UserInfo: FC = () => {
                         <div className="profile__content-body">
                             <div className={rootProfilePostsClasses.join(' ')}>
                                 <div>
-                                    {
-                                        posts
-                                            ? <AuthorPostsList posts={posts} />
-                                            : <div>Posts not found</div>
+                                    {posts.length > 0
+                                        ? <AuthorPostsList posts={posts} />
+                                        : <div className="posts-not-found">
+                                            <img className="posts-not-found__image" src={Magnifier} alt="" />
+                                            <div className="posts-not-found__text">Posts Not Found</div>
+                                        </div>
                                     }
                                 </div>
                             </div>
@@ -155,7 +162,7 @@ const UserInfo: FC = () => {
                                 : <div className={rootProfileSubscribersClasses.join(' ')}>
                                     <div className="profile__counter-subscribers">
                                         <span className="profile__text-subscribers">Subscribers</span>
-                                        <span className="profile__item-counter-subscribers">{subs.length}</span>
+                                        <span className="profile__item-counter-subscribers">{user?.subscribers}</span>
                                     </div>
                                     <div className="profile__body-subscribers">
                                         <SubscribersList subs={subs} />

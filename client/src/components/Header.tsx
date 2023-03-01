@@ -27,17 +27,19 @@ const Header: FC = () => {
         setNickname(response.candidate.nickname);
 
         dispatch(addUserAction(response.candidate));
-
     })
 
+    const jwt = localStorage.getItem("jwt");
 
     useEffect(() => {
-        fetchAvatar();
+        if (jwt) {
+            fetchAvatar();
+        }
     }, [])
 
-    if (!nickname){
+    if (!nickname) {
         localStorage.setItem("login", "")
-    }else{
+    } else {
         localStorage.setItem("login", 'true')
     }
 
@@ -85,32 +87,35 @@ const Header: FC = () => {
                     : <div></div>
                 }
 
-
-                {login && nickname
-                    ? <div onClick={changeVisible} className="header__user-info">
-                        <div className="header__info">
-                            <div className="header__user-image">
-                                {avatarLoading
-                                    ? <LoaderAvatar />
-                                    : <img className='header__item-image' src={pathImage ? pathUser : DefaultAvatar} alt="user logo" />
-                                }
+                {avatarLoading
+                    ? <LoaderAvatar />
+                    : <div>
+                        {login && nickname
+                            ? <div onClick={changeVisible} className="header__user-info">
+                                <div className="header__info">
+                                    <div className="header__user-image">
+                                        {avatarLoading
+                                            ? <LoaderAvatar />
+                                            : <img className='header__item-image' src={pathImage ? pathUser : DefaultAvatar} alt="user logo" />
+                                        }
+                                    </div>
+                                    <div className="header__user-arrow">
+                                        <img className='header__arrow-image' src={arrow} alt="arrow" />
+                                    </div>
+                                </div>
+                                <div onClick={nullPropagation} className="header__info-panel">
+                                    <Link className="header__user-nickname" to="/profile">{nickname}</Link>
+                                    <div className='header__exit-button' onClick={unlogin}>EXIT</div>
+                                </div>
                             </div>
-                            <div className="header__user-arrow">
-                                <img className='header__arrow-image' src={arrow} alt="arrow" />
+                            : <div className='header__unlogin'>
+                                <Link to="/login">
+                                    <div className="header__btn-login">LOGIN</div>
+                                </Link>
                             </div>
-                        </div>
-                        <div onClick={nullPropagation} className="header__info-panel">
-                            <Link className="header__user-nickname" to="/profile">{nickname}</Link>
-                            <div className='header__exit-button' onClick={unlogin}>EXIT</div>
-                        </div>
-                    </div>
-                    : <div className='header__unlogin'>
-                        <Link to="/login">
-                            <div className="header__btn-login">LOGIN</div>
-                        </Link>
+                        }
                     </div>
                 }
-
             </div>
         </header>
     );

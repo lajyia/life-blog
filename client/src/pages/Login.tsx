@@ -31,7 +31,6 @@ const Login: FC = () => {
 
         const response = await UserService.login(valueForm.login, valueForm.password);
 
-        console.log(response.data);
 
         if (response.data.message == true){
             dispatch(trueLoginAction());

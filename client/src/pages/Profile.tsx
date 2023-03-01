@@ -12,6 +12,7 @@ import LoaderItems from '../components/UI/LoaderItems/LoaderItems';
 import ProfileBody from '../components/ProfileBody';
 import { useNavigate } from 'react-router-dom';
 import LoaderAvatar from '../components/UI/LoaderAvatar/LoaderAvatar';
+import Magnifier from '../images/magnifier.svg'
 
 const Profile: FC = () => {
 
@@ -107,7 +108,10 @@ const Profile: FC = () => {
                                     {
                                         posts
                                             ? <AuthorPostsList posts={posts} />
-                                            : <div>Posts not found</div>
+                                            : <div className="posts-not-found">
+                                                <img className="posts-not-found__image" src={Magnifier} alt="" />
+                                                <div className="posts-not-found__text">Posts Not Found</div>
+                                            </div>
                                     }
                                 </div>
                             }

@@ -1,0 +1,145 @@
+.change-profile {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(233, 233, 233);
+}
+.change-profile__body {
+    
+}
+.change-profile__container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.change-profile header{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 5;
+    height: 58px;
+    background: #fff;
+}
+.change-profile__form{
+    padding: 20px;
+    background: #fff;
+    width: 28vw;
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.change-profile__avatar-form{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+}
+
+.change-profile__avatar-form.choose{
+    opacity: 0.3;
+}
+
+.change-profile__avatar{
+    position: relative;
+}
+.change-profile__body-avatar{
+
+}
+
+.profile-change__image-choose-image.choose{
+    display: block;
+}
+.profile-change__image-choose-image{
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.change-profile__buttons{
+    display: flex;
+    justify-content: space-between;
+}
+.change-profile__buttons button:first-child{
+    margin-right: 50px;
+}
+.change-profile__buttons button:last-child a{
+    color: red;
+}
+
+
+.change-profile__top-form {
+    padding-left: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.change-profile__avatar-form.default{
+    border: 2px solid rgb(150, 150, 150);
+}
+.change-profile__top-info {
+    
+}
+.change-profile__nickname-input {
+    margin-bottom: 10px;
+}
+.input-change-profile{
+    padding: 3px 5px;
+    border: 2px solid rgb(150, 150, 150);
+    width: 100%;
+}
+
+.change-profile__id-user {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    opacity: 0.4;
+}
+
+.change-profile__nickname{
+
+}
+.change-profile__title-nickname{
+    font-weight: 600;
+    margin-bottom: 2px;
+    color: rgb(120, 120, 120)
+}
+
+.change-profile__body-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+.change-profile__linkname {
+    
+}
+.change-profile__title-linkname {
+}
+.change-profile__linkname-input {
+}
+.input-change-profile {
+}
+.change-profile__password {
+}
+.change-profile__title-password {
+}
+.change-profile__password-input {
+}
+
+.change-profile__buttons button{
+    border: 3px solid rgb(150, 150, 150);
+}
+label{
+    cursor: pointer;
+}
+#profile-change-file{
+    display: none;
+}

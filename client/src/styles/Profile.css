@@ -154,3 +154,20 @@
 }
 
 .profile__body-subscribers {}
+
+.posts-not-found{
+    height: 250px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.posts-not-found__image{
+    width: 60px;
+    height: 50px;
+}
+.posts-not-found__text{
+    font-size: 20px;
+    color: #868585;
+    font-weight: 600;
+}
