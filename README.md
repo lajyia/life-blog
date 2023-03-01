@@ -23,7 +23,7 @@
   
   1. bcryptjs: "^2.4.3"
   1. cors: "^2.8.5"
-  2.dotenv: "^16.0.3"
+  2. dotenv: "^16.0.3"
   3. express: "^4.18.2"
   4. express-validator: "^6.14.3"
   5. jsonwebtoken: "^9.0.0"
