@@ -1,4 +1,4 @@
-## life-blog
+# life-blog
 
 #### server:
   1. cd server
