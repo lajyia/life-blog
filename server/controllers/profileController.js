@@ -180,7 +180,7 @@ class ProfileController {
                 }
                 return res.json({ message: false })
             }
-            return res.json({ message: "No user with this name" })
+            return res.json({ message: 'This user not found' })
 
         } catch (e) {
             console.log(e)

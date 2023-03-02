@@ -86,7 +86,7 @@ const Profile: FC = () => {
         rootProfilePostsClasses.push('loading')
     }
 
-    if (user?.subscribers == 0) {
+    if (user?.subscribers === 0) {
         rootProfileSubscribersClasses.push('none');
     }
 

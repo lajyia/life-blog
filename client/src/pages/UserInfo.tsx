@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { UserService } from '../API/UserService';
 import { useFetching } from '../hooks/useFetching';
 import Loader from '../components/UI/Loader/Loader';
@@ -19,19 +19,12 @@ import Magnifier from '../images/magnifier.svg'
 const UserInfo: FC = () => {
 
     const [user, setUser] = useState<IUser>();
-    const [isMe, setIsMe] = useState<boolean | string>();
     const [posts, setPosts] = useState<IPost[]>([]);
     const [subs, setSubs] = useState<IUser[]>([]);
     const [isFollow, setIsFollow] = useState<boolean>(false);
 
     const params = useParams();
     const userId = params.id;
-
-    const navigate = useNavigate();
-
-    if (isMe) {
-        navigate('/profile')
-    }
 
     let subsLength = 0
 
@@ -73,7 +66,6 @@ const UserInfo: FC = () => {
         idUser = response.data.user._id;
         fetchSubs();
 
-        checkUser();
     })
 
     const rootProfilePostsClasses = ['profile__posts'];
@@ -84,10 +76,6 @@ const UserInfo: FC = () => {
 
     }
 
-    const checkUser = async () => {
-        const response = await UserService.isMe(userId);
-        setIsMe(response.data.message);
-    }
 
     useEffect(() => {
         fetchUser();
@@ -103,7 +91,7 @@ const UserInfo: FC = () => {
 
     const rootProfileSubscribersClasses = ['profile__subscribers'];
 
-    if (user?.subscribers == 0) {
+    if (user?.subscribers === 0) {
         rootProfileSubscribersClasses.push('none');
     }
     if (user) {
@@ -117,7 +105,7 @@ const UserInfo: FC = () => {
 
         if (user) {
             const response = await UserService.follow(user._id);
-            if (response.status == 200) {
+            if (response.status === 200) {
                 setSubs([...subs, userInfo]);
                 setUser({ ...user, subscribers: user.subscribers + 1 })
             }
@@ -129,7 +117,7 @@ const UserInfo: FC = () => {
 
         if (user) {
             const response = await UserService.unfollow(user._id);
-            if (response.status == 200) {
+            if (response.status === 200) {
                 setSubs(subs.filter(subs => subs._id !== userInfo._id))
                 setUser({ ...user, subscribers: user.subscribers - 1 })
             }

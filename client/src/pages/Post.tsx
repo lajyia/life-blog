@@ -27,6 +27,15 @@ const Post: FC = () => {
         fetchPost();
     }, [])
 
+    if (postLoading){
+        return (
+            <div>
+                <Header/>
+                <Loader/>
+            </div>
+        )
+    }
+
     return (
         <div>
             {post

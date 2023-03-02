@@ -47,7 +47,18 @@ const Registration: FC = () => {
     const [existForm, setExistForm] = useState<existForm>({ linkname: false, login: false })
     const [validForm, setValidForm] = useState<validForm>({ password: true, linkname: true, login: true });
 
-    useEffect(() =>{
+
+    const getValidResult = ():boolean =>{
+        if (validForm.password && validForm.linkname && validForm.login && !existForm.linkname && !existForm.login && valueForm.login && valueForm.password && valueForm.linkname){
+            return true
+        }else{
+            return false
+        }
+    }
+
+    const validResult = getValidResult();
+
+    useEffect(() => {
         dispatch(falseVisibleNotificationAction())
     }, [])
 
@@ -101,15 +112,20 @@ const Registration: FC = () => {
 
     const registrationUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        const response = await UserService.registration(valueForm.login, valueForm.linkname, valueForm.password)
-        setValueForm({ ...valueForm, password: '', login: '', linkname: '' });
-        if (response.data.message) {
-            showNotification();
-            setTimeout(() => {
-                return (
-                    navigate('/login')
-                )
-            }, 5000)
+
+        if (validResult) {
+            const response = await UserService.registration(valueForm.login, valueForm.linkname, valueForm.password)
+            setValueForm({ ...valueForm, password: '', login: '', linkname: '' });
+            if (response.data.message) {
+                showNotification();
+                setTimeout(() => {
+                    return (
+                        navigate('/login')
+                    )
+                }, 3000)
+            }else{
+                return alert(response.data.message)
+            }
         }
     }
 
@@ -122,7 +138,7 @@ const Registration: FC = () => {
 
     return (
         <div className='registration'>
-            <Header/>
+            <Header />
             {visibleNotification
                 ? <Notification>
                     <div className="notification__text">
@@ -179,7 +195,7 @@ const Registration: FC = () => {
                                     : <div></div>
                                 }
                             </div>
-                            <Button onClick={registrationUser}>send</Button>
+                            <Button disabled={validResult ? false : true} onClick={registrationUser}>send</Button>
                         </form>
                     </div>
 

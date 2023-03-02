@@ -1,10 +1,8 @@
-import React, { FC, useState } from 'react';
+import React, { FC} from 'react';
 import '../styles/ProfileBody.css';
 import { Link } from 'react-router-dom';
 import DefaultAvatar from '../images/default-avatar.svg'
 import FollowButton from './UI/FollowButton/FollowButton';
-import { UserService } from '../API/UserService';
-import { useNavigate } from 'react-router-dom';
 
 interface ProfileBody {
     avatar: string | undefined,
@@ -19,9 +17,6 @@ interface ProfileBody {
 
 
 const ProfileBody: FC<ProfileBody> = ({ avatar, nickname, me, bio, linkName, isFollow, follow, unfollow}) => {
-
-
-    const navigate = useNavigate();
 
     const rootAvatarImageClasses = ['profile__image-avatar'];
 

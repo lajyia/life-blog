@@ -3,12 +3,13 @@ import classes from './Button.module.css';
 
 interface buttonProps{
     children?: any,
-    onClick?: (e: any) => void
+    onClick?: (e: any) => void,
+    disabled?: boolean
 }
 
 const Button:FC<buttonProps> = ({children, ...props}) => {
     return (
-        <button role="button" {...props} className={classes.button}>
+        <button {...props} className={classes.button}>
             <span>{children}</span>
         </button>
     );

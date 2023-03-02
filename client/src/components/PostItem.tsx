@@ -9,6 +9,8 @@ import ActiveLike from '../images/active-like.svg';
 import { UserService } from '../API/UserService';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { IRootState } from '../store';
 
 
 interface PostItemProps {
@@ -34,6 +36,8 @@ const PostItem: FC<PostItemProps> = ({ post, full }) => {
     useEffect(() => {
         getImage();
     }, [])
+
+    const user = useSelector((state: IRootState) => state.user.user);
 
     const pathPost = 'http://localhost:4000/posts/' + post.image;
 
@@ -66,7 +70,11 @@ const PostItem: FC<PostItemProps> = ({ post, full }) => {
     const linkPath = `/user/${post.author.toLowerCase()}`;
 
     const navigateToUserInfo = () => {
-        navigate(linkPath);
+        if (user.nickname == post.author){
+            navigate('/profile');
+        }else{
+            navigate(linkPath);
+        }
     }
 
     const validBody = `${post.body.substring(0, 300)}`;

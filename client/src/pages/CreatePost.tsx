@@ -54,7 +54,7 @@ const CreatePost: FC = () => {
                             <div className="create-post__preview-body">{post.body}</div>
                             <div className="create-post__preview-image">
                                 {post.pathImage
-                                    ? <img src={post.pathImage} />
+                                    ? <img alt="preview" src={post.pathImage} />
                                     : <div></div>
                                 }
                             </div>

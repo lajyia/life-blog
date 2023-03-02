@@ -16,8 +16,6 @@ const ChangeProfile: FC = () => {
     const [user, setUser] = useState(userInfo);
     const [choose, setChoose] = useState<boolean>(false);
 
-    const [upload, setUpload] = useState<boolean>(false);
-
     const pathUser = 'http://localhost:4000/users/' + userInfo.avatar;
 
     const rootProfileImageClasses = ['change-profile__avatar-form'];
