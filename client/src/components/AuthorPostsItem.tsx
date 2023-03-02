@@ -8,13 +8,16 @@ import ActiveLike from '../images/active-like.svg';
 import comment from '../images/comment.svg';
 import like from '../images/like.svg';
 import { Link } from 'react-router-dom';
+import Delete from '../images/delete.svg';
 
 
 interface AuthorPostsItemProps {
-    post: IPost
+    post: IPost,
+    me: boolean,
+    deletePost?: (id: string) => void;
 }
 
-const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post }) => {
+const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post, me, deletePost}) => {
 
 
     const [pathImage, setPathImage] = useState<boolean | string>();
@@ -66,20 +69,35 @@ const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post }) => {
         getImage()
     }, [])
 
+    const removePost = () =>{
+        if(deletePost){
+            deletePost(post._id);
+        }
+    }
+
     return (
         <div className="author-post">
             <div className="author-post__top post__top">
                 <div className="author-post__author-info post__author">
-                    <div className="post__image-author post-author__image-author">
-                        {pathImage
-                            ? <img className='post__item-image-author' src={pathUser} alt="logo author" />
-                            : <img style={{ border: '2px solid #868585' }} className='post__item-image-author' src={DefaultAvatar} alt="logo author" />
-                        }
+                    <div className="author-post__body-author-info">
+                        <div className="post__image-author post-author__image-author">
+                            {pathImage
+                                ? <img className='post__item-image-author' src={pathUser} alt="logo author" />
+                                : <img style={{ border: '2px solid #868585' }} className='post__item-image-author' src={DefaultAvatar} alt="logo author" />
+                            }
+                        </div>
+                        <div className="post__body-author author-post__body-author">
+                            <div className="post__nickname-author post-author__nickname-author">{post.author}</div>
+                            <div className="post__time-post">{post.date}</div>
+                        </div>
                     </div>
-                    <div className="post__body-author author-post__body-author">
-                        <div className="post__nickname-author post-author__nickname-author">{post.author}</div>
-                        <div className="post__time-post">{post.date}</div>
-                    </div>
+                    {me
+                        ? <div onClick={removePost} className="author-post__delete">
+                            <img className='author-post__image-delete' src={Delete} alt="" />
+                        </div>
+                        : <div></div>
+                    }
+
                 </div>
             </div>
             <div className="author-post__body">

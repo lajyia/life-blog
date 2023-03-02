@@ -51,7 +51,7 @@ const CreatePost: FC = () => {
 
         const response = await PostService.createPost(formData);
 
-        if (response.data.message == true) {
+        if (response.data.message === true) {
             setPost({ title: '', body: '', pathImage: '' })
             showNotification();
             setTimeout(() =>{
@@ -102,7 +102,7 @@ const CreatePost: FC = () => {
                                 <div className="create-post__image">
                                     <div className="create-post__buttons">
                                         <label className="create-post__title-image" htmlFor="create-post-image">Add image</label>
-                                        <a onClick={addPost} className="create-post__send-button">Send</a>
+                                        <div onClick={addPost} className="create-post__send-button">Send</div>
                                     </div>
                                     <input id="create-post-image" onChange={changePathImage} type="file" className='create-post__file-input' />
                                 </div>

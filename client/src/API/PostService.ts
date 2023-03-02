@@ -16,26 +16,26 @@ export class PostService {
         return response
     }
 
-    static async getAuthorPosts(){
+    static async getAuthorPosts() {
 
         const jwt = localStorage.getItem("jwt");
 
         const response = await axios.get(`http://localhost:4000/api/feed/author`, {
-            headers:{
-                authorization : "Bearer " + jwt
+            headers: {
+                authorization: "Bearer " + jwt
             }
-        }, );
+        },);
         return response
     }
 
 
-    static async getPost(id: string | undefined){
+    static async getPost(id: string | undefined) {
 
         const jwt = localStorage.getItem('jwt');
 
         const response = await axios.get(`http://localhost:4000/api/feed/post?id=${id}`, {
             headers: {
-                authorization : "Bearer " + jwt
+                authorization: "Bearer " + jwt
             }
         })
 
@@ -43,13 +43,25 @@ export class PostService {
     }
 
 
-    static async createPost(formData: Object){
+    static async createPost(formData: Object) {
 
         const jwt = localStorage.getItem('jwt');
 
         const response = await axios.post('http://localhost:4000/api/post/create', formData, {
             headers: {
-                authorization : "Bearer " + jwt
+                authorization: "Bearer " + jwt
+            }
+        })
+
+        return response
+    }
+
+    static async deletePost(id: string) {
+        const jwt = localStorage.getItem("jwt");
+
+        const response = await axios.post(`http://localhost:4000/api/post/delete?id=${id}`, {}, {
+            headers: {
+                authorization: "Bearer " + jwt
             }
         })
 

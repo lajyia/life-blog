@@ -29,6 +29,11 @@ const Profile: FC = () => {
     const [fetchUser, userLoading, userError] = useFetching(async () => {
         const response = await UserService.getProfileByJWT();
         const user = response.candidate
+
+        if (!user) {
+            navigate('/login');
+        }
+
         setUser(user);
         subsLength = user.subscribers;
         fetchSubs();
@@ -90,8 +95,18 @@ const Profile: FC = () => {
         rootProfileSubscribersClasses.push('none');
     }
 
-    if (!user) {
-        navigate('/login');
+
+    const deletePost = async (id: string) => {
+
+        const response = await PostService.deletePost(id);
+
+        if (response.data.message === true) {
+            setPosts(posts.filter(post => post._id !== id));
+        } else {
+            return alert(response.data.message);
+        }
+
+
     }
 
     return (
@@ -105,13 +120,25 @@ const Profile: FC = () => {
                             {authorPostsLoading
                                 ? <LoaderItems />
                                 : <div>
-                                    {
-                                        posts
-                                            ? <AuthorPostsList posts={posts} />
-                                            : <div className="posts-not-found">
-                                                <img className="posts-not-found__image" src={Magnifier} alt="" />
-                                                <div className="posts-not-found__text">Posts Not Found</div>
-                                            </div>
+                                    {posts
+                                        ? <div>{
+                                            posts.length > 0
+                                                ? <AuthorPostsList me={true} deletePost={deletePost} posts={posts} />
+                                                : <div className="posts-not-found">
+                                                    <img className="posts-not-found__image" src={Magnifier} alt="" />
+                                                    <div className="posts-not-found__text">Posts Not Found</div>
+                                                </div>
+                                        }</div>
+                                        : <div>
+                                            {
+                                                posts
+                                                    ? <AuthorPostsList me={true} deletePost={deletePost} posts={posts} />
+                                                    : <div className="posts-not-found">
+                                                        <img className="posts-not-found__image" src={Magnifier} alt="" />
+                                                        <div className="posts-not-found__text">Posts Not Found</div>
+                                                    </div>
+                                            }
+                                        </div>
                                     }
                                 </div>
                             }

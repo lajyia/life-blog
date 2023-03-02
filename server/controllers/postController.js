@@ -11,23 +11,17 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 class PostController {
     async deletePost(req, res) {
 
-        const title = req.body.title.toUpperCase();
+        const id = req.query.id;
 
         const isAuth = req.userId;
 
         try {
 
             if (!isAuth) {
-                return res.status(400).json({ message: 'Access error' });
+                return res.json({ message: false });
             }
 
-
-            const errors = validationResult(req).errors;
-            if (errors.length > 0) {
-                return res.status(400).json({ errors })
-            }
-
-            const post = await Post.findOne({ title });
+            const post = await Post.findById(id);
 
             if (post) {
 
@@ -40,11 +34,11 @@ class PostController {
                     }
                 }
 
-                await Post.deleteOne({ title });
-                return res.json({ message: 'A post is deleted' });
+                await Post.findByIdAndDelete(id);
+                return res.json({ message: true });
             }
 
-            return res.status(400).json({ message: 'A post undefined' })
+            return res.json({ message: 'A post undefined' })
         }
         catch (e) {
             console.log(e);

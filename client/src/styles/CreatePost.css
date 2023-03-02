@@ -115,6 +115,7 @@
     text-transform: uppercase;
     font-family: Roboto;
     padding: 5px 20px;
+    display: inline-block;
 }
 
 .create-post__file-input {

@@ -7,7 +7,6 @@ const { checkAuth } = require('../middlewares/checkAuth');
 const upload  = require('../middlewares/uploadPost');
 
 router.post('/delete', [
-    check("title", "Title can't be smaller 5 and more 40 letters").isLength({min: 5, max: 40}),
     checkAuth
 ], controller.deletePost);
 

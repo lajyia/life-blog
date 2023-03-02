@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import classes from './Notification.module.css';
 import '../../../styles/Notification.css'
 
 

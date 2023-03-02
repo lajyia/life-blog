@@ -137,7 +137,7 @@ const Registration: FC = () => {
     }
 
     return (
-        <div className='registration'>
+        <div className={visibleNotification ? 'registration registration-disabled' : 'registration'}>
             <Header />
             {visibleNotification
                 ? <Notification>

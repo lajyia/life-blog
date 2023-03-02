@@ -50,3 +50,20 @@
 .post-author__nickname-author:hover{
     cursor: default;
 }
+.author-post__body-author-info{
+    display: flex;
+}
+.author-post__author-info{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.author-post__delete{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.author-post__image-delete{
+
+}

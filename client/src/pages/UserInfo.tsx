@@ -124,6 +124,7 @@ const UserInfo: FC = () => {
         }
     }
 
+
     return (
         <div>
             {!user
@@ -136,7 +137,7 @@ const UserInfo: FC = () => {
                             <div className={rootProfilePostsClasses.join(' ')}>
                                 <div>
                                     {posts.length > 0
-                                        ? <AuthorPostsList posts={posts} />
+                                        ? <AuthorPostsList me={false} posts={posts} />
                                         : <div className="posts-not-found">
                                             <img className="posts-not-found__image" src={Magnifier} alt="" />
                                             <div className="posts-not-found__text">Posts Not Found</div>
