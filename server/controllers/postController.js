@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+    "July", "August", "September", "October", "November", "December"
 ];
 
 class PostController {
@@ -87,7 +87,7 @@ class PostController {
 
                         }
                     }
-                    
+
                     await Post.findOneAndUpdate({ title }, { title: newTitle, body: newBody, image: req.file.path }, { new: true });
                     return res.json({ message: 'A post is updated', token })
                 }
@@ -101,9 +101,13 @@ class PostController {
         }
     }
     async createPost(req, res) {
+
         try {
-            const { body } = req.body;
-            const title = req.body.title.toUpperCase();
+
+            const formData = req.body;
+
+            const body = formData.body;
+            const title = formData.title.toUpperCase();
 
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
@@ -118,8 +122,9 @@ class PostController {
 
             const titleCandidate = await Post.findOne({ title });
 
+
             if (titleCandidate) {
-                return res.status(400).json({ message: 'A post with this title already created' })
+                return res.json({ message: 'A post with this title already created' })
             }
 
             const dateVar = new Date();
@@ -146,7 +151,7 @@ class PostController {
                 id: req.userID
             }, process.env.JWT_SECRET, { expiresIn: '30d' })
 
-            return res.json({ message: 'The post was created successfully', token })
+            return res.json({ message: true, token })
 
         } catch (e) {
             console.log(e);

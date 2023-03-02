@@ -41,4 +41,18 @@ export class PostService {
 
         return response.data;
     }
+
+
+    static async createPost(formData: Object){
+
+        const jwt = localStorage.getItem('jwt');
+
+        const response = await axios.post('http://localhost:4000/api/post/create', formData, {
+            headers: {
+                authorization : "Bearer " + jwt
+            }
+        })
+
+        return response
+    }
 }

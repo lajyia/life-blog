@@ -153,7 +153,7 @@ const Registration: FC = () => {
                 <div className="registration__body">
                     <div className="registration__form-body">
                         <div className="registration__form-panel">
-                            <img src={FormImage} alt="form-image" />
+                            <img src={FormImage} alt="form-cover" />
                         </div>
                         <form className="registration__form">
                             <div className="registration__title">REGISTRATION</div>

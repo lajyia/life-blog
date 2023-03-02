@@ -24,20 +24,15 @@ const upload = multer({
 
         let result;
 
+
         try {
             result = jwt.verify(decoded, JWT_SECRET);
         }
-        catch(e){
+        catch (e) {
             console.log(e);
         }
 
-        const title = req.body.title;
-        const body = req.body.body;
-
-        const newTitle = req.body.newTitle;
-        const newBody = req.body.newBody;
-
-        if (result && newTitle && newBody && newBody.length > 5 && newTitle.length > 5 && newTitle.length < 41) {
+        if (result) {
             if (
                 file.mimetype == "image/png" ||
                 file.mimetype == "image/jpg" ||
@@ -49,25 +44,6 @@ const upload = multer({
                 console.log('u can upload only jpg, png, jpeg files');
                 callback(null, false)
             }
-        } else {
-            callback(null, false);
-        }
-
-
-        if (title && body && title.length > 5 && title.length < 41 && body.length > 5) {
-            if (
-                file.mimetype == "image/png" ||
-                file.mimetype == "image/jpg" ||
-                file.mimetype == "image/jpeg"
-            ) {
-                callback(null, true);
-            }
-            else {
-                console.log('u can upload only jpg, png, jpeg files');
-                callback(null, false)
-            }
-        } else {
-            callback(null, false);
         }
 
     },

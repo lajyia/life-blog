@@ -1,7 +1,12 @@
 .create-post{
-    height: 100vh;
+    min-height: 100vh;
     background: rgb(233, 233, 233);
 }
+
+.create-post-disabled{
+    pointer-events: none;
+}
+
 .create-post__body{
     
 }
@@ -87,6 +92,11 @@
     height: 20vh;
     overflow: hidden;
 }
+
+.create-post__buttons{
+    display: flex;
+    justify-content: space-between;
+}
 .create-post__image {
 }
 .create-post__title-image {
@@ -97,6 +107,16 @@
     font-family: Roboto;
     padding: 5px;
 }
+
+.create-post__send-button{
+    background: red;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-family: Roboto;
+    padding: 5px 20px;
+}
+
 .create-post__file-input {
     display: none;
 }
