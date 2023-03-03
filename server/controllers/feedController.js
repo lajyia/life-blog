@@ -39,7 +39,7 @@ class FeedController {
                 console.log(e);
             }
             if (posts.length > 0) {
-                return res.json({ posts});
+                return res.json({ posts });
             } else {
                 return res.json({ message: 'No posts!' })
             }
@@ -122,62 +122,22 @@ class FeedController {
     }
 
     async getAuthorPosts(req, res) {
-        const userId = req.userId;
+        try {
+            const userId = req.userId;
 
-        if (userId) {
+            if (userId) {
 
-            const user = await User.findById(userId);
-            const authorName = user.nickname;
+                const user = await User.findById(userId);
+                const authorName = user.nickname;
 
-            const likedPosts = user.liked;
-
-            const allPosts = await Post.find();
-
-            const authorPosts = [];
-
-            for (let key in allPosts) {
-                if (allPosts[key].author == authorName) {
-                    authorPosts.push(allPosts[key]);
-                }
-            }
-
-            if (authorPosts.length > 0) {
-
-                for (let key in authorPosts) {
-                    for (let i = 0; i < likedPosts.length; i++) {
-                        if (likedPosts[i] == authorPosts[key]._id) {
-                            authorPosts[key].isLiked = true
-                        }
-                    }
-                }
-
-                return res.json({ posts: authorPosts })
-            }
-
-            return res.json({ message: 'Posts not found' })
-
-        }
-        return res.json({ message: false })
-    }
-
-    async getUserInfoById(req, res) {
-
-        const userId = req.userId;
-
-        if (userId) {
-
-            const id = req.query.id.toUpperCase();
-
-            const user = await User.findOne({ linkName: id })
-
-            if (user) {
+                const likedPosts = user.liked;
 
                 const allPosts = await Post.find();
 
                 const authorPosts = [];
 
                 for (let key in allPosts) {
-                    if (allPosts[key].author == user.nickname) {
+                    if (allPosts[key].author == authorName) {
                         authorPosts.push(allPosts[key]);
                     }
                 }
@@ -185,63 +145,120 @@ class FeedController {
                 if (authorPosts.length > 0) {
 
                     for (let key in authorPosts) {
-
-                        const likedUsers = authorPosts[key].likedUsers;
-
-                        for (let i = 0; i < likedUsers.length; i++) {
-                            if (likedUsers[i] == userId) {
+                        for (let i = 0; i < likedPosts.length; i++) {
+                            if (likedPosts[i] == authorPosts[key]._id) {
                                 authorPosts[key].isLiked = true
                             }
                         }
-
                     }
-                    user.posts = authorPosts;
-                    return res.json({ user });
+
+                    return res.json({ posts: authorPosts })
                 }
 
-                return res.json({ user })
-            }
-        }
+                return res.json({ message: 'Posts not found' })
 
-        return res.json({ message: false })
+            }
+            return res.json({ message: false })
+        } catch (e) {
+            console.log(e);
+        }
     }
 
-    async getProfileById(req, res) {
-        const userId = req.userId;
+    async getUserInfoById(req, res) {
 
-        if (userId) {
-            const id = req.query.id;
+        try {
+            const userId = req.userId;
 
-            const user = await User.findById(id);
+            if (userId) {
 
-            if (user) {
-                return res.json(user);
+                const id = req.query.id.toUpperCase();
+
+                const user = await User.findOne({ linkName: id })
+
+                if (user) {
+
+                    const allPosts = await Post.find();
+
+                    const authorPosts = [];
+
+                    for (let key in allPosts) {
+                        if (allPosts[key].author == user.nickname) {
+                            authorPosts.push(allPosts[key]);
+                        }
+                    }
+
+                    if (authorPosts.length > 0) {
+
+                        for (let key in authorPosts) {
+
+                            const likedUsers = authorPosts[key].likedUsers;
+
+                            for (let i = 0; i < likedUsers.length; i++) {
+                                if (likedUsers[i] == userId) {
+                                    authorPosts[key].isLiked = true
+                                }
+                            }
+
+                        }
+                        user.posts = authorPosts;
+                        return res.json({ user });
+                    }
+
+                    return res.json({ user })
+                }
             }
 
             return res.json({ message: false })
+        } catch (e) {
+            console.log(e);
         }
-        return res.json({ message: false })
     }
 
-    async getPost(req, res){
+    async getProfileById(req, res) {
 
-        const userId = req.userId;
+        try {
+            const userId = req.userId;
 
-        if (userId){
-            const id = req.query.id;
+            if (userId) {
+                const id = req.query.id;
 
-            const post = await Post.findById(id);
+                const user = await User.findById(id);
 
-            if (post){
-                const viewed = post.viewed + 1;
+                if (user) {
+                    return res.json(user);
+                }
 
-                await Post.findByIdAndUpdate(id, {viewed}, {new: true})
-                
-                return res.json(post);
+                return res.json({ message: false })
             }
-            return res.json({message: false})
+            return res.json({ message: false })
+        } catch (e) {
+            console.log(e);
         }
-        return res.json({message: false})
+    }
+
+    async getPost(req, res) {
+
+        try {
+            const userId = req.userId;
+
+            if (userId) {
+                const id = req.query.id;
+
+                const post = await Post.findById(id);
+
+                if (post) {
+                    const viewed = post.viewed + 1;
+
+                    await Post.findByIdAndUpdate(id, { viewed }, { new: true })
+
+                    return res.json(post);
+                }
+                return res.json({ message: false })
+            }
+            return res.json({ message: false })
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
 

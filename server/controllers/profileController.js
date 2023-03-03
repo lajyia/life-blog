@@ -188,21 +188,26 @@ class ProfileController {
     }
 
     async getAvatar(req, res) {
-        const nickname = req.query.nickname.toUpperCase();
+        try {
+            const nickname = req.query.nickname.toUpperCase();
 
-        const candidate = await User.findOne({ nickname });
+            const candidate = await User.findOne({ nickname });
 
-        if (candidate) {
+            if (candidate) {
 
-            if (candidate.avatar) {
-                const image = candidate.avatar
-                return res.json({ image });
+                if (candidate.avatar) {
+                    const image = candidate.avatar
+                    return res.json({ image });
+                }
+
+                return res.json({ image: false })
             }
 
             return res.json({ image: false })
+        } catch (e) {
+            console.log(e);
         }
 
-        return res.json({ image: false })
     }
 
     async isMe(req, res) {
@@ -222,7 +227,7 @@ class ProfileController {
                     return res.json({ message: false })
                 }
 
-                return res.json({message: 'error'})
+                return res.json({ message: 'error' })
 
             }
             return res.json({ message: 'error' })
