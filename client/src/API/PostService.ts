@@ -43,7 +43,7 @@ export class PostService {
     }
 
 
-    static async createPost(formData: Object) {
+    static async createPost(formData: FormData) {
 
         const jwt = localStorage.getItem('jwt');
 
@@ -60,6 +60,19 @@ export class PostService {
         const jwt = localStorage.getItem("jwt");
 
         const response = await axios.post(`http://localhost:4000/api/post/delete?id=${id}`, {}, {
+            headers: {
+                authorization: "Bearer " + jwt
+            }
+        })
+
+        return response
+    }
+
+    static async updatePost(formData: FormData){
+
+        const jwt = localStorage.getItem('jwt');
+
+        const response = await axios.post('http://localhost:4000/api/post/update', formData, {
             headers: {
                 authorization: "Bearer " + jwt
             }

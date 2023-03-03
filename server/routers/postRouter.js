@@ -19,11 +19,10 @@ router.post('/create', [
 ], controller.createPost);
 
 router.post('/update', [
+    checkAuth,
     upload.single('image'),
-    check("newTitle", "New title can't be smaller 5 and more 40 letters").isLength({min: 5, max: 40}),
     check("title", "Title can't be smaller 5 and more 40 letters").isLength({min: 5, max: 40}),
-    check("newBody", "New body can't be smaller 5 letters").isLength({min: 5}),
-    checkAuth
+    check("body", "New body can't be smaller 5 letters").isLength({min: 5}),
 ], controller.updatePost);
 
 module.exports = router;

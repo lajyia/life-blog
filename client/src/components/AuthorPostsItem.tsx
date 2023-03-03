@@ -9,6 +9,7 @@ import comment from '../images/comment.svg';
 import like from '../images/like.svg';
 import { Link } from 'react-router-dom';
 import Delete from '../images/delete.svg';
+import Pencil from '../images/pencil.svg';
 
 
 interface AuthorPostsItemProps {
@@ -17,7 +18,7 @@ interface AuthorPostsItemProps {
     deletePost?: (id: string) => void;
 }
 
-const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post, me, deletePost}) => {
+const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post, me, deletePost }) => {
 
 
     const [pathImage, setPathImage] = useState<boolean | string>();
@@ -69,11 +70,14 @@ const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post, me, deletePost}) => {
         getImage()
     }, [])
 
-    const removePost = () =>{
-        if(deletePost){
+    const removePost = () => {
+        if (deletePost) {
             deletePost(post._id);
         }
     }
+
+    const pathToChange = `/post/${post._id}/change`;
+
 
     return (
         <div className="author-post">
@@ -92,8 +96,13 @@ const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post, me, deletePost}) => {
                         </div>
                     </div>
                     {me
-                        ? <div onClick={removePost} className="author-post__delete">
-                            <img className='author-post__image-delete' src={Delete} alt="" />
+                        ? <div className="author-post__top-buttons">
+                            <div onClick={removePost} className="author-post__delete">
+                                <img className='author-post__image-delete' src={Delete} alt="" />
+                            </div>
+                            <Link to={pathToChange} className="author-post__change">
+                                <img src={Pencil} alt="" className="author-post__image-change" />
+                            </Link>
                         </div>
                         : <div></div>
                     }

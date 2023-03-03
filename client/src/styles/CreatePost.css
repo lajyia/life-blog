@@ -1,6 +1,7 @@
 .create-post{
     min-height: 100vh;
     background: rgb(233, 233, 233);
+    padding-bottom: 20px;
 }
 
 .create-post-disabled{
@@ -109,6 +110,7 @@
 }
 
 .create-post__send-button{
+    cursor: pointer;
     background: red;
     color: #fff;
     font-weight: 600;

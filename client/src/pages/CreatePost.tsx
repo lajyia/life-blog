@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import '../styles/CreatePost.css';
 import Header from '../components/Header';
 import { PostService } from '../API/PostService';
@@ -42,24 +42,32 @@ const CreatePost: FC = () => {
 
     const addPost = async () => {
 
-        const formData = new FormData();
+        if (post.body.length >= 5 && post.title.length >= 5 && post.title.length <= 40) {
+            const formData = new FormData();
 
-        formData.append('image', image);
-        formData.append('title', post.title);
-        formData.append('body', post.body)
+            formData.append('image', image);
+            formData.append('title', post.title);
+            formData.append('body', post.body)
 
+            const response = await PostService.createPost(formData);
 
-        const response = await PostService.createPost(formData);
+            if (response.data.message === true) {
+                setPost({ title: '', body: '', pathImage: '' })
+                showNotification();
+                setTimeout(() => {
+                    navigate('/feed');
+                }, 3000)
 
-        if (response.data.message === true) {
-            setPost({ title: '', body: '', pathImage: '' })
-            showNotification();
-            setTimeout(() =>{
-                navigate('/feed');
-            }, 3000)
-            
-        } else {
-            return alert(response.data.message)
+            } else {
+                return alert(response.data.message)
+            }
+        }else{
+            if (post.body.length < 5){
+                return alert(`Body can't be smaller 5 letters`)
+            }
+            if (post.title.length < 5 || post.title.length > 40){
+                return alert(`Title can't be smaller 5 and more 40 letters`)
+            }
         }
     }
 
@@ -70,6 +78,9 @@ const CreatePost: FC = () => {
         dispatch(trueVisibleNotificationAction())
     }
 
+    useEffect(() => {
+        dispatch(falseVisibleNotificationAction());
+    }, [])
 
     return (
         <div className={visibleNotification ? 'create-post-disabled create-post' : 'create-post'}>
