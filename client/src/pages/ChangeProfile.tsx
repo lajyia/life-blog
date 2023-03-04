@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useRef } from 'react';
 import Header from '../components/Header';
 import '../styles/ChangeProfile.css';
 import { useSelector } from 'react-redux';
@@ -7,14 +7,23 @@ import DefaultAvatar from '../images/default-avatar.svg'
 import Button from '../components/UI/Button/Button';
 import { Link } from 'react-router-dom';
 import Camera from '../images/camera.svg'
+import { UserService } from '../API/UserService';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const ChangeProfile: FC = () => {
+
+
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const userInfo = useSelector((state: IRootState) => state.user.user);
 
     const [user, setUser] = useState(userInfo);
     const [choose, setChoose] = useState<boolean>(false);
+
+
+    const [pathImage, setPathImage] = useState('');
 
     const pathUser = 'http://localhost:4000/users/' + userInfo.avatar;
 
@@ -26,6 +35,7 @@ const ChangeProfile: FC = () => {
 
     useEffect(() => {
         setUser({ ...userInfo, password: '' });
+        setPathImage(userInfo.avatar);
     }, [userInfo])
 
     const changeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +47,11 @@ const ChangeProfile: FC = () => {
     const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUser({ ...user, password: e.target.value })
     }
+    const changeBio = (e: React.ChangeEvent<HTMLInputElement>) =>{
+        setUser({...user, bio: e.target.value})
+    }
+
+    const navigate = useNavigate();
 
     const rootProfileBodyAvatarClasses = ['change-profile__body-avatar'];
 
@@ -58,11 +73,58 @@ const ChangeProfile: FC = () => {
 
     const [urlImage, setUrlImage] = useState<string>();
 
+    const [image, setImage] = useState<Blob | string>('');
+
     const pathImageCreate = (e: React.ChangeEvent<HTMLInputElement>) =>{
         if (e.target.files){
+            setImage(e.target.files[0]);
             setUrlImage(URL.createObjectURL(e.target.files[0]))
         }
     }
+
+    const removeImage = () =>{
+        setImage('');
+        setUrlImage('');
+        setPathImage('');
+        if (inputRef.current){
+            inputRef.current.value = '';
+        }
+    }
+
+
+    const changeProfile = async (e: React.FormEvent<HTMLButtonElement>) =>{
+
+        e.preventDefault();
+
+        const formData = new FormData();
+
+
+        formData.append('nickname', user.nickname);
+        formData.append('password', user.password);
+
+        if (urlImage){
+            formData.append('image', image);
+        }
+        if (!user.avatar && !urlImage){
+            formData.append('image', '');
+        }
+        if (user.avatar && !urlImage){
+            formData.append('image', '');
+        }
+
+        
+        formData.append('bio', user.bio);
+        formData.append('linkname', user.linkName);
+
+        const response = await UserService.changeProfile(formData);
+
+        if (response.message === true){
+            navigate('/profile');
+        }else{
+            return alert(response.message)
+        }
+    } 
+
 
     return (
         <div className='change-profile'>
@@ -75,32 +137,39 @@ const ChangeProfile: FC = () => {
                             <label htmlFor="profile-change-file" onMouseOver={chooseAvatar} onMouseOut={unChooseAvatar} className={rootProfileBodyAvatarClasses.join(' ')}>
                                 {urlImage
                                     ? <img src={urlImage} alt="" className={rootProfileImageClasses.join(' ')} />
-                                    : <img src={userInfo.avatar ? pathUser : DefaultAvatar} alt="" className={rootProfileImageClasses.join(' ')} />
+                                    : <img src={pathImage ? pathUser : DefaultAvatar} alt="" className={rootProfileImageClasses.join(' ')} />
                                 }
                                 <img className={rootImageChooseImage.join(' ')} src={Camera} alt="" />
-                                <input onChange={pathImageCreate} id="profile-change-file" type="file" accept='.jpg, .jpeg, .png,'/>
+                                <input ref={inputRef} onChange={pathImageCreate} id="profile-change-file" type="file" accept='.jpg, .jpeg, .png,'/>
                             </label>
                             </div>
                             <div className="change-profile__top-info">
                                 <div className="change-profile__nickname">
-                                    <div className="change-profile__title-nickname">nickname: </div>
+                                    <div className="change-profile__title-nickname change-profile__title-input">nickname: </div>
                                     <input onChange={changeNickname} value={user.nickname || ''} className='change-profile__nickname-input input-change-profile' type="text" />
                                 </div>
-                                <div className="change-profile__id-user">ID: {userInfo._id}</div>
+                                <div className="change-profile__bio">
+                                    <div className="change-profile__title-bio change-profile__title-input">bio: </div>
+                                    <input onChange={changeBio} value={user.bio || ''} type="text" className="change-profile__bio-input input-change-profile" />
+                                </div>
                             </div>
                         </div>
                         <div className="change-profile__body-info">
                             <div className="change-profile__linkname">
-                                <div className="change-profile__title-linkname">linkname: </div>
+                                <div className="change-profile__title-linkname change-profile__title-input">linkname: </div>
                                 <input onChange={changeLinkname} value={user.linkName || ''} className='change-profile__linkname-input input-change-profile' type="text" />
                             </div>
                             <div className="change-profile__password">
-                                <div className="change-profile__title-password">password: </div>
+                                <div className="change-profile__title-password change-profile__title-input">*password: </div>
                                 <input onChange={changePassword} value={user.password || ''} className='change-profile__password-input input-change-profile' type="password" />
                             </div>
                         </div>
+                        <div className="change-profile__services-info">
+                            <div onClick={removeImage} className="change-profile__delete-image-button">Delete image</div>
+                            <div className="change-profile__warning-password">* If you wont't change password - leave the field blank</div>
+                        </div>
                         <div className="change-profile__buttons">
-                            <Button>Send</Button>
+                            <Button onClick={changeProfile}>Send</Button>
                             <Button>
                                 <Link to="/profile">Leave</Link>
                             </Button>

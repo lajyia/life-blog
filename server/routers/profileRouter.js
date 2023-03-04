@@ -15,11 +15,6 @@ router.post('/delete', [
     checkAuth
 ], controller.deleteProfile);
 
-router.post('/update', [
-    check("newLinkName", "LinkName can't be smaller 5 letters and more 10").isLength({min: 5, max: 10}),
-    check("bio", "Bio can't be more 40 letters").isLength({max: 10}),
-    checkAuth
-], controller.updateProfile);
 
 router.post('/login', [
     check("nickname","Nickname can't be smaller 5 letters and more 10").isLength({min: 5, max: 10}),
@@ -29,8 +24,9 @@ router.post('/login', [
 router.post('/change', [
     checkAuth,
     upload.single("image"),
-    check("newNickname", "Nickname can't be smaller 5 letters and more 10").isLength({min: 5, max: 10}),
-    check("password", "Password can't be smaller 8 letters").isLength({min: 8}),
+    check("nickname", "Nickname can't be smaller 5 letters and more 10").isLength({min: 5, max: 10}),
+    check("linkname", "LinkName can't be smaller 5 letters and more 10").isLength({min: 5, max: 10}),
+    check("bio", "Bio can't be more 40 letters").isLength({max: 40}),
 ],
 controller.changeProfile);
 

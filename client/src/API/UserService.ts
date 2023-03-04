@@ -160,4 +160,16 @@ export class UserService {
 
         return response.data;
     }
+
+    static async changeProfile(formData: FormData){
+        const jwt = localStorage.getItem("jwt");
+
+        const response = await axios.post('http://localhost:4000/api/profile/change', formData, {
+            headers: {
+                authorization: "Bearer " + jwt
+            }
+        })
+
+        return response.data;
+    }
 }

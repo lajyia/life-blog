@@ -39,89 +39,79 @@ class ProfileController {
         }
     }
 
-    async updateProfile(req, res) {
-        try {
-            const newLinkName = req.body.newLinkName.toUpperCase();
-            const bio = req.body.bio.toUpperCase();
-
-            const errors = validationResult(req).errors;
-            if (errors.length > 0) {
-                return res.status(400).json({ errors });
-            }
-
-            for (let i = 0; i < newLinkName.length; i++) {
-                for (let j = 0; j < numbers.length; j++) {
-                    if (numbers[j] == newLinkName[0]) {
-                        return res.status(400).json({ message: "Linkname can's start with a number" })
-                    }
-                }
-            }
-
-            const linkCandidate = await User.findById(req.userId);
-
-            if (linkCandidate) {
-
-                await User.findByIdAndUpdate(req.userId, { bio, linkName: newLinkName }, { new: true })
-
-                const token = jwt.sign({
-                    id: linkCandidate._id
-                }, process.env.JWT_SECRET, { expiresIn: '30d' })
-
-                return res.json({ message: "A profile has been updated", token })
-            }
-            return res.status(400).json({ message: "Access error" })
-
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
     async changeProfile(req, res) {
 
         try {
-            const { password } = req.body;
 
-            const newNickname = req.body.newNickname.toUpperCase();
+            const formData = req.body;
+
+
+            const password = formData.password;
+            const nickname = formData.nickname.toUpperCase();
+            const linkName = formData.linkname.toUpperCase();
+            const bio = formData.bio;
+            const image = formData.image;
+
+            if (password.length !== 0 && password.length < 8){
+                return res.json({message: `Password can't be smaller 8 letters`})
+            }
 
             const errors = validationResult(req).errors;
             if (errors.length > 0) {
-                return res.status(400).json({ errors });
+                return res.json({ errors });
             }
 
             const candidate = await User.findById(req.userId);
 
             if (candidate) {
 
-                const hashPassword = bcrypt.hashSync(password, 7);
+                if (numbers.includes(linkName[0])) {
+                    return res.json({ message: `Linkname can't start with number` })
+                }
 
-                const token = jwt.sign({
-                    id: candidate._id
-                }, process.env.JWT_SECRET, { expiresIn: '30d' })
+                const nicknameCandidate = await User.findOne({ nickname });
+                const linknameCandidate = await User.findOne({ linkName });
 
+
+                if (nicknameCandidate && nicknameCandidate.nickname !== candidate.nickname) {
+                    return res.json({ message: 'Nickname is busy' })
+                }
+
+                if (linknameCandidate && linknameCandidate.linkName !== candidate.linkName) {
+                    return res.json({ message: 'Linkname is busy' })
+                }
+
+                let hashPassword;
+
+                if (password.length > 0){
+                    hashPassword = bcrypt.hashSync(password, 7);
+                }else{
+                    hashPassword = candidate.password
+                }
 
                 if (req.file) {
 
-                    const name = req.file.filename
+                    const name = req.file.filename;
 
-                    await User.findByIdAndUpdate(req.userId, { nickname: newNickname, password: hashPassword, avatar: name }, { new: true })
+                    await User.findByIdAndUpdate(req.userId, { nickname, password: hashPassword, avatar: name, bio, linkName }, { new: true })
 
                     if (candidate.avatar) {
-                        if (fs.existsSync(candidate.avatar.replaceAll('\\', "/")) == true) {
-
-                            let filePath = candidate.avatar.replaceAll('\\', "/");
-                            fs.unlink(filePath, () => { });
-                        }
+                        fs.unlink(`uploads/user/${candidate.avatar}`, () => { });
                     }
 
-                    return res.json({ message: 'A user has been changed', token })
+                    return res.json({ message: true })
+                }
+                if (!image) {
+                    await User.findByIdAndUpdate(req.userId, { nickname, password: hashPassword, bio, linkName, avatar: '' }, { new: true })
+                    return res.json({ message: true })
+                } else {
+                    await User.findByIdAndUpdate(req.userId, { nickname, password: hashPassword, bio, linkName }, { new: true })
+                    return res.json({ message: true })
                 }
 
-                await User.findByIdAndUpdate(req.userId, { nickname: newNickname, password: hashPassword }, { new: true })
-
-                return res.json({ message: 'A user has been changed', token })
             }
 
-            return res.status(400).json({ message: 'Access error' })
+            return res.json({ message: false })
 
         } catch (e) {
             console.log(e);

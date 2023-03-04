@@ -95,26 +95,24 @@
     max-width: 100%;
 }
 
-.change-profile__id-user {
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    opacity: 0.4;
-}
-
 .change-profile__nickname{
    
 }
-.change-profile__title-nickname{
+
+.change-profile__title-input{
     font-weight: 600;
     margin-bottom: 2px;
     color: rgb(120, 120, 120)
 }
 
+.change-profile__title-nickname{
+    
+}
+
 .change-profile__body-info {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 .change-profile__linkname {
     margin-right: 10px;
@@ -122,12 +120,40 @@
 .change-profile__title-linkname {
 }
 .change-profile__linkname-input {
+    text-transform: lowercase;
 }
 .input-change-profile {
 }
 .change-profile__password {
     
 }
+.change-profile__services-info{
+    margin-bottom: 30px;
+}
+
+.change-profile__delete-image-button {
+    cursor: pointer;
+    background: rgb(86, 179, 86);
+    display: inline-block;
+    padding: 8px;
+    text-transform: uppercase;
+    color: #fff;
+    font-family: Roboto;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+.change-profile__warning-password {
+}
+
+
+.change-profile__bio{
+
+}
+.change-profile__bio-input{
+    
+}
+
 .change-profile__title-password {
 }
 .change-profile__password-input {

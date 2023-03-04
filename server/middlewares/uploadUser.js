@@ -25,10 +25,8 @@ const upload = multer({
         catch(e){
             console.log(e)
         }
-        const newNickname = req.body.newNickname;
-        const password = req.body.password;
     
-        if (result && newNickname.length > 4 && newNickname.length < 10 && password.length > 8) {
+        if (result) {
 
             if (
                 file.mimetype == "image/png" ||

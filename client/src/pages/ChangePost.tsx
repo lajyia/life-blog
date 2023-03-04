@@ -87,7 +87,6 @@ const ChangePost: FC = () => {
             
             formData.append('id', post._id);
 
-
             const response = await PostService.updatePost(formData);
 
             if (response.data.message === true){
