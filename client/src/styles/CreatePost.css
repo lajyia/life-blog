@@ -4,10 +4,6 @@
     padding-bottom: 20px;
 }
 
-.create-post-disabled{
-    pointer-events: none;
-}
-
 .create-post__body{
     
 }
@@ -107,6 +103,24 @@
     text-transform: uppercase;
     font-family: Roboto;
     padding: 5px;
+    margin-right: 5px;
+}
+
+.create-post__left-buttons{
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-post__remove-image-button{
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background: rgb(97, 151, 97);
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-family: Roboto;
+    cursor: pointer;
 }
 
 .create-post__send-button{

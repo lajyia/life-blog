@@ -1,13 +1,8 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useRef } from 'react';
 import '../styles/CreatePost.css';
 import Header from '../components/Header';
 import { PostService } from '../API/PostService';
 import { useNavigate } from 'react-router-dom';
-import Notification from '../components/UI/Notification/Notification';
-import { useSelector, useDispatch } from 'react-redux';
-import { IRootState } from '../store';
-import Cross from '../images/cross.svg';
-import { trueVisibleNotificationAction, falseVisibleNotificationAction } from '../store/visibleNotification';
 
 const CreatePost: FC = () => {
 
@@ -16,7 +11,8 @@ const CreatePost: FC = () => {
     const [image, setImage] = useState<Blob | string>('');
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+
+    const inputRef = useRef<HTMLInputElement>(null);
 
 
     const changeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +33,15 @@ const CreatePost: FC = () => {
         }
     }
 
-    const visibleNotification = useSelector((state: IRootState) => state.visibleNotification.visible);
+    const removeImage = () =>{
+        setImage('');
+        setPost({...post, pathImage: ''});
+        
+        if (inputRef.current){
+            inputRef.current.value = '';
+        }
+
+    }
 
 
     const addPost = async () => {
@@ -53,49 +57,25 @@ const CreatePost: FC = () => {
 
             if (response.data.message === true) {
                 setPost({ title: '', body: '', pathImage: '' })
-                showNotification();
-                setTimeout(() => {
-                    navigate('/feed');
-                }, 3000)
+                navigate('/profile');
 
             } else {
                 return alert(response.data.message)
             }
-        }else{
-            if (post.body.length < 5){
+        } else {
+            if (post.body.length < 5) {
                 return alert(`Body can't be smaller 5 letters`)
             }
-            if (post.title.length < 5 || post.title.length > 40){
+            if (post.title.length < 5 || post.title.length > 40) {
                 return alert(`Title can't be smaller 5 and more 40 letters`)
             }
         }
     }
 
-    const closeNotification = () => {
-        dispatch(falseVisibleNotificationAction());
-    }
-    const showNotification = () => {
-        dispatch(trueVisibleNotificationAction())
-    }
-
-    useEffect(() => {
-        dispatch(falseVisibleNotificationAction());
-    }, [])
 
     return (
-        <div className={visibleNotification ? 'create-post-disabled create-post' : 'create-post'}>
+        <div className='create-post'>
             <Header />
-            {visibleNotification
-                ? <Notification>
-                    <div className="notification__text">
-                        Post created. Redirect to feed
-                    </div>
-                    <div className="notification__close-image">
-                        <img onClick={closeNotification} src={Cross} alt="" />
-                    </div>
-                </Notification>
-                : <div></div>
-            }
             <div className="create-post__body">
                 <div className="create-post__container">
                     <div className="create-post__title-form">Create the best post now!</div>
@@ -112,10 +92,13 @@ const CreatePost: FC = () => {
                                 </div>
                                 <div className="create-post__image">
                                     <div className="create-post__buttons">
-                                        <label className="create-post__title-image" htmlFor="create-post-image">Add image</label>
+                                        <div className="create-post__left-buttons">
+                                            <label className="create-post__title-image" htmlFor="create-post-image">Add image</label>
+                                            <div onClick={removeImage} className="create-post__remove-image-button">Remove image</div>
+                                        </div>
                                         <div onClick={addPost} className="create-post__send-button">Send</div>
                                     </div>
-                                    <input id="create-post-image" onChange={changePathImage} type="file" className='create-post__file-input' />
+                                    <input ref={inputRef} id="create-post-image" onChange={changePathImage} type="file" className='create-post__file-input' />
                                 </div>
                             </form>
                         </div>

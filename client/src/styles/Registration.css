@@ -7,10 +7,6 @@
     background: rgb(233, 233, 233);
 }
 
-.registration-disabled{
-    pointer-events: none;
-}
-
 .registration header{
     position: absolute;
     top: 0;

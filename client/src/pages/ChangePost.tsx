@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useRef } from 'react';
 import '../styles/ChangePost.css';
 import Header from '../components/Header';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IPost } from '../types/types';
 import { useFetching } from '../hooks/useFetching';
 import { PostService } from '../API/PostService';
@@ -11,15 +11,22 @@ import Loader from '../components/UI/Loader/Loader';
 const ChangePost: FC = () => {
 
     const [post, setPost] = useState<IPost>();
-    const [pathImage, setPathImage] = useState();
+    const [pathImage, setPathImage] = useState<string>();
+    const [image, setImage] = useState<Blob | string>('');
+
+    const navigate = useNavigate();
+
 
     const params = useParams();
     const idPost = params.id;
 
+
+    const inputRef = useRef<HTMLInputElement>(null)
+
     const [fetchPost, postLoading, postError] = useFetching(async () => {
         const response = await PostService.getPost(idPost);
         setPost(response);
-        setPathImage(response.image)
+        setPathImage(response.image);
     })
 
     useEffect(() => {
@@ -41,15 +48,24 @@ const ChangePost: FC = () => {
     }
 
     const [pathPreviewImage, setPathPreviewImage] = useState<string>();
-    const [image, setImage] = useState<Blob | string>('');
 
     const changeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files){
+        if (e.target.files) {
             setImage(e.target.files[0]);
             const url = URL.createObjectURL(e.target.files[0]);
             setPathPreviewImage(url);
         }
     }
+
+    const removeImage = () =>{
+        setImage('');
+        setPathPreviewImage('');
+        setPathImage('');
+        if (inputRef.current){
+            inputRef.current.value = ''
+        }
+    }
+
 
     const updatePost = async () => {
         const formData = new FormData();
@@ -57,18 +73,33 @@ const ChangePost: FC = () => {
         if (post) {
             formData.append("title", post.title);
             formData.append("body", post.body);
-            formData.append("image", image)
+
+
+            if (pathPreviewImage){
+                formData.append("image", image)
+            }
+            if (!pathImage && !image){
+                formData.append('image', '')
+            }
+            if (pathImage && !image){
+                formData.append('image', 'exist');
+            }
+            
             formData.append('id', post._id);
 
 
             const response = await PostService.updatePost(formData);
 
-            console.log(response.data);
+            if (response.data.message === true){
+                navigate('/profile');
+            }else{
+                alert(response.data.message)
+            }
+
         }
 
-        
-    }
 
+    }
 
     const pathPost = 'http://localhost:4000/posts/' + pathImage;
 
@@ -101,10 +132,13 @@ const ChangePost: FC = () => {
                                 </div>
                                 <div className="create-post__image">
                                     <div className="create-post__buttons">
-                                        <label className="create-post__title-image" htmlFor="create-post-image">Add image</label>
+                                        <div className="create-post__left-buttons">
+                                            <label className="create-post__title-image" htmlFor="create-post-image">Add image</label>
+                                            <div onClick={removeImage} className="create-post__remove-image-button">Remove image</div>
+                                        </div>
                                         <div onClick={updatePost} className="create-post__send-button">Update</div>
                                     </div>
-                                    <input id="create-post-image" onChange={changeImage} type="file" className='create-post__file-input' />
+                                    <input ref={inputRef} id="create-post-image" onChange={changeImage} type="file" className='create-post__file-input' />
                                 </div>
                             </form>
                         </div>
@@ -113,10 +147,10 @@ const ChangePost: FC = () => {
                             <div className="create-post__preview-body">{post?.body}</div>
                             <div className="create-post__preview-image">
                                 {pathPreviewImage
-                                    ? <img src={pathPreviewImage}/>
+                                    ? <img src={pathPreviewImage} />
                                     : <div>
                                         {pathImage
-                                            ? <img src={pathPost}/>
+                                            ? <img src={pathPost} />
                                             : <div></div>
                                         }
                                     </div>

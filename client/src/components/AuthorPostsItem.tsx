@@ -121,7 +121,13 @@ const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post, me, deletePost }) => 
                     </div>
                 </div>
                 <div className="author-post__image-body">
-                    <img src={pathPost} alt="" />
+
+                    {post.image
+                        ? <img src={pathPost} alt="" />
+                        : <div></div>
+                    }
+
+                    
                 </div>
             </div>
             <div className="author-post__info post__info">

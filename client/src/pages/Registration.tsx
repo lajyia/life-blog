@@ -7,12 +7,6 @@ import LockForm from '../images/lock-form.svg';
 import SlashForm from '../images/slash-form.svg';
 import { UserService } from '../API/UserService';
 import { useNavigate } from 'react-router-dom';
-import Notification from '../components/UI/Notification/Notification';
-import Cross from '../images/cross.svg';
-import { useSelector, useDispatch } from 'react-redux';
-import { IRootState } from '../store';
-import { trueVisibleNotificationAction } from '../store/visibleNotification';
-import { falseVisibleNotificationAction } from '../store/visibleNotification';
 import Header from '../components/Header';
 
 
@@ -36,10 +30,6 @@ interface valueForm {
 
 const Registration: FC = () => {
 
-
-    const dispatch = useDispatch();
-    const visibleNotification = useSelector((state: IRootState) => state.visibleNotification.visible);
-
     const navigate = useNavigate();
 
     const [valueForm, setValueForm] = useState<valueForm>({ login: '', password: '', linkname: '' })
@@ -57,10 +47,6 @@ const Registration: FC = () => {
     }
 
     const validResult = getValidResult();
-
-    useEffect(() => {
-        dispatch(falseVisibleNotificationAction())
-    }, [])
 
     const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -117,38 +103,16 @@ const Registration: FC = () => {
             const response = await UserService.registration(valueForm.login, valueForm.linkname, valueForm.password)
             setValueForm({ ...valueForm, password: '', login: '', linkname: '' });
             if (response.data.message) {
-                showNotification();
-                setTimeout(() => {
-                    return (
-                        navigate('/login')
-                    )
-                }, 3000)
+                navigate('/login');
             }else{
                 return alert(response.data.message)
             }
         }
     }
 
-    const closeNotification = () => {
-        dispatch(falseVisibleNotificationAction());
-    }
-    const showNotification = () => {
-        dispatch(trueVisibleNotificationAction())
-    }
-
     return (
-        <div className={visibleNotification ? 'registration registration-disabled' : 'registration'}>
+        <div className="registration">
             <Header />
-            {visibleNotification
-                ? <Notification>
-                    <div className="notification__text">
-                        User created. Now you will be redirect to login
-                    </div>
-                    <img onClick={closeNotification} src={Cross} alt="" />
-                </Notification>
-                : <div></div>
-            }
-
             <div className="registration__container">
                 <div className="registration__body">
                     <div className="registration__form-body">

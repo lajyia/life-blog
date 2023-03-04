@@ -26,7 +26,7 @@ class PostController {
 
                 if (post.image) {
 
-                    fs.unlink(`uploads/posts/${post.image}`, () =>{ })
+                    fs.unlink(`uploads/posts/${post.image}`, () => { })
                 }
 
                 await Post.findByIdAndDelete(id);
@@ -68,18 +68,28 @@ class PostController {
                     id: isAuth
                 }, process.env.JWT_SECRET, { expiresIn: '30d' })
 
+
                 if (req.file) {
 
                     if (titleCandidate.image) {
-                        fs.unlink(`uploads/posts/${titleCandidate.image}`, () =>{ })
+                        fs.unlink(`uploads/posts/${titleCandidate.image}`, () => { })
                     }
+
 
                     await Post.findByIdAndUpdate(id, { title: newTitle, body: newBody, image: req.file.filename }, { new: true });
                     return res.json({ message: true, token })
                 }
+                if (!formData.image) {
 
-                await Post.findByIdAndUpdate(id, { title: newTitle, body: newBody }, { new: true })
-                return res.json({ message: true, token })
+                    await Post.findByIdAndUpdate(id, { title: newTitle, body: newBody, image: '' }, { new: true })
+                    return res.json({ message: true, token })
+                }else{
+
+                    await Post.findByIdAndUpdate(id, { title: newTitle, body: newBody }, { new: true })
+                    return res.json({ message: true, token })
+                }
+
+
             }
             return res.json({ message: 'A post not found' })
         } catch (e) {

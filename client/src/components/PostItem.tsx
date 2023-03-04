@@ -116,7 +116,11 @@ const PostItem: FC<PostItemProps> = ({ post, full }) => {
                 }
 
                 <div className="post__image-body">
-                    <img src={pathPost} alt="" />
+                    {post.image
+                        ? <img src={pathPost} alt="" />
+                        : <div></div>
+                    }
+                    
                 </div>
             </div>
             <div className="post__info">
