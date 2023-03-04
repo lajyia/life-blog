@@ -71,6 +71,7 @@
 .post__info {
     display: flex;
     padding-left: 3px;
+    justify-content: space-between;
 }
 .post__like-info {
     display: flex;
@@ -132,4 +133,23 @@
     margin-right: 5px;
 }
 .post__comment-count {
+}
+
+
+.post__body-info{
+    display: flex;
+}
+
+
+.post__viewed {
+    display: flex;
+    align-items: center;
+}
+.post__image-viewed {
+    
+}
+.post__item-image-viewed {
+}
+.post__count-viewed {
+    margin-right: 7px;
 }

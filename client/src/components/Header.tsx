@@ -77,9 +77,6 @@ const Header: FC = () => {
                                 <Link to="/profile">Profile</Link>
                             </li>
                             <li className="header__item-menu">
-                                <Link to="/interesting">Interesting</Link>
-                            </li>
-                            <li className="header__item-menu">
                                 <Link to="/feed">feed</Link>
                             </li>
                         </ul>

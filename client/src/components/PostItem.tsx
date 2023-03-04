@@ -11,14 +11,16 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
+import Eye from '../images/eye.svg';
 
 
 interface PostItemProps {
     post: IPost,
-    full: boolean
+    full: boolean,
+    postPage: boolean
 }
 
-const PostItem: FC<PostItemProps> = ({ post, full }) => {
+const PostItem: FC<PostItemProps> = ({ post, full, postPage }) => {
 
     const [pathImage, setPathImage] = useState<boolean | string>();
 
@@ -70,9 +72,9 @@ const PostItem: FC<PostItemProps> = ({ post, full }) => {
     const linkPath = `/user/${post.author.toLowerCase()}`;
 
     const navigateToUserInfo = () => {
-        if (user.nickname == post.author){
+        if (user.nickname == post.author) {
             navigate('/profile');
-        }else{
+        } else {
             navigate(linkPath);
         }
     }
@@ -120,18 +122,26 @@ const PostItem: FC<PostItemProps> = ({ post, full }) => {
                         ? <img src={pathPost} alt="" />
                         : <div></div>
                     }
-                    
+
                 </div>
             </div>
             <div className="post__info">
-                <div onClick={likePost} className="post__like-info">
-                    <img className="post__image-like" src={isUserLike ? ActiveLike : like} alt="like" />
-                    <div className="post__like-count">{addLike}</div>
+                <div className="post__body-info">
+                    <div onClick={likePost} className="post__like-info">
+                        <img className="post__image-like" src={isUserLike ? ActiveLike : like} alt="like" />
+                        <div className="post__like-count">{addLike}</div>
+                    </div>
+                    <Link to={pathToPostComments} className="post__comment-info">
+                        <img className="post__image-comment" src={comment} alt="comment" />
+                        <div className="post__comment-count">{post.comments}</div>
+                    </Link>
                 </div>
-                <Link to={pathToPostComments} className="post__comment-info">
-                    <img className="post__image-comment" src={comment} alt="comment" />
-                    <div className="post__comment-count">{post.comments}</div>
-                </Link>
+                <div className="post__viewed">
+                    <div className="post__count-viewed">{postPage ?  post.viewed + 1 : post.viewed}</div>
+                    <div className="post__image-viewed">
+                        <img src={Eye} alt="" className="post__item-image-viewed" />
+                    </div>
+                </div>
             </div>
         </div>
     );

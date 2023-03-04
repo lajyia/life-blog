@@ -29,6 +29,19 @@
 
 .login__image-form {}
 
+
+@media (max-width: 620px) {
+    .login__image-form{
+        display: none;
+    }
+    .login__form{
+        border-radius: 16px;
+    }
+    .login__body-form{
+        min-width: 100%;
+    }
+}
+
 .login__item-image-form {}
 
 .login__form {
@@ -52,6 +65,23 @@
 .login__input input{
     min-width: 250px;
     padding: 10px;
+}
+
+@media (max-width: 430px) {
+    .login__input{
+        min-width: 100%;
+    }
+    .login__form{
+        padding: 20px;
+    }
+}
+
+@media (max-width: 350px){
+    .login__buttons > button{
+        padding: 10px 0;
+        max-width: 100px;
+        margin-right: 10px;
+    }
 }
 
 .login__input{

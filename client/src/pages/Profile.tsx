@@ -91,9 +91,16 @@ const Profile: FC = () => {
         rootProfilePostsClasses.push('loading')
     }
 
-    if (user?.subscribers === 0) {
-        rootProfileSubscribersClasses.push('none');
+    if (user) {
+        if (user.subscribers === 0) {
+            rootProfileSubscribersClasses.push('none');
+        }
+        if (user.subscribers <= 5) {
+            rootProfileSubscribersClasses.push('five')
+        }
     }
+
+
 
 
     const deletePost = async (id: string) => {

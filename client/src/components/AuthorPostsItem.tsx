@@ -10,12 +10,13 @@ import like from '../images/like.svg';
 import { Link } from 'react-router-dom';
 import Delete from '../images/delete.svg';
 import Pencil from '../images/pencil.svg';
+import Eye from '../images/eye.svg';
 
 
 interface AuthorPostsItemProps {
     post: IPost,
     me: boolean,
-    deletePost?: (id: string) => void;
+    deletePost?: (id: string) => void,
 }
 
 const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post, me, deletePost }) => {
@@ -127,18 +128,26 @@ const AuthorPostsItem: FC<AuthorPostsItemProps> = ({ post, me, deletePost }) => 
                         : <div></div>
                     }
 
-                    
+
                 </div>
             </div>
             <div className="author-post__info post__info">
-                <div onClick={likePost} className="post__like-info">
-                    <img className="post__image-like" src={isUserLike ? ActiveLike : like} alt="like" />
-                    <div className="post__like-count">{addLike}</div>
+                <div className="post__body-info">
+                    <div onClick={likePost} className="post__like-info">
+                        <img className="post__image-like" src={isUserLike ? ActiveLike : like} alt="like" />
+                        <div className="post__like-count">{addLike}</div>
+                    </div>
+                    <Link to={pathToPostComments} className="post__comment-info">
+                        <img className="post__image-comment" src={comment} alt="comment" />
+                        <div className="post__comment-count">{post.comments}</div>
+                    </Link>
                 </div>
-                <Link to={pathToPostComments} className="post__comment-info">
-                    <img className="post__image-comment" src={comment} alt="comment" />
-                    <div className="post__comment-count">{post.comments}</div>
-                </Link>
+                <div className="post__viewed">
+                    <div className="post__count-viewed">{post.viewed}</div>
+                    <div className="post__image-viewed">
+                        <img src={Eye} alt="" className="post__item-image-viewed" />
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Feed from './pages/Feed';
 import Registration from './pages/Registration';
@@ -17,13 +17,17 @@ import Post from './pages/Post';
 
 function App() {
 
+
+
   const loginLocal = localStorage.getItem("login");
 
   const dispatch = useDispatch();
 
-  if (loginLocal) {
-    dispatch(trueLoginAction());
-  }
+  useEffect(() => {
+    if (loginLocal) {
+      dispatch(trueLoginAction());
+    }
+  }, [])
 
   const login = useSelector((state: IRootState) => state.login.login);
 
@@ -32,23 +36,23 @@ function App() {
       <BrowserRouter>
         {login
           ? <Routes>
-              <Route path="*" element={<Error />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path='/' element={<Navigate to="/feed" />} />
-              <Route path="login" element={<Navigate to="/feed" />} />
-              <Route path="registration" element={<Navigate to="/feed" />} />
-              <Route path="feed" element={<Feed />} />
-              <Route path="user/:id" element={<UserInfo/>}/>
-              <Route path="change" element={<ChangeProfile/>}/>
-              <Route path="post/create" element={<CreatePost/>}/>
-              <Route path="post/:id" element={<Post/>}/>
-              <Route path="post/:id/change" element={<ChangePost/>}/>
+            <Route path="*" element={<Error />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path='/' element={<Navigate to="/feed" />} />
+            <Route path="login" element={<Navigate to="/feed" />} />
+            <Route path="registration" element={<Navigate to="/feed" />} />
+            <Route path="feed" element={<Feed />} />
+            <Route path="user/:id" element={<UserInfo />} />
+            <Route path="change" element={<ChangeProfile />} />
+            <Route path="post/create" element={<CreatePost />} />
+            <Route path="post/:id" element={<Post />} />
+            <Route path="post/:id/change" element={<ChangePost />} />
           </Routes>
           : <Routes>
-              <Route path="*" element={<Error />} />
-              <Route path='/' element={<Navigate to="/login" />} />
-              <Route path="login" element={<Login />} />
-              <Route path="registration" element={<Registration />} />
+            <Route path="*" element={<Error />} />
+            <Route path='/' element={<Navigate to="/login" />} />
+            <Route path="login" element={<Login />} />
+            <Route path="registration" element={<Registration />} />
           </Routes>
         }
       </BrowserRouter>
