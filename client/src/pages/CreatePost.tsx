@@ -3,6 +3,8 @@ import '../styles/CreatePost.css';
 import Header from '../components/Header';
 import { PostService } from '../API/PostService';
 import { useNavigate } from 'react-router-dom';
+import Plus from '../images/plus.svg';
+import Delete from '../images/delete-mobile.svg';
 
 const CreatePost: FC = () => {
 
@@ -94,7 +96,13 @@ const CreatePost: FC = () => {
                                     <div className="create-post__buttons">
                                         <div className="create-post__left-buttons">
                                             <label className="create-post__title-image" htmlFor="create-post-image">Add image</label>
+                                            <label className="create-post__title-image create-post__title-image-mobile" htmlFor="create-post-image">
+                                                <img src={Plus} alt="" />
+                                            </label>
                                             <div onClick={removeImage} className="create-post__remove-image-button">Remove image</div>
+                                            <div onClick={removeImage} className="create-post__remove-image-button create-post__remove-image-button-mobile">
+                                                <img src={Delete} alt="" />
+                                            </div>
                                         </div>
                                         <div onClick={addPost} className="create-post__send-button">Send</div>
                                     </div>
@@ -102,6 +110,7 @@ const CreatePost: FC = () => {
                                 </div>
                             </form>
                         </div>
+                        <div className="create-post__preview-title-block">preview:</div>
                         <div className="create-post__preview-block">
                             <div className="create-post__preview-title">{post.title}</div>
                             <div className="create-post__preview-body">{post.body}</div>

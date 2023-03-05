@@ -6,6 +6,8 @@ import { IPost } from '../types/types';
 import { useFetching } from '../hooks/useFetching';
 import { PostService } from '../API/PostService';
 import Loader from '../components/UI/Loader/Loader';
+import Plus from '../images/plus.svg';
+import Delete from '../images/delete-mobile.svg';
 
 
 const ChangePost: FC = () => {
@@ -57,11 +59,11 @@ const ChangePost: FC = () => {
         }
     }
 
-    const removeImage = () =>{
+    const removeImage = () => {
         setImage('');
         setPathPreviewImage('');
         setPathImage('');
-        if (inputRef.current){
+        if (inputRef.current) {
             inputRef.current.value = ''
         }
     }
@@ -75,23 +77,23 @@ const ChangePost: FC = () => {
             formData.append("body", post.body);
 
 
-            if (pathPreviewImage){
+            if (pathPreviewImage) {
                 formData.append("image", image)
             }
-            if (!pathImage && !image){
+            if (!pathImage && !image) {
                 formData.append('image', '')
             }
-            if (pathImage && !image){
+            if (pathImage && !image) {
                 formData.append('image', 'exist');
             }
-            
+
             formData.append('id', post._id);
 
             const response = await PostService.updatePost(formData);
 
-            if (response.data.message === true){
+            if (response.data.message === true) {
                 navigate('/profile');
-            }else{
+            } else {
                 alert(response.data.message)
             }
 
@@ -133,7 +135,13 @@ const ChangePost: FC = () => {
                                     <div className="create-post__buttons">
                                         <div className="create-post__left-buttons">
                                             <label className="create-post__title-image" htmlFor="create-post-image">Add image</label>
+                                            <label className="create-post__title-image create-post__title-image-mobile" htmlFor="create-post-image">
+                                                <img src={Plus} alt="" />
+                                            </label>
                                             <div onClick={removeImage} className="create-post__remove-image-button">Remove image</div>
+                                            <div onClick={removeImage} className="create-post__remove-image-button create-post__remove-image-button-mobile">
+                                                <img src={Delete} alt="" />
+                                            </div>
                                         </div>
                                         <div onClick={updatePost} className="create-post__send-button">Update</div>
                                     </div>
