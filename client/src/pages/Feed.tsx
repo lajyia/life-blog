@@ -6,6 +6,7 @@ import '../styles/Feed.css';
 import { IPost } from '../types/types';
 import { PostService } from '../API/PostService';
 import Loader from '../components/UI/Loader/Loader';
+import Magnifier from '../images/magnifier.svg'
 
 const Feed: FC = () => {
 
@@ -23,11 +24,11 @@ const Feed: FC = () => {
 
     useEffect(() => {
 
-            if (jwt) {
-                fetchPost();
-            }
+        if (jwt) {
+            fetchPost();
+        }
 
-        }, [])
+    }, [])
 
 
     if (postLoading) {
@@ -37,12 +38,11 @@ const Feed: FC = () => {
                 <Loader />
             </div>
         )
-
     }
 
     const rootFeedClasses = ['feed'];
 
-    if (posts){
+    if (posts) {
         rootFeedClasses.push('exists');
     }
 
@@ -54,9 +54,12 @@ const Feed: FC = () => {
                 <div className="feed__container">
                     {posts
                         ? <PostList postPage={false} full={false} posts={posts} />
-                        : <div>Posts Not Found</div>
+                        : <div className="posts-not-found">
+                            <img className="posts-not-found__image" src={Magnifier} alt="" />
+                            <div className="posts-not-found__text">Posts Not Found</div>
+                        </div>
                     }
-                    
+
                 </div>
             </div>
         </div>

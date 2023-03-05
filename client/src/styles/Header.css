@@ -1,6 +1,7 @@
 .header {
     border-bottom: 1px solid rgb(200, 200, 200);
-    padding: 0 20px;
+    padding-left: 20px;
+    background: #fff;
 }
 
 .header__container {
@@ -13,6 +14,13 @@
 
 .header__logo {
     padding: 10px 0;
+}
+
+@media (max-width: 370px){
+    .header__logo{
+        margin-left: -10px !important;
+        margin-right: 10px;
+    }
 }
 
 .header__user-info {
@@ -48,6 +56,25 @@
     padding-top: 5px;
 }
 
+@media (max-width: 500px){
+    .header__user-arrow{
+        display: none;
+    }
+    .header__user-image{
+        margin-right: 0px;
+    }
+    .header__item-menu{
+        margin-right: 30px !important;
+    }
+}
+
+@media (max-width: 350px) {
+    .header__item-menu{
+        margin-right: 15px !important;
+    }
+}
+
+
 .header__arrow-image {}
 
 a {
@@ -71,7 +98,7 @@ a {
 }
 
 .header__item-menu:last-child {
-    margin-right: 0;
+    margin-right: 0 !important;
 }
 
 .header__unlogin {}

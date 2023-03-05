@@ -23,3 +23,7 @@
     height: 58px;
     background: #fff;
 }
+
+.feed__container > .posts-not-found{
+    margin-top: 50px;
+}

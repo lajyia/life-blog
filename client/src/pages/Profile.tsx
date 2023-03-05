@@ -100,9 +100,6 @@ const Profile: FC = () => {
         }
     }
 
-
-
-
     const deletePost = async (id: string) => {
 
         const response = await PostService.deletePost(id);
@@ -112,8 +109,6 @@ const Profile: FC = () => {
         } else {
             return alert(response.data.message);
         }
-
-
     }
 
     return (
