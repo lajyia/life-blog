@@ -149,6 +149,7 @@ const ChangePost: FC = () => {
                                 </div>
                             </form>
                         </div>
+                        <div className="create-post__preview-title-block">preview:</div>
                         <div className="create-post__preview-block">
                             <div className="create-post__preview-title">{post?.title}</div>
                             <div className="create-post__preview-body">{post?.body}</div>

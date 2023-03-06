@@ -144,29 +144,29 @@ const ChangeProfile: FC = () => {
                             </label>
                             </div>
                             <div className="change-profile__top-info">
-                                <div className="change-profile__nickname">
+                                <div className="change-profile__nickname input-body">
                                     <div className="change-profile__title-nickname change-profile__title-input">nickname: </div>
                                     <input onChange={changeNickname} value={user.nickname || ''} className='change-profile__nickname-input input-change-profile' type="text" />
                                 </div>
-                                <div className="change-profile__bio">
+                                <div className="change-profile__bio input-body">
                                     <div className="change-profile__title-bio change-profile__title-input">bio: </div>
                                     <input onChange={changeBio} value={user.bio || ''} type="text" className="change-profile__bio-input input-change-profile" />
                                 </div>
                             </div>
                         </div>
                         <div className="change-profile__body-info">
-                            <div className="change-profile__linkname">
+                            <div className="change-profile__linkname input-body">
                                 <div className="change-profile__title-linkname change-profile__title-input">linkname: </div>
                                 <input onChange={changeLinkname} value={user.linkName || ''} className='change-profile__linkname-input input-change-profile' type="text" />
                             </div>
-                            <div className="change-profile__password">
+                            <div className="change-profile__password input-body">
                                 <div className="change-profile__title-password change-profile__title-input">*password: </div>
                                 <input onChange={changePassword} value={user.password || ''} className='change-profile__password-input input-change-profile' type="password" />
                             </div>
                         </div>
                         <div className="change-profile__services-info">
-                            <div onClick={removeImage} className="change-profile__delete-image-button">Delete image</div>
                             <div className="change-profile__warning-password">* If you wont't change password - leave the field blank</div>
+                            <div onClick={removeImage} className="change-profile__delete-image-button">Delete image</div>
                         </div>
                         <div className="change-profile__buttons">
                             <Button onClick={changeProfile}>Send</Button>
