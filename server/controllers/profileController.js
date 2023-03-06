@@ -125,18 +125,16 @@ class ProfileController {
 
             if (candidate) {
 
-                if (fs.existsSync(candidate.avatar.replaceAll('\\', "/")) == true) {
-                    let filePath = candidate.avatar.replaceAll('\\', "/");
-
-                    fs.unlink(filePath, () => { });
+                if (candidate.avatar){
+                    fs.unlink(`/uploads/user/${candidate.avatar}`, () =>{})
                 }
 
                 await User.findByIdAndDelete(candidate._id);
 
-                return res.json({ message: "A user has been deleted" })
+                return res.json({ message: true })
             }
 
-            return res.status(400).json({ message: "Access error" })
+            return res.json({ message: "Access error" })
 
         } catch (e) {
             console.log(e);

@@ -25,9 +25,17 @@
 }
 @media (max-width: 550px){
     .post{
-        flex: 0 1 100%
+        flex: 0 1 100%;
+        padding: 15px;
     }
 }
+
+@media (max-width: 450px) {
+    .post__image-body{
+        padding-bottom: 300px !important;
+    }
+}
+
 .post__body {
     display: flex;
     flex-direction: column;
@@ -110,6 +118,7 @@
 }
 
 .post__image-body img{
+    border-radius: 16px;
     position: absolute;
     top: 0;
     left: 0;

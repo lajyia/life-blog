@@ -172,4 +172,16 @@ export class UserService {
 
         return response.data;
     }
+
+    static async deleteProfile(){
+        const jwt = localStorage.getItem("jwt");
+
+        const response = await axios.post('http://localhost:4000/api/profile/delete',{}, {
+            headers: {
+                authorization: "Bearer " + jwt
+            }
+        })
+
+        return response.data
+    }
 }

@@ -192,6 +192,10 @@
 }
 
 .change-profile__delete-image-button {
+    margin-right: 10px;
+}
+
+.change-profile-delete-button{
     cursor: pointer;
     background: rgb(86, 179, 86);
     display: inline-block;
@@ -206,7 +210,6 @@
 .change-profile__warning-password {
     margin-bottom: 20px;
 }
-
 
 .change-profile__bio {}
 
@@ -226,4 +229,12 @@ label {
 
 #profile-change-file {
     display: none;
+}
+
+.change-profile__delete-user-button{
+    background: red;
+}
+
+.change-profile__services-buttons{
+    display: flex;
 }

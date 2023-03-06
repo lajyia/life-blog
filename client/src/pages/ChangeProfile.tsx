@@ -9,11 +9,13 @@ import { Link } from 'react-router-dom';
 import Camera from '../images/camera.svg'
 import { UserService } from '../API/UserService';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import { falseLoginAction } from '../store/loginReducer';
 
 
 const ChangeProfile: FC = () => {
 
+    const dispatch = useDispatch();
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -47,8 +49,8 @@ const ChangeProfile: FC = () => {
     const changePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUser({ ...user, password: e.target.value })
     }
-    const changeBio = (e: React.ChangeEvent<HTMLInputElement>) =>{
-        setUser({...user, bio: e.target.value})
+    const changeBio = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUser({ ...user, bio: e.target.value })
     }
 
     const navigate = useNavigate();
@@ -57,17 +59,17 @@ const ChangeProfile: FC = () => {
 
     const rootImageChooseImage = ['profile-change__image-choose-image'];
 
-    if (choose){
+    if (choose) {
         rootProfileImageClasses.push('choose');
         rootProfileBodyAvatarClasses.push('choose');
         rootImageChooseImage.push('choose');
     }
 
-    const chooseAvatar = () =>{
+    const chooseAvatar = () => {
         setChoose(true);
 
     }
-    const unChooseAvatar = () =>{
+    const unChooseAvatar = () => {
         setChoose(false);
     }
 
@@ -75,24 +77,24 @@ const ChangeProfile: FC = () => {
 
     const [image, setImage] = useState<Blob | string>('');
 
-    const pathImageCreate = (e: React.ChangeEvent<HTMLInputElement>) =>{
-        if (e.target.files){
+    const pathImageCreate = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
             setImage(e.target.files[0]);
             setUrlImage(URL.createObjectURL(e.target.files[0]))
         }
     }
 
-    const removeImage = () =>{
+    const removeImage = () => {
         setImage('');
         setUrlImage('');
         setPathImage('');
-        if (inputRef.current){
+        if (inputRef.current) {
             inputRef.current.value = '';
         }
     }
 
 
-    const changeProfile = async (e: React.FormEvent<HTMLButtonElement>) =>{
+    const changeProfile = async (e: React.FormEvent<HTMLButtonElement>) => {
 
         e.preventDefault();
 
@@ -102,28 +104,39 @@ const ChangeProfile: FC = () => {
         formData.append('nickname', user.nickname);
         formData.append('password', user.password);
 
-        if (urlImage){
+        if (urlImage) {
             formData.append('image', image);
         }
-        if (!user.avatar && !urlImage){
+        if (!user.avatar && !urlImage) {
             formData.append('image', '');
         }
-        if (user.avatar && !urlImage){
+        if (user.avatar && !urlImage) {
             formData.append('image', '');
         }
 
-        
+
         formData.append('bio', user.bio);
         formData.append('linkname', user.linkName);
 
         const response = await UserService.changeProfile(formData);
 
-        if (response.message === true){
+        if (response.message === true) {
             navigate('/profile');
-        }else{
+        } else {
             return alert(response.message)
         }
-    } 
+    }
+
+
+    const deleteProfile = async () => {
+        const response = await UserService.deleteProfile();
+        if (response.message) {
+            dispatch(falseLoginAction());
+            localStorage.setItem('login', '');
+            localStorage.removeItem("jwt");
+            navigate('/login');
+        }
+    }
 
 
     return (
@@ -134,14 +147,14 @@ const ChangeProfile: FC = () => {
                     <form className='change-profile__form'>
                         <div className="change-profile__top-form">
                             <div className="change-profile__avatar">
-                            <label htmlFor="profile-change-file" onMouseOver={chooseAvatar} onMouseOut={unChooseAvatar} className={rootProfileBodyAvatarClasses.join(' ')}>
-                                {urlImage
-                                    ? <img src={urlImage} alt="" className={rootProfileImageClasses.join(' ')} />
-                                    : <img src={pathImage ? pathUser : DefaultAvatar} alt="" className={rootProfileImageClasses.join(' ')} />
-                                }
-                                <img className={rootImageChooseImage.join(' ')} src={Camera} alt="" />
-                                <input ref={inputRef} onChange={pathImageCreate} id="profile-change-file" type="file" accept='.jpg, .jpeg, .png,'/>
-                            </label>
+                                <label htmlFor="profile-change-file" onMouseOver={chooseAvatar} onMouseOut={unChooseAvatar} className={rootProfileBodyAvatarClasses.join(' ')}>
+                                    {urlImage
+                                        ? <img src={urlImage} alt="" className={rootProfileImageClasses.join(' ')} />
+                                        : <img src={pathImage ? pathUser : DefaultAvatar} alt="" className={rootProfileImageClasses.join(' ')} />
+                                    }
+                                    <img className={rootImageChooseImage.join(' ')} src={Camera} alt="" />
+                                    <input ref={inputRef} onChange={pathImageCreate} id="profile-change-file" type="file" accept='.jpg, .jpeg, .png,' />
+                                </label>
                             </div>
                             <div className="change-profile__top-info">
                                 <div className="change-profile__nickname input-body">
@@ -166,7 +179,11 @@ const ChangeProfile: FC = () => {
                         </div>
                         <div className="change-profile__services-info">
                             <div className="change-profile__warning-password">* If you wont't change password - leave the field blank</div>
-                            <div onClick={removeImage} className="change-profile__delete-image-button">Delete image</div>
+                            <div className="change-profile__services-buttons">
+                                <div onClick={removeImage} className="change-profile__delete-image-button change-profile-delete-button">Delete image</div>
+                                <div onClick={deleteProfile} className="change-profile__delete-user-button change-profile-delete-button">Delete profile</div>
+                            </div>
+
                         </div>
                         <div className="change-profile__buttons">
                             <Button onClick={changeProfile}>Send</Button>

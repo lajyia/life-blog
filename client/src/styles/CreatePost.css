@@ -89,6 +89,16 @@
     }
 }
 
+@media (max-width: 450px) {
+    .create-post__preview-image{
+        padding-bottom: 300px !important;
+    }
+}
+@media (max-width: 360px) {
+    .create-post__create-block{
+        margin-bottom: 20px !important;
+    }
+}
 .create-post__preview-block {
     padding: 20px;
     background: #fff;
@@ -214,6 +224,7 @@
 
 .create-post__preview-image img {
     position: absolute;
+    border-radius: 16px;
     top: 0;
     left: 0;
     object-fit: cover;
