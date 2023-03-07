@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
+const Comment = require('../models/Comment');
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -30,6 +31,9 @@ class PostController {
                 }
 
                 await Post.findByIdAndDelete(id);
+
+                await Comment.findOneAndDelete({post: id})
+
                 return res.json({ message: true });
             }
 
@@ -141,7 +145,11 @@ class PostController {
                 post.image = name
             }
 
-            await post.save();
+            const resultSaving =  await post.save();
+
+            const comment = new Comment({post: resultSaving._id, postAuthor: resultSaving.author});
+
+            await comment.save();
 
             const token = jwt.sign({
                 id: req.userID

@@ -42,14 +42,16 @@ const UserInfo: FC = () => {
             subsMiddle.push(profileSub);
         }
 
-        if (subsLength <= 5) {
-            subsLength = 5;
-        }
-        if (subsLength <= 10) {
-            subsLength = 10
-        }
-        if (subsLength > 10) {
-            subsLength = 10
+        if (subsLength > 0) {
+            if (subsLength <= 5) {
+                subsLength = 5;
+            }
+            if (subsLength <= 10) {
+                subsLength = 10
+            }
+            if (subsLength > 10) {
+                subsLength = 10
+            }
         }
 
         subsMiddle.length = subsLength;

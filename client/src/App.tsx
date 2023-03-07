@@ -14,9 +14,9 @@ import ChangeProfile from './pages/ChangeProfile';
 import CreatePost from './pages/CreatePost';
 import ChangePost from './pages/ChangePost';
 import Post from './pages/Post';
+import PostComments from './pages/PostComments';
 
 function App() {
-
 
 
   const loginLocal = localStorage.getItem("login");
@@ -47,6 +47,7 @@ function App() {
             <Route path="post/create" element={<CreatePost />} />
             <Route path="post/:id" element={<Post />} />
             <Route path="post/:id/change" element={<ChangePost />} />
+            <Route path="post/:id/comments" element={<PostComments/>}/>
           </Routes>
           : <Routes>
             <Route path="*" element={<Error />} />

@@ -23,7 +23,6 @@ const Profile: FC = () => {
     const [posts, setPosts] = useState<IPost[]>([]);
     const [subs, setSubs] = useState<IUser[]>([]);
 
-
     let subsLength = 0;
 
     const [fetchUser, userLoading, userError] = useFetching(async () => {
@@ -35,7 +34,9 @@ const Profile: FC = () => {
         }
 
         setUser(user);
+
         subsLength = user.subscribers;
+
         fetchSubs();
         if (user.posts) {
             authorPosts();
@@ -56,19 +57,24 @@ const Profile: FC = () => {
             subsMiddle.push(profileSub);
         }
 
-        if (subsLength <= 5) {
-            subsLength = 5;
+
+        if (subsLength > 0) {
+            if (subsLength <= 5) {
+                subsLength = 5;
+            }
+            if (subsLength <= 10) {
+                subsLength = 10
+            }
+            if (subsLength > 10) {
+                subsLength = 10
+            }
         }
-        if (subsLength <= 10) {
-            subsLength = 10
-        }
-        if (subsLength > 10) {
-            subsLength = 10
-        }
+
 
         subsMiddle.length = subsLength;
-
+        
         setSubs(subsMiddle)
+
     })
 
     useEffect(() => {

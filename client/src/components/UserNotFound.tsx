@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 import '../styles/UserNotFound.css';
-import NotFoundUser from '../images/not-found-user.svg'
+import NotFoundUser from '../images/not-found-user.svg';
+import Header from './Header';
 
 const UserNotFound: FC = () => {
     return (
         <div className="user-not-found">
+            <Header/>
             <div className="user-not-found__body">
                 <div className="user-not-found__image-body">
                     <img className='user-not-found__image' src={NotFoundUser} alt="" />

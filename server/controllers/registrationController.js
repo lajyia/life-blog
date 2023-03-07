@@ -95,5 +95,4 @@ class RegistrationController {
     }
 }
 
-
 module.exports = new RegistrationController();

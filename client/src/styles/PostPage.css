@@ -1,6 +1,7 @@
 .post-page{
-    background: rgb(233, 233, 233);
+    background-image: url('../images/background.png');
     min-height: 100vh;
+    padding-bottom: 20px;
 }
 
 .post-page__container{
@@ -17,5 +18,4 @@
     width: 100%;
     z-index: 5;
     height: 58px;
-    background: #fff;
 }

@@ -1,31 +1,39 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import '../styles/SubscribersItem.css';
 import DefaultAvatar from '../images/default-avatar.svg'
 import { IUser } from '../types/types';
 import { useNavigate } from 'react-router-dom';
 
-interface SubscribersItemProps{
+interface SubscribersItemProps {
     sub: IUser
 }
 
-const SubscribersItem:FC<SubscribersItemProps> = ({sub}) => {
+const SubscribersItem: FC<SubscribersItemProps> = ({ sub }) => {
 
     const navigate = useNavigate();
 
-    let validString = sub.nickname.substring(0, 9);
+    const [validString, setValidString] = useState('');
 
-    const lengthString = sub.nickname.length;
+    let linkPath:string;
 
-    if (lengthString > 9){
-        validString = `${validString}...`;
+    if (sub.nickname) {
+
+        linkPath = `/user/${sub.nickname.toLowerCase()}`;
+
+        setValidString(sub.nickname.substring(0, 9));
+
+        const lengthString = sub.nickname.length;
+
+        if (lengthString > 9) {
+            setValidString(`${validString}...`);
+        }
+
     }
 
     const pathUser = 'http://localhost:4000/users/' + sub.avatar;
 
 
-    const linkPath = `/user/${sub.nickname.toLowerCase()}`;
-
-    const navigateToUserInfo = () =>{
+    const navigateToUserInfo = () => {
         navigate(linkPath);
     }
 

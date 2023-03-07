@@ -39,6 +39,13 @@ const PostItem: FC<PostItemProps> = ({ post, full, postPage }) => {
         getImage();
     }, [])
 
+
+    const rootPageImageBodyClasses = ['post__image-body'];
+
+    if (post.image){
+        rootPageImageBodyClasses.push('post__image-body-is-image')
+    }
+
     const user = useSelector((state: IRootState) => state.user.user);
 
     const pathPost = 'http://localhost:4000/posts/' + post.image;
@@ -117,7 +124,7 @@ const PostItem: FC<PostItemProps> = ({ post, full, postPage }) => {
                     </div>
                 }
 
-                <div className="post__image-body">
+                <div className={rootPageImageBodyClasses.join(' ')}>
                     {post.image
                         ? <img src={pathPost} alt="" />
                         : <div></div>

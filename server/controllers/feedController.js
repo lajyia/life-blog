@@ -169,11 +169,13 @@ class FeedController {
         try {
             const userId = req.userId;
 
+
             if (userId) {
 
                 const id = req.query.id.toUpperCase();
 
                 const user = await User.findOne({ linkName: id })
+
 
                 if (user) {
 

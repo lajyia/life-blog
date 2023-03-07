@@ -1,0 +1,79 @@
+.comment-item {
+    padding: 20px 10px;
+    background: rgb(240, 240, 240);
+    display: flex;
+    border-top: 1px solid rgb(134, 133, 133);
+    display: flex;
+    justify-content: space-between;
+    transition: .2s all linear;
+    position: relative;
+}
+
+.comment-item:hover{
+    background: rgb(210, 210, 210);
+}
+
+.comment-item:hover .comment-item__image-update-comment{
+    display: inline;
+}
+
+.comment-item:hover .comment-item__image-delete-comment{
+    display: inline;
+}
+
+.comment-item__avatar {
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.comment-item__avatar.default {
+    border: 2px solid rgb(134, 133, 133);
+}
+
+.comment-item__avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.comment-item__body {
+    padding-top: 10px;
+}
+
+.comment-item__nickname {
+    text-transform: lowercase;
+    margin-bottom: 5px;
+    display: inline-block;
+    font-weight: 600;
+}
+
+.comment-item__nickname::first-letter{
+    text-transform: uppercase;
+}
+
+
+.comment-item__body-left{
+    display: flex;
+}
+
+.comment-item__text-comment {}
+
+.comment-item__body-services {
+    display: flex;
+    position: absolute;
+    right: 10px;
+    top: 20px;
+}
+.comment-item__image-delete-comment {
+    cursor: pointer;
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    display: none;
+}
+.comment-item__image-update-comment {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    display: none;
+}

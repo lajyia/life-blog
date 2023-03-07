@@ -4,7 +4,8 @@
     width: 100vw;
     display: flex;
     justify-content: center;
-    background: rgb(233, 233, 233);
+    background-image: url('../images/background.png');
+    background-repeat: repeat;
 }
 
 .registration header{

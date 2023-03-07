@@ -10,6 +10,9 @@ class SubscribersController {
 
                 const subs = await Subscribers.findOne({ user: userId });
 
+                const subsList = subs.subs;
+
+                
                 return res.json({ subs })
 
             }

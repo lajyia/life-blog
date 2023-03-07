@@ -1,6 +1,6 @@
 .profile {
     min-height: 100vh;
-    background: rgb(233, 233, 233);
+    background-image: url('../images/background.png');
 }
 
 .profile__page-body {
@@ -51,10 +51,7 @@
     padding: 15px;
     border: none;
     border: 5px solid rgb(210, 210, 210);
-    background: #fff;
-}
-.profile header{
-    background: #fff;
+    background: rgb(240, 240, 240);
 }
 
 .profile__nickname {
@@ -69,7 +66,7 @@
 }
 
 .profile__linkname {
-    background: white;
+    background: rgb(240, 240, 240);
     padding: 15px;
     padding-left: 32px;
     border-radius: 16px 16px 0 0;
@@ -82,7 +79,7 @@
     transform: translateY(-10px);
     border-radius: 16px;
     padding: 0 30px;
-    background: white;
+    background: rgb(240, 240, 240);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -106,7 +103,7 @@
 
 .profile__button-settings {
     padding: 10px 30px;
-    background: rgb(220, 220, 220);
+    background: rgb(200, 200, 200);
     color: #346297;
     border-radius: 10px;
 }
@@ -138,7 +135,7 @@
 
 .profile__subscribers {
     flex: 0 1 40%;
-    background: #fff;
+    background: rgb(240, 240, 240);
     border-radius: 10px;
     padding: 20px;
     max-height: 250px;
@@ -171,7 +168,7 @@
 
 .posts-not-found{
     height: 250px;
-    background: #fff;
+    background: rgb(240, 240, 240);
     display: flex;
     align-items: center;
     justify-content: center;

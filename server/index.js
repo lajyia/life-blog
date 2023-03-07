@@ -4,13 +4,14 @@ const dotenv = require('dotenv');
 dotenv.config();
 const mongoose = require('mongoose');
 const cors = require('cors');
-const subscribersRouter = require('./routers/subscribersRouter');
 
 
 const postRouter = require('./routers/postRouter');
 const feedRouter = require('./routers/feedRouter');
 const profileRouter = require('./routers/profileRouter');
 const registrationRouter = require('./routers/registrationRouter');
+const subscribersRouter = require('./routers/subscribersRouter');
+const commentsRouter = require('./routers/commentsRouter');
 
 
 const PORT = process.env.PORT || 4001;
@@ -25,12 +26,12 @@ app.use('/users', express.static('uploads/users'));
 app.use('/posts', express.static('uploads/posts'));
 mongoose.set('strictQuery', false);
 
+app.use('/api/comments', commentsRouter);
 app.use('/api/post', postRouter);
 app.use('/api/feed', feedRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/registration', registrationRouter );
 app.use('/api/subscribers', subscribersRouter);
-
 
 
 const start = async() => {

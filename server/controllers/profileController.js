@@ -3,6 +3,8 @@ const Post = require('../models/Post');
 const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
+const Comment = require('../models/Comment');
+const Subscribers = require('../models/Subscribers');
 
 const JWT_SECRET = process.env.JWT_SECRET
 
@@ -130,6 +132,12 @@ class ProfileController {
                 }
 
                 await User.findByIdAndDelete(candidate._id);
+
+                await Post.deleteMany({author: candidate.nickname});
+
+                await Subscribers.findOneAndDelete({user: req.userId})
+
+                await Comment.findOneAndDelete({postAuthor: candidate.nickname});
 
                 return res.json({ message: true })
             }

@@ -25,3 +25,10 @@ export interface IUser {
     _id: string,
     posts: IPost[]
 }
+
+
+export interface IComment{
+    _id: string,
+    user: string,
+    body: string
+}

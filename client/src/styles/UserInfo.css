@@ -1,5 +1,6 @@
 .user-info{
-    background: rgb(233,233,233);
+    background-image: url('../images/background.png');
+    min-height: 100vh;
 }
 .user-info__container{
     padding: 20px 0;
