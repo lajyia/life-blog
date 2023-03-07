@@ -25,11 +25,11 @@ const PostComments: FC = () => {
 
     const [comment, setComment] = useState<string>('');
 
-    const addComment = async () =>{
+    const addComment = async () => {
         const response = await PostService.addComment(idPost, comment);
 
 
-        if (response.message === true){
+        if (response.message === true) {
 
             const newComment = {
                 _id: String(Date.now()),
@@ -37,26 +37,28 @@ const PostComments: FC = () => {
                 body: comment
             }
 
-            setComments([...comments, newComment ]);
+            setComments([...comments, newComment]);
 
             setComment('');
         }
     }
 
-    const changeComment = (e: React.ChangeEvent<HTMLInputElement>) =>{
+    const changeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
         setComment(e.target.value);
     }
 
-    let postId :string;
+    let postId: string;
 
     const [fetchPost, postLoading, postError] = useFetching(async () => {
         const response = await PostService.getPost(idPost);
+
         postId = response._id
+
         setPost(response);
         fetchComments();
     })
 
-    const [fetchComments, commentsLoading, commentsError] = useFetching(async () =>{
+    const [fetchComments, commentsLoading, commentsError] = useFetching(async () => {
         const response = await PostService.getComments(postId);
         setComments(response.comments.comments);
     })
@@ -74,15 +76,27 @@ const PostComments: FC = () => {
         )
     }
 
+    const deleteComment = async (id: string) => {
+
+        const response = await PostService.deleteComment(idPost, id);
+
+        if (response.data.message !== true) {
+            return false
+        }
+
+        setComments(comments.filter(comment => comment._id !== id));
+    }
+
+
     return (
         <div>
             {post
                 ? <div className="post-page post-comments">
                     <Header />
                     <div className="post-page__container">
-                        <PostItem  postPage={true} full={true} post={post} />
+                        <PostItem postPage={true} full={true} post={post} />
                         <div className="post__comments-block">
-                            <CommentsList comments={comments}/>
+                            <CommentsList deleteComment={deleteComment} comments={comments} />
                             <div className="post__add-comment-body">
                                 <input value={comment} onChange={changeComment} type="text" className="post__input-add-comment" />
                                 <div onClick={addComment} className="post__add-comment-button">Send</div>

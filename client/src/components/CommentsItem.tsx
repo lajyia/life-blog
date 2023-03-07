@@ -13,10 +13,11 @@ import Pencil from '../images/pencil.svg';
 
 
 interface CommentsItemProps {
-    comment: IComment
+    comment: IComment,
+    deleteComment : (id: string) => void
 }
 
-const CommentsItem: FC<CommentsItemProps> = ({ comment }) => {
+const CommentsItem: FC<CommentsItemProps> = ({ comment, deleteComment }) => {
 
     const [user, setUser] = useState<IUser>();
     const [pathImage, setPathImage] = useState<string>('');
@@ -59,6 +60,9 @@ const CommentsItem: FC<CommentsItemProps> = ({ comment }) => {
         }
     }
 
+    const removeComment = () =>{
+        deleteComment(comment._id);
+    }
 
     return (
         <div className="comment-item">
@@ -72,7 +76,7 @@ const CommentsItem: FC<CommentsItemProps> = ({ comment }) => {
                 </div>
             </div>
             <div className="comment-item__body-services">
-                <img className='comment-item__image-delete-comment' src={Delete} alt="" />
+                <img onClick={removeComment} className='comment-item__image-delete-comment' src={Delete} alt="" />
                 <img className='comment-item__image-update-comment' src={Pencil} alt="" />
             </div>
         </div>

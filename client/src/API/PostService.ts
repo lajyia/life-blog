@@ -97,4 +97,16 @@ export class PostService {
 
         return response.data
     }
+
+    static async deleteComment(id: string | undefined, comment: string){
+        const jwt = localStorage.getItem("jwt");
+
+        const response = await axios.post(`http://localhost:4000/api/comments/remove?id=${id}&comment=${comment}`, {}, {
+            headers: {
+                authorization: 'Bearer ' + jwt
+            }
+        })
+
+        return response
+    }
 }

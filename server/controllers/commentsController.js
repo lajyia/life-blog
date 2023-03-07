@@ -66,6 +66,8 @@ class CommentsController {
     }
 
     async removeComment(req, res) {
+
+
         try {
             const userId = req.userId;
 
@@ -81,19 +83,17 @@ class CommentsController {
 
                     if (comments) {
 
-                        console.log(comments[0])
-
                         const postExemplar = await Post.findById(postId);
                         const newCommentsCounter = postExemplar.comments - 1;
 
 
                         for (let i=0; i < comments.length; i++){
-                            if (comments[i]._id === comment){
+
+                            if (String(comments[i]._id) === comment){
                                 comments.splice(i , 1)
                             }
                         }
 
-                        console.log(comments);
 
                         await Comment.findOneAndUpdate({ post: postId }, { comments }, { new: true });
                         await Post.findByIdAndUpdate(postId, {comments: newCommentsCounter}, {new: true})

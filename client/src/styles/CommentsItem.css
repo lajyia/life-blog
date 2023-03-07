@@ -5,7 +5,7 @@
     border-top: 1px solid rgb(134, 133, 133);
     display: flex;
     justify-content: space-between;
-    transition: .2s all linear;
+    transition: background .2s linear;
     position: relative;
 }
 
