@@ -5,24 +5,31 @@ import DefaultAvatar from '../images/default-avatar.svg';
 import { useFetching } from '../hooks/useFetching';
 import { UserService } from '../API/UserService';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import Delete from '../images/delete.svg';
 import Pencil from '../images/pencil.svg';
+import LoaderAvatar from './UI/LoaderAvatar/LoaderAvatar';
+import { nullCommentAction } from '../store/commentReducer';
 
 
 
 interface CommentsItemProps {
     comment: IComment,
-    deleteComment : (id: string) => void
+    deleteComment: (id: string) => void,
+    startUpdateComment: (id: string, body: string) => void,
 }
 
-const CommentsItem: FC<CommentsItemProps> = ({ comment, deleteComment }) => {
+const CommentsItem: FC<CommentsItemProps> = ({ comment, deleteComment, startUpdateComment }) => {
+
+    const dispatch = useDispatch();
 
     const [user, setUser] = useState<IUser>();
     const [pathImage, setPathImage] = useState<string>('');
 
     const pathUser = 'http://localhost:4000/users/' + pathImage;
+
+    const updateCommentInfo = useSelector((state: IRootState) => state.comment.comment);
 
 
     const profile = useSelector((state: IRootState) => state.user.user);
@@ -46,6 +53,7 @@ const CommentsItem: FC<CommentsItemProps> = ({ comment, deleteComment }) => {
 
     useEffect(() => {
         fetchProfile();
+        dispatch(nullCommentAction());
     }, [])
 
 
@@ -55,29 +63,42 @@ const CommentsItem: FC<CommentsItemProps> = ({ comment, deleteComment }) => {
     if (user) {
         {
             profile.nickname == user.nickname
-            ? linkToProfile = '/profile'
-            : linkToProfile = `/user/${user?.nickname.toLowerCase()}`
+                ? linkToProfile = '/profile'
+                : linkToProfile = `/user/${user?.nickname.toLowerCase()}`
         }
     }
 
-    const removeComment = () =>{
+    const removeComment = () => {
         deleteComment(comment._id);
     }
 
     return (
         <div className="comment-item">
             <div className="comment-item__body-left">
-                <Link to={linkToProfile} className={rootCommentsItemAvatarClasses.join(' ')}>
-                    <img src={pathImage ? pathUser : DefaultAvatar} alt="" />
-                </Link>
+                {profileLoading
+                    ? <LoaderAvatar />
+                    : <Link to={linkToProfile} className={rootCommentsItemAvatarClasses.join(' ')}>
+                        <img src={pathImage ? pathUser : DefaultAvatar} alt="" />
+                    </Link>
+                }
                 <div className="comment-item__body">
                     <Link to={linkToProfile} className="comment-item__nickname">{user?.nickname}</Link>
-                    <div className="comment-item__text-comment">{comment.body}</div>
+                    <div className="comment-item__text-comment">
+                        {updateCommentInfo
+                            ? <div>
+                                {updateCommentInfo.id == comment._id
+                                    ? <span>{updateCommentInfo.comment}</span>
+                                    : <span>{comment.body}</span>
+                                }
+                            </div>
+                            : <div>{comment.body}</div>
+                        }
+                    </div>
                 </div>
             </div>
             <div className="comment-item__body-services">
                 <img onClick={removeComment} className='comment-item__image-delete-comment' src={Delete} alt="" />
-                <img className='comment-item__image-update-comment' src={Pencil} alt="" />
+                <img onClick={() => startUpdateComment(comment._id, comment.body)} className='comment-item__image-update-comment' src={Pencil} alt="" />
             </div>
         </div>
     );

@@ -3,13 +3,15 @@ import { createStore } from "redux";
 import { visibleReducer } from "./visibleReducer";
 import { loginReducer } from "./loginReducer";
 import { userReducer } from "./userReducer";
+import { commentReducer } from "./commentReducer";
 
 export type IRootState = ReturnType<typeof rootStore>
 
 const rootStore = combineReducers({
     login: loginReducer,
     visible: visibleReducer,
-    user: userReducer
+    user: userReducer,
+    comment: commentReducer
 })
 
 

@@ -5,16 +5,17 @@ import CommentsItem from './CommentsItem';
 
 interface CommentsListProps {
     comments: IComment[],
-    deleteComment: (id: string) => void
+    deleteComment: (id: string) => void,
+    startUpdateComment: (id: string, body: string) => void
 }
 
 
-const CommentsList: FC<CommentsListProps> = ({ comments, deleteComment }) => {
+const CommentsList: FC<CommentsListProps> = ({ comments, deleteComment, startUpdateComment}) => {
 
     return (
         <div className='comments-list'>
             {comments.map(comment =>
-                <CommentsItem deleteComment={deleteComment} key={comment._id} comment={comment} />
+                <CommentsItem startUpdateComment={startUpdateComment} deleteComment={deleteComment} key={comment._id} comment={comment} />
             )}
         </div>
     );

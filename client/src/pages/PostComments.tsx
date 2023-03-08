@@ -11,6 +11,8 @@ import CommentsList from '../components/CommentsList';
 import { IComment } from '../types/types';
 import { IRootState } from '../store';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { addCommentAction } from '../store/commentReducer';
 
 
 
@@ -22,6 +24,12 @@ const PostComments: FC = () => {
 
     const [post, setPost] = useState<IPost>();
     const [comments, setComments] = useState<IComment[]>([]);
+    const [isUpdate, setIsUpdate] = useState<boolean>(false);
+
+    const dispatch = useDispatch();
+
+
+    const [changeComment, setChangeComment] = useState({body: '', id: ''});
 
     const [comment, setComment] = useState<string>('');
 
@@ -43,7 +51,7 @@ const PostComments: FC = () => {
         }
     }
 
-    const changeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const changeStateComment = (e: React.ChangeEvent<HTMLInputElement>) => {
         setComment(e.target.value);
     }
 
@@ -87,6 +95,23 @@ const PostComments: FC = () => {
         setComments(comments.filter(comment => comment._id !== id));
     }
 
+    const startUpdateComment = (id: string, body: string) =>{
+        setIsUpdate(true);
+        setComment(body);
+        setChangeComment({id, body});
+    }
+
+    const updateComment = async () =>{
+
+        dispatch(addCommentAction({comment: comment, id: changeComment.id}));
+
+        await PostService.updateComment(idPost, changeComment.id, comment);
+
+        setIsUpdate(false);
+        setComment('');
+
+    }
+
 
     return (
         <div>
@@ -96,10 +121,13 @@ const PostComments: FC = () => {
                     <div className="post-page__container">
                         <PostItem postPage={true} full={true} post={post} />
                         <div className="post__comments-block">
-                            <CommentsList deleteComment={deleteComment} comments={comments} />
+                            <CommentsList startUpdateComment={startUpdateComment} deleteComment={deleteComment} comments={comments} />
                             <div className="post__add-comment-body">
-                                <input value={comment} onChange={changeComment} type="text" className="post__input-add-comment" />
-                                <div onClick={addComment} className="post__add-comment-button">Send</div>
+                                <input value={comment} onChange={changeStateComment} type="text" className="post__input-add-comment" />
+                                {isUpdate
+                                    ? <div onClick={updateComment} className="post-comment-button post__update-comment-button">Update</div>
+                                    : <div onClick={addComment} className="post-comment-button post__add-comment-button">Send</div>
+                                }
                             </div>
                         </div>
                     </div>

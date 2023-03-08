@@ -35,11 +35,19 @@
     font-size: 18px;
 }
 
-.post__add-comment-button{
+
+.post-comment-button{
     cursor: pointer;
     background: rgb(134, 133, 133);
     color: #fff;
     font-weight: 600;
     line-height: 42px;
     padding: 0 20px;
+}
+.post__add-comment-button{
+    
+}
+
+.post__update-comment-button{
+    background: green;
 }

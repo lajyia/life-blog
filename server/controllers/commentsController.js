@@ -87,16 +87,16 @@ class CommentsController {
                         const newCommentsCounter = postExemplar.comments - 1;
 
 
-                        for (let i=0; i < comments.length; i++){
+                        for (let i = 0; i < comments.length; i++) {
 
-                            if (String(comments[i]._id) === comment){
-                                comments.splice(i , 1)
+                            if (String(comments[i]._id) === comment) {
+                                comments.splice(i, 1)
                             }
                         }
 
 
                         await Comment.findOneAndUpdate({ post: postId }, { comments }, { new: true });
-                        await Post.findByIdAndUpdate(postId, {comments: newCommentsCounter}, {new: true})
+                        await Post.findByIdAndUpdate(postId, { comments: newCommentsCounter }, { new: true })
 
                         return res.json({ message: true })
                     }
@@ -112,6 +112,35 @@ class CommentsController {
             console.log(e);
         }
 
+    }
+
+    async updateComment(req, res) {
+        const userId = req.userId;
+
+        if (userId) {
+            const postId = req.query.id;
+            const commentId = req.query.comment;
+            const body = req.query.body;
+
+
+            const comments = await Comment.findOne({ post: postId });
+
+            const commentsList = comments.comments;
+
+
+            for (let i = 0; i < commentsList.length ; i++){
+
+                if (String(commentsList[i]._id) === commentId) {
+                    commentsList[i].body = body;
+                }
+            }
+
+            await Comment.findOneAndUpdate({post: postId}, {comments: commentsList}, {new: true})
+
+            return res.json({message: true})
+        }
+
+        return res.json({ message: 'Access error' })
     }
 }
 
