@@ -11,9 +11,9 @@ import CommentsList from '../components/CommentsList';
 import { IComment } from '../types/types';
 import { IRootState } from '../store';
 import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
 import { addCommentAction } from '../store/commentReducer';
-
+import { decrementCommentCounterAction, incrementCommentCounterAction } from '../store/commentCounter';
+import { useAppDispatch } from '../hooks/useAppDispatch';
 
 
 const PostComments: FC = () => {
@@ -26,10 +26,10 @@ const PostComments: FC = () => {
     const [comments, setComments] = useState<IComment[]>([]);
     const [isUpdate, setIsUpdate] = useState<boolean>(false);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
 
-    const [changeComment, setChangeComment] = useState({body: '', id: ''});
+    const [changeComment, setChangeComment] = useState({ body: '', id: '' });
 
     const [comment, setComment] = useState<string>('');
 
@@ -37,18 +37,22 @@ const PostComments: FC = () => {
         const response = await PostService.addComment(idPost, comment);
 
 
-        if (response.message === true) {
-
-            const newComment = {
-                _id: String(Date.now()),
-                user: profile._id,
-                body: comment
-            }
-
-            setComments([...comments, newComment]);
-
-            setComment('');
+        if (response.message !== true) {
+            return false
         }
+
+
+        const newComment = {
+            _id: String(Date.now()),
+            user: profile._id,
+            body: comment
+        }
+
+        setComments([...comments, newComment]);
+
+        setComment('');
+
+        dispatch(incrementCommentCounterAction())
     }
 
     const changeStateComment = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,17 +97,18 @@ const PostComments: FC = () => {
         }
 
         setComments(comments.filter(comment => comment._id !== id));
+        dispatch(decrementCommentCounterAction());
     }
 
-    const startUpdateComment = (id: string, body: string) =>{
+    const startUpdateComment = (id: string, body: string) => {
         setIsUpdate(true);
         setComment(body);
-        setChangeComment({id, body});
+        setChangeComment({ id, body });
     }
 
-    const updateComment = async () =>{
+    const updateComment = async () => {
 
-        dispatch(addCommentAction({comment: comment, id: changeComment.id}));
+        dispatch(addCommentAction({ comment: comment, id: changeComment.id }));
 
         await PostService.updateComment(idPost, changeComment.id, comment);
 

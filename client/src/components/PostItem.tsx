@@ -12,6 +12,8 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import Eye from '../images/eye.svg';
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import { fetchComment } from '../asyncActions/fetchComment';
 
 
 interface PostItemProps {
@@ -28,6 +30,9 @@ const PostItem: FC<PostItemProps> = ({ post, full, postPage }) => {
     const [isUserLike, setIsUserLike] = useState<boolean>(post.isLiked);
 
 
+    const dispatch = useAppDispatch();
+
+
     const getImage = async () => {
         const response = await PostService.getAvatar(post.author);
         setPathImage(response.data.image)
@@ -37,6 +42,15 @@ const PostItem: FC<PostItemProps> = ({ post, full, postPage }) => {
 
     useEffect(() => {
         getImage();
+    }, [])
+
+    const commentsCounter = useSelector((state: IRootState) => state.counter.counter);
+
+    console.log(commentsCounter);
+
+
+    useEffect(() =>{
+        dispatch(fetchComment(post._id))
     }, [])
 
 
@@ -140,7 +154,7 @@ const PostItem: FC<PostItemProps> = ({ post, full, postPage }) => {
                     </div>
                     <Link to={pathToPostComments} className="post__comment-info">
                         <img className="post__image-comment" src={comment} alt="comment" />
-                        <div className="post__comment-count">{post.comments}</div>
+                        <div className="post__comment-count">{commentsCounter}</div>
                     </Link>
                 </div>
                 <div className="post__viewed">

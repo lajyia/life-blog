@@ -110,7 +110,6 @@ export class PostService {
         return response
     }
 
-
     static async updateComment(id: string | undefined, comment: string, body: string){
         const jwt = localStorage.getItem('jwt');
 

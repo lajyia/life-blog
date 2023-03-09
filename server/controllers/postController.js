@@ -137,7 +137,6 @@ class PostController {
 
             const post = new Post({ title, body, author: author.nickname, date: fullDate });
 
-
             if (req.file) {
 
                 const name = req.file.filename
